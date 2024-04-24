@@ -1,4 +1,5 @@
 import { DataTypes } from 'sequelize';
+import Character from './character';
 import db from '../db/conn';
 
 const SerieMovie = db.define('idi_ma_seriesmovies', {
@@ -20,5 +21,7 @@ const SerieMovie = db.define('idi_ma_seriesmovies', {
 }, {
     paranoid: true
 });
+
+//SerieMovie.belongsToMany(Character, { through: 'CharacterSerieMovie', foreignKey: 'seriemovie_id' });
 
 export default SerieMovie;

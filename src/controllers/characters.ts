@@ -1,12 +1,43 @@
 import { Request, Response } from 'express';
+import sequelize from './../db/conn';
+import { Op } from 'sequelize';
 import Character from '../models/character';
+import SerieMovie from '../models/seriemovie';
 
 export const getCharacters = async (req: Request, res: Response) => {
     try {
+
+        const { name, age, movies } = req.query;
+        let whereClause: any = { deletedAt: null };
+
+        if (name) {
+            const nameString = name as string;
+            whereClause.name = sequelize.where(
+                sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', `%${nameString.toLowerCase()}%`);
+        }
+
+        if (age) {
+            whereClause.age = age;
+        }
+
+        if (movies) {
+            const charactersWithMovie = await Character.findAll({
+                include: [{
+                    model: SerieMovie,
+                    where: { title: movies }
+                }],
+                attributes: ['id']
+            });
+
+            const characterIds = charactersWithMovie.map((character: any) => character.get('id'));
+
+            whereClause.id = {
+                [Op.in]: characterIds
+            };
+        }
+
         const characters = await Character.findAll({
-            where: {
-                deletedAt: null
-            },
+            where: whereClause,
             attributes: {
                 exclude: [
                     'age',
@@ -45,8 +76,13 @@ export const getCharacter = async (req: Request, res: Response) => {
                 id,
                 deletedAt: null
             },
+            include: {
+                model: SerieMovie,
+                through: { attributes: [] }
+            },
             attributes: { exclude: ['deletedAt'] }
         });
+
         if (character) {
             res.json(character);
         } else {
