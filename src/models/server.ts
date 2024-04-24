@@ -1,7 +1,8 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import characterRoutes from '../routes/character';
-import serieMoviesRoutes from '../routes/seriesmovies';
+import serieMoviesRoutes from '../routes/seriemovie';
+import gendersRoutes from '../routes/gender';
 import db from '../db/conn';
 import path from 'path';
 
@@ -12,6 +13,7 @@ class Server {
     private apiPaths = {
         characters: '/api/character',
         seriesMovies: '/api/serie-movie',
+        genders: '/api/gender',
     }
 
     constructor() {
@@ -39,8 +41,9 @@ class Server {
     }
 
     routes() {
-        this.app.use(this.apiPaths.characters, characterRoutes)
-        this.app.use(this.apiPaths.seriesMovies, serieMoviesRoutes)
+        this.app.use(this.apiPaths.characters, characterRoutes);
+        this.app.use(this.apiPaths.seriesMovies, serieMoviesRoutes);
+        this.app.use(this.apiPaths.genders, gendersRoutes);
     }
 
     configureStaticFiles() {
