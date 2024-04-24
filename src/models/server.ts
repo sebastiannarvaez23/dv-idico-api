@@ -3,6 +3,7 @@ import cors from 'cors';
 import characterRoutes from '../routes/character';
 import serieMoviesRoutes from '../routes/seriesmovies';
 import db from '../db/conn';
+import path from 'path';
 
 class Server {
 
@@ -20,6 +21,7 @@ class Server {
         this.middlewares();
         this.routes();
         this.app.use(express.static('public'));
+        this.configureStaticFiles();
     }
 
     async dbConnection() {
@@ -39,6 +41,11 @@ class Server {
     routes() {
         this.app.use(this.apiPaths.characters, characterRoutes)
         this.app.use(this.apiPaths.seriesMovies, serieMoviesRoutes)
+    }
+
+    configureStaticFiles() {
+        const publicDirectoryPath = path.join(__dirname, '..', 'public');
+        this.app.use(express.static(publicDirectoryPath));
     }
 
     listen() {

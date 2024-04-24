@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
+import fs from 'fs';
+import path from 'path';
 import SerieMovie from '../models/seriemovie';
 import { Gender } from '../models/gender';
 
@@ -17,26 +19,52 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
             includeClause.push({
                 model: Gender,
                 as: 'gender',
-                where: { id: gender } // Filtrar por ID en lugar de por nombre
+                where: { id: gender }
             });
         }
 
         let orderBy: [string, string][] = [['created_date', 'DESC']];
 
         if (order === 'ASC') {
-            orderBy = [['created_date', 'ASC']]; // Si order=ASC, ordenar por created_date ascendente
+            orderBy = [['created_date', 'ASC']];
         } else if (order === 'DESC') {
-            orderBy = [['created_date', 'DESC']]; // Si order=DESC, ordenar por created_date descendente
+            orderBy = [['created_date', 'DESC']];
         }
 
         const seriesmovies = await SerieMovie.findAll({
             where: whereClause,
-            attributes: { exclude: ['deletedAt'] },
+            attributes: {
+                exclude: ['deletedAt']
+            },
             include: includeClause,
             order: orderBy
         });
 
-        res.json({ seriesmovies });
+        const seriesMoviesWithImageBuffers = [];
+        const imagesDir = path.join(__dirname, '..', 'public', 'images');
+
+        for (const seriemovie of seriesmovies) {
+            if (seriemovie.image) {
+                const imageFilePath = path.join(imagesDir, seriemovie.image);
+                const imageBuffer = fs.readFileSync(imageFilePath);
+                seriesMoviesWithImageBuffers.push({
+                    ...seriemovie.toJSON(),
+                    image: imageBuffer
+                });
+            }
+        }
+
+        const baseUrl = req.protocol + '://' + req.get('host') + '/';
+
+        const seriesMoviesImages = seriesmovies.map((seriemovie: any) => {
+            const { id, ...rest } = seriemovie.dataValues;
+            return {
+                ...rest,
+                image: (seriemovie.image) ? baseUrl + 'images/' + seriemovie.image : null,
+            };
+        });
+
+        res.json({ seriesMoviesImages });
     } catch (error) {
         console.log(error);
         res.status(500).json({

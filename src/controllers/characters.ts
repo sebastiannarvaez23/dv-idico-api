@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import sequelize from './../db/conn';
 import { Op } from 'sequelize';
+import fs from 'fs';
+import path from 'path';
 import Character from '../models/character';
 import SerieMovie from '../models/seriemovie';
 
@@ -50,11 +52,27 @@ export const getCharacters = async (req: Request, res: Response) => {
             }
         });
 
+        const charactersWithImageBuffers = [];
+        const imagesDir = path.join(__dirname, '..', 'public', 'images');
+
+        for (const character of characters) {
+            if (character.image) {
+                const imageFilePath = path.join(imagesDir, character.image);
+                const imageBuffer = fs.readFileSync(imageFilePath);
+                charactersWithImageBuffers.push({
+                    ...character.toJSON(),
+                    image: imageBuffer
+                });
+            }
+        }
+
+        const baseUrl = req.protocol + '://' + req.get('host') + '/';
         const charactersWithEndpoints = characters.map((character: any) => {
-            const { id, ...rest } = character.dataValues; // Excluir el campo id
+            const { id, ...rest } = character.dataValues;
             return {
                 ...rest,
-                endpoint: `/api/character/${id}` // Agregar el enlace al personaje
+                image: baseUrl + 'images/' + character.image,
+                endpoint: `/api/character/${id}`
             };
         });
 
