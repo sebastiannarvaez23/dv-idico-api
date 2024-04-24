@@ -16,10 +16,9 @@ const Character = db.define('idi_ma_character', {
     },
     history: {
         type: DataTypes.STRING
-    },
-    deleted: {
-        type: DataTypes.BOOLEAN
     }
+}, {
+    paranoid: true
 });
 
 export default Character;

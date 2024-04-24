@@ -16,10 +16,9 @@ const SerieMovie = db.define('idi_ma_seriesmovies', {
     },
     gender_id: {
         type: DataTypes.INTEGER
-    },
-    deleted: {
-        type: DataTypes.BOOLEAN
-    },
+    }
+}, {
+    paranoid: true
 });
 
 export default SerieMovie;

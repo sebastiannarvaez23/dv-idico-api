@@ -5,8 +5,9 @@ export const getCharacters = async (req: Request, res: Response) => {
     try {
         const characters = await Character.findAll({
             where: {
-                deleted: false
-            }
+                deletedAt: null
+            },
+            attributes: { exclude: ['deletedAt'] }
         });
         res.json({ characters });
     } catch (error) {
@@ -24,8 +25,9 @@ export const getCharacter = async (req: Request, res: Response) => {
         const character = await Character.findOne({
             where: {
                 id,
-                deleted: false
-            }
+                deletedAt: null
+            },
+            attributes: { exclude: ['deletedAt'] }
         });
         if (character) {
             res.json(character);
@@ -65,7 +67,7 @@ export const editCharacter = async (req: Request, res: Response) => {
         const character = await Character.findOne({
             where: {
                 id,
-                deleted: false
+                deletedAt: null
             }
         });
         if (!character) {
@@ -90,7 +92,7 @@ export const deleteCharacter = async (req: Request, res: Response) => {
         const character = await Character.findOne({
             where: {
                 id,
-                deleted: false
+                deletedAt: null
             }
         });
         if (!character) {
@@ -98,7 +100,7 @@ export const deleteCharacter = async (req: Request, res: Response) => {
                 msg: 'El personaje con id ' + id + ' no existe.'
             });
         }
-        character.update({ deleted: true })
+        await character.destroy();
         res.json(character);
     } catch (error) {
         console.log(error);

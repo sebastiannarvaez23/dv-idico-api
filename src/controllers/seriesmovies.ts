@@ -5,8 +5,9 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
     try {
         const seriesmovies = await SerieMovie.findAll({
             where: {
-                deleted: false
-            }
+                deletedAt: null
+            },
+            attributes: { exclude: ['deletedAt'] }
         });
         res.json({ seriesmovies });
     } catch (error) {
@@ -24,8 +25,9 @@ export const getSerieMovie = async (req: Request, res: Response) => {
         const serieMovie = await SerieMovie.findOne({
             where: {
                 id,
-                deleted: false
-            }
+                deletedAt: null
+            },
+            attributes: { exclude: ['deletedAt'] }
         });
         if (serieMovie) {
             res.json(serieMovie);
@@ -65,7 +67,7 @@ export const editSerieMovie = async (req: Request, res: Response) => {
         const serieMovie = await SerieMovie.findOne({
             where: {
                 id,
-                deleted: false
+                deletedAt: null
             }
         });
         if (!serieMovie) {
@@ -90,7 +92,7 @@ export const deleteSerieMovie = async (req: Request, res: Response) => {
         const serieMovie = await SerieMovie.findOne({
             where: {
                 id,
-                deleted: false
+                deletedAt: null
             }
         });
         if (!serieMovie) {
@@ -98,7 +100,7 @@ export const deleteSerieMovie = async (req: Request, res: Response) => {
                 msg: 'La serie o película con id ' + id + ' no existe.'
             });
         }
-        serieMovie.update({ deleted: true })
+        await serieMovie.destroy();
         res.json(serieMovie);
     } catch (error) {
         console.log(error);
