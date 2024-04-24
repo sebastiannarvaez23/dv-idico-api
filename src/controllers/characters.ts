@@ -7,9 +7,27 @@ export const getCharacters = async (req: Request, res: Response) => {
             where: {
                 deletedAt: null
             },
-            attributes: { exclude: ['deletedAt'] }
+            attributes: {
+                exclude: [
+                    'age',
+                    'weight',
+                    'history',
+                    'createdAt',
+                    'updatedAt',
+                    'deletedAt'
+                ]
+            }
         });
-        res.json({ characters });
+
+        const charactersWithEndpoints = characters.map((character: any) => {
+            const { id, ...rest } = character.dataValues; // Excluir el campo id
+            return {
+                ...rest,
+                endpoint: `/api/character/${id}` // Agregar el enlace al personaje
+            };
+        });
+
+        res.json({ characters: charactersWithEndpoints });
     } catch (error) {
         console.log(error);
         res.status(500).json({
