@@ -1,14 +1,41 @@
 import { Request, Response } from 'express';
+import { Op } from 'sequelize';
 import SerieMovie from '../models/seriemovie';
+import { Gender } from '../models/gender';
 
 export const getSeriesMovies = async (req: Request, res: Response) => {
     try {
+        const { name, gender, order } = req.query;
+        let whereClause: any = { deletedAt: null };
+        let includeClause: any = [];
+
+        if (name) {
+            whereClause.title = { [Op.like]: `%${name}%` };
+        }
+
+        if (gender) {
+            includeClause.push({
+                model: Gender,
+                as: 'gender',
+                where: { id: gender } // Filtrar por ID en lugar de por nombre
+            });
+        }
+
+        let orderBy: [string, string][] = [['created_date', 'DESC']];
+
+        if (order === 'ASC') {
+            orderBy = [['created_date', 'ASC']]; // Si order=ASC, ordenar por created_date ascendente
+        } else if (order === 'DESC') {
+            orderBy = [['created_date', 'DESC']]; // Si order=DESC, ordenar por created_date descendente
+        }
+
         const seriesmovies = await SerieMovie.findAll({
-            where: {
-                deletedAt: null
-            },
-            attributes: { exclude: ['deletedAt'] }
+            where: whereClause,
+            attributes: { exclude: ['deletedAt'] },
+            include: includeClause,
+            order: orderBy
         });
+
         res.json({ seriesmovies });
     } catch (error) {
         console.log(error);

@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
-import Character from './character';
 import db from '../db/conn';
+import { Gender } from './gender';
 
 const SerieMovie = db.define('idi_ma_seriesmovies', {
     title: {
@@ -22,6 +22,6 @@ const SerieMovie = db.define('idi_ma_seriesmovies', {
     paranoid: true
 });
 
-//SerieMovie.belongsToMany(Character, { through: 'CharacterSerieMovie', foreignKey: 'seriemovie_id' });
+SerieMovie.belongsTo(Gender, { foreignKey: 'gender_id', as: 'gender' });
 
 export default SerieMovie;
