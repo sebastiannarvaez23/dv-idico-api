@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import db from '../db/conn';
 
-const Character = db.define('Character', {
+const Character = db.define('idi_ma_character', {
     image: {
         type: DataTypes.STRING
     },

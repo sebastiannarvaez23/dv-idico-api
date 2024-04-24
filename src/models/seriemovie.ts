@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import db from '../db/conn';
 
-const SerieMovie = db.define('SerieMovie', {
+const SerieMovie = db.define('idi_ma_seriesmovies', {
     title: {
         type: DataTypes.STRING
     },
