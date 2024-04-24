@@ -6,6 +6,8 @@ import path from 'path';
 import Character from '../models/character';
 import SerieMovie from '../models/seriemovie';
 
+const multer = require('multer');
+
 export const getCharacters = async (req: Request, res: Response) => {
     try {
 
@@ -118,9 +120,10 @@ export const getCharacter = async (req: Request, res: Response) => {
 
 export const createCharacter = async (req: Request, res: Response) => {
 
-    const { body } = req;
+    const { body, file } = req;
+
     try {
-        const character = new Character(body);
+        const character = new Character({ ...body, image: file.filename });
         await character.save();
         res.json(body);
     } catch (error) {

@@ -68,9 +68,9 @@ export const getGender = async (req: Request, res: Response) => {
 
 export const createGender = async (req: Request, res: Response) => {
 
-    const { body } = req;
+    const { body, file } = req;
     try {
-        const gender = new Gender(body);
+        const gender = new Gender({ ...body, image: file.filename });
         await gender.save();
         res.json(body);
     } catch (error) {

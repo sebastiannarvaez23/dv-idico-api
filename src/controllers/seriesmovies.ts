@@ -101,9 +101,9 @@ export const getSerieMovie = async (req: Request, res: Response) => {
 
 export const createSerieMovie = async (req: Request, res: Response) => {
 
-    const { body } = req;
+    const { body, file } = req;
     try {
-        const serieMovie = new SerieMovie(body);
+        const serieMovie = new SerieMovie({ ...body, image: file.filename });
         await serieMovie.save();
         res.json(body);
     } catch (error) {
