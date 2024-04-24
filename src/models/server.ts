@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import cors from 'cors';
 import characterRoutes from '../routes/character';
 import serieMoviesRoutes from '../routes/seriesmovies';
 
@@ -14,7 +15,14 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT || '8000';
+        this.middlewares();
         this.routes();
+        this.app.use(express.static('public'));
+    }
+
+    middlewares() {
+        this.app.use(cors());
+        this.app.use(express.json());
     }
 
     routes() {

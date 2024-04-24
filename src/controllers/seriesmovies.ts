@@ -22,6 +22,7 @@ export const createSerieMovie = (req: Request, res: Response) => {
 
     res.json({
         msg: 'createSerieMovie',
+        body
     })
 }
 
