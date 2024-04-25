@@ -58,8 +58,8 @@ export const getCharacters = async (req: Request, res: Response) => {
         const imagesDir = path.join(__dirname, '..', 'public', 'images');
 
         for (const character of characters) {
-            if (character.image) {
-                const imageFilePath = path.join(imagesDir, character.image);
+            if (character.get('image')) {
+                const imageFilePath = path.join(imagesDir, character.get('image') as string);
                 const imageBuffer = fs.readFileSync(imageFilePath);
                 charactersWithImageBuffers.push({
                     ...character.toJSON(),
@@ -123,7 +123,7 @@ export const createCharacter = async (req: Request, res: Response) => {
     const { body, file } = req;
 
     try {
-        const character = new Character({ ...body, image: file.filename });
+        const character = await Character.create({ ...body, image: file?.filename });
         await character.save();
         res.json(body);
     } catch (error) {

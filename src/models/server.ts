@@ -3,6 +3,8 @@ import cors from 'cors';
 import characterRoutes from '../routes/character';
 import serieMoviesRoutes from '../routes/seriemovie';
 import gendersRoutes from '../routes/gender';
+import authRoutes from '../routes/auth';
+import jwtMiddleware from '../auth/jwt-middleware';
 import db from '../db/conn';
 import path from 'path';
 
@@ -14,6 +16,7 @@ class Server {
         characters: '/api/character',
         seriesMovies: '/api/serie-movie',
         genders: '/api/gender',
+        login: '/api/auth',
     }
 
     constructor() {
@@ -41,9 +44,11 @@ class Server {
     }
 
     routes() {
-        this.app.use(this.apiPaths.characters, characterRoutes);
-        this.app.use(this.apiPaths.seriesMovies, serieMoviesRoutes);
-        this.app.use(this.apiPaths.genders, gendersRoutes);
+        this.app.use(this.apiPaths.characters, jwtMiddleware, characterRoutes);
+        this.app.use(this.apiPaths.seriesMovies, jwtMiddleware, serieMoviesRoutes);
+        this.app.use(this.apiPaths.genders, jwtMiddleware, gendersRoutes);
+
+        this.app.use(this.apiPaths.login, authRoutes);
     }
 
     configureStaticFiles() {
