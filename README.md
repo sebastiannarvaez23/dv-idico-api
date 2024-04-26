@@ -55,9 +55,3 @@ Se han tenido en cuenta varias consideraciones técnicas para el desarrollo efic
 ## Búsqueda Multifactor y Interfaz de Usuario
 
 Se ha implementado una búsqueda multifactor que permite a los usuarios buscar personajes por diferentes criterios, así como películas o series y géneros. La interfaz de usuario presenta componentes visuales atractivos y filtros dinámicos para mejorar la experiencia del usuario.
-
-## Criterios de Evaluación
-
-Los criterios de evaluación incluyen la precisión y relevancia de los resultados de búsqueda, la capacidad de manejar consultas ambiguas, la velocidad y eficiencia del motor de búsqueda, así como la experiencia del usuario y la facilidad de navegación en la interfaz. Se han implementado estrategias para hacer que la aplicación sea lo más eficiente posible en todos estos aspectos.
-
-¡Gracias por considerar nuestra aplicación para explorar el universo Disney!
