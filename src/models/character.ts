@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
-import SerieMovie from './seriemovie';
 import db from '../db/conn';
+import SerieMovie from './seriemovie'; // Importar SerieMovie al principio
+import CharacterSerieMovie from './characterseriemovie';
 
 const Character = db.define('idi_ma_character', {
     image: {
@@ -20,12 +21,6 @@ const Character = db.define('idi_ma_character', {
     }
 }, {
     paranoid: true
-});
-
-Character.belongsToMany(SerieMovie, {
-    through: 'idi_re_characters_seriesmovies',
-    foreignKey: 'character_id',
-    otherKey: 'seriemovie_id'
 });
 
 export default Character;

@@ -72,7 +72,7 @@ export const getToken = async (req: Request, res: Response) => {
 
 export const signUp = async (req: Request, res: Response) => {
     try {
-        const { mail, password } = req.body;
+        const { name, lastname, mail, birthdate, phone, password } = req.body;
 
         const existingUser = await User.findOne({ where: { mail } });
         if (existingUser) {
@@ -80,7 +80,7 @@ export const signUp = async (req: Request, res: Response) => {
         }
 
         const hashedPassword = await hashPassword(password);
-        const newUser = await User.create({ mail });
+        const newUser = await User.create({ name, lastname, mail, birthdate, phone });
 
         await Credential.create({ user_id: newUser.get('id'), password: hashedPassword });
 

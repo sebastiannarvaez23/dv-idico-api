@@ -15,8 +15,8 @@ export const getGenders = async (req: Request, res: Response) => {
         const imagesDir = path.join(__dirname, '..', 'public', 'images');
 
         for (const gender of genders) {
-            if (gender.image) {
-                const imageFilePath = path.join(imagesDir, gender.image);
+            if (gender.get('image')) {
+                const imageFilePath = path.join(imagesDir, gender.get('image') as string);
                 const imageBuffer = fs.readFileSync(imageFilePath);
                 gendersWithImageBuffers.push({
                     ...gender.toJSON(),
@@ -70,7 +70,7 @@ export const createGender = async (req: Request, res: Response) => {
 
     const { body, file } = req;
     try {
-        const gender = new Gender({ ...body, image: file.filename });
+        const gender = await Gender.create({ ...body, image: file?.filename });
         await gender.save();
         res.json(body);
     } catch (error) {
