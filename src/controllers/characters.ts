@@ -74,7 +74,7 @@ export const getCharacters = async (req: Request, res: Response) => {
             return {
                 ...rest,
                 image: baseUrl + 'images/' + character.image,
-                endpoint: `/api/character/${id}`
+                endpoint: `/character/${id}`
             };
         });
 
@@ -98,13 +98,38 @@ export const getCharacter = async (req: Request, res: Response) => {
             },
             include: {
                 model: SerieMovie,
+                attributes: ['title'],
                 through: { attributes: [] }
             },
             attributes: { exclude: ['deletedAt'] }
         });
 
+        const characterWithImageBuffers = [];
+        const imagesDir = path.join(__dirname, '..', 'public', 'images');
+
+        if (character?.get('image')) {
+            const imageFilePath = path.join(imagesDir, character.get('image') as string);
+            const imageBuffer = fs.readFileSync(imageFilePath);
+            characterWithImageBuffers.push({
+                ...character.toJSON(),
+                image: imageBuffer
+            });
+        }
+
+        const baseUrl = req.protocol + '://' + req.get('host') + '/';
+
+
         if (character) {
-            res.json(character);
+            const { idi_ma_seriesmovies, ...rest } = character.dataValues;
+            const seriesMovies: string[] = [];
+            idi_ma_seriesmovies.map((e: { title: string }) => seriesMovies.push(e.title));
+            let resCharacter = {
+                ...rest,
+                image: character.get('image') ? baseUrl + 'images/' + character.get('image') : null,
+                seriesMovies: seriesMovies
+            }
+
+            res.json(resCharacter);
         } else {
             res.status(404).json({
                 msg: 'El personaje con id ' + id + ' no existe.'

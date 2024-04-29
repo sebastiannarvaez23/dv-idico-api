@@ -3,7 +3,9 @@ import { Op } from 'sequelize';
 import fs from 'fs';
 import path from 'path';
 import SerieMovie from '../models/seriemovie';
-import { Gender } from '../models/gender';
+import Gender from '../models/gender';
+import Character from '../models/character';
+import '../models/characterseriemovie';
 
 export const getSeriesMovies = async (req: Request, res: Response) => {
     try {
@@ -31,21 +33,34 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
             orderBy = [['created_date', 'DESC']];
         }
 
-        const seriesmovies = await SerieMovie.findAll({
+        const seriesMovies = await SerieMovie.findAll({
             where: whereClause,
             attributes: {
-                exclude: ['deletedAt']
+                exclude: ['deletedAt', 'gender_id']
             },
-            include: includeClause,
+            include: [
+                {
+                    model: Gender,
+                    as: 'gender',
+                    attributes: ['name']
+                },
+                {
+                    model: Character,
+                    attributes: ['name'],
+                    through: {
+                        attributes: []
+                    }
+                }
+            ],
             order: orderBy
         });
 
         const seriesMoviesWithImageBuffers = [];
         const imagesDir = path.join(__dirname, '..', 'public', 'images');
 
-        for (const seriemovie of seriesmovies) {
-            if (seriemovie.image) {
-                const imageFilePath = path.join(imagesDir, seriemovie.image);
+        for (const seriemovie of seriesMovies) {
+            if (seriemovie.get('image')) {
+                const imageFilePath = path.join(imagesDir, seriemovie.get('image') as string);
                 const imageBuffer = fs.readFileSync(imageFilePath);
                 seriesMoviesWithImageBuffers.push({
                     ...seriemovie.toJSON(),
@@ -56,15 +71,20 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
 
         const baseUrl = req.protocol + '://' + req.get('host') + '/';
 
-        const seriesMoviesImages = seriesmovies.map((seriemovie: any) => {
-            const { id, ...rest } = seriemovie.dataValues;
+        const seriesMoviesImages = seriesMovies.map((seriemovie: any) => {
+            const { id, idi_ma_characters, ...rest } = seriemovie.dataValues;
+            const genderName = seriemovie.gender ? seriemovie.gender.name : null;
+            const characters: string[] = [];
+            idi_ma_characters.map((e: { name: string }) => characters.push(e.name));
             return {
                 ...rest,
+                gender: genderName ? genderName : null,
                 image: (seriemovie.image) ? baseUrl + 'images/' + seriemovie.image : null,
+                characters: characters
             };
         });
 
-        res.json({ seriesMoviesImages });
+        res.json({ seriesMovies: seriesMoviesImages });
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -103,7 +123,7 @@ export const createSerieMovie = async (req: Request, res: Response) => {
 
     const { body, file } = req;
     try {
-        const serieMovie = new SerieMovie({ ...body, image: file.filename });
+        const serieMovie = await SerieMovie.create({ ...body, image: file?.filename });
         await serieMovie.save();
         res.json(body);
     } catch (error) {

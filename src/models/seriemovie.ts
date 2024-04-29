@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import db from '../db/conn';
 import Gender from './gender';
+import CharacterSerieMovie from './characterseriemovie';
 
 const SerieMovie = db.define('idi_ma_seriesmovies', {
     title: {
