@@ -1,4 +1,4 @@
-# API para Explorar el Universo Disney
+![image](https://github.com/sebastiannarvaez23/dv-idico-api/assets/88569352/d52eeea0-9027-478c-a179-43f547395a36)# API para Explorar el Universo Disney
 
 Esta es una aplicación desarrollada para explorar el universo de Disney, permitiendo conocer y modificar los personajes, así como comprender las películas en las que participaron. La API expone la información de manera que cualquier frontend pueda consumirla de manera sencilla.
 
@@ -15,6 +15,7 @@ Esta es una aplicación desarrollada para explorar el universo de Disney, permit
 - **Librería Sequelize**: Para el mapeo objeto-relacional y la interacción con la base de datos.
 <p align="left">
   <img src="https://github.com/sebastiannarvaez23/dv-idico-api/assets/88569352/951382c1-b44e-4caf-9697-51667538a617" width="auto" height="90">
+  <img src="https://github.com/sebastiannarvaez23/dv-idico-api/assets/88569352/6099bdde-dcbc-4b30-90b2-7e3f6fe27fa2" width="auto" height="90">
   <img src="https://github.com/sebastiannarvaez23/dv-idico-api/assets/88569352/823a060f-fe4f-4814-99d5-afc066546443" width="auto" height="90">
   <img src="https://github.com/sebastiannarvaez23/dv-idico-api/assets/88569352/46dfed14-6749-4597-80b9-98c70408f0b2" width="auto" height="90">
   <img src="https://static-00.iconduck.com/assets.00/git-icon-1024x1024-pqp7u4hl.png" width="auto" height="90">
