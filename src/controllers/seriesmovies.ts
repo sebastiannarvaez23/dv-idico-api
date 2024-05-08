@@ -72,7 +72,7 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
         const baseUrl = req.protocol + '://' + req.get('host') + '/';
 
         const seriesMoviesImages = seriesMovies.map((seriemovie: any) => {
-            const { id, idi_ma_characters, ...rest } = seriemovie.dataValues;
+            const { idi_ma_characters, ...rest } = seriemovie.dataValues;
             const genderName = seriemovie.gender ? seriemovie.gender.name : null;
             const characters: string[] = [];
             idi_ma_characters.map((e: { name: string }) => characters.push(e.name));
@@ -137,7 +137,7 @@ export const createSerieMovie = async (req: Request, res: Response) => {
 export const editSerieMovie = async (req: Request, res: Response) => {
 
     const { id } = req.params;
-    const { body } = req;
+    const { body, file } = req;
     try {
         const serieMovie = await SerieMovie.findOne({
             where: {
@@ -150,8 +150,8 @@ export const editSerieMovie = async (req: Request, res: Response) => {
                 msg: 'La serie o película con id ' + id + ' no existe.'
             });
         }
-        await serieMovie.update(body);
-        res.json(body);
+        await serieMovie.update({ ...body, image: file?.filename });
+        res.json(serieMovie);
     } catch (error) {
         console.log(error);
         res.status(500).json({
