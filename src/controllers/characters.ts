@@ -82,7 +82,7 @@ export const getCharacters = async (req: Request, res: Response) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            msg: 'Ha ocurrido un error consultando los personajes, contacte el administrador.'
+            msg: 'Ha ocurrido un error consultando los Personajes, contacte el administrador.'
         })
     }
 }
@@ -131,13 +131,13 @@ export const getCharacter = async (req: Request, res: Response) => {
             res.json(resCharacter);
         } else {
             res.status(404).json({
-                msg: 'El personaje con id ' + id + ' no existe.'
+                msg: 'El Personaje con id ' + id + ' no existe.'
             })
         }
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            msg: 'Ha ocurrido un error consultando el personaje, contacte el administrador.'
+            msg: 'Ha ocurrido un error consultando el Personaje, contacte el administrador.'
         })
     }
 }
@@ -153,7 +153,7 @@ export const createCharacter = async (req: Request, res: Response) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            msg: 'Ha ocurrido un error creando el personaje, contacte el administrador.'
+            msg: 'Ha ocurrido un error creando el Personaje, contacte el administrador.'
         })
     }
 }
@@ -177,7 +177,7 @@ export const editCharacter = async (req: Request, res: Response) => {
         });
         if (!character) {
             return res.status(404).json({
-                msg: 'El personaje con id ' + id + ' no existe.'
+                msg: 'El Personaje con id ' + id + ' no existe.'
             });
         }
         await character.update({ ...body, image: file?.filename });
@@ -208,7 +208,7 @@ export const editCharacter = async (req: Request, res: Response) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            msg: 'Ha ocurrido un error editando el personaje, contacte el administrador.'
+            msg: 'Ha ocurrido un error editando el Personaje, contacte el administrador.'
         })
     }
 }
@@ -225,7 +225,7 @@ export const deleteCharacter = async (req: Request, res: Response) => {
         });
         if (!character) {
             return res.status(404).json({
-                msg: 'El personaje con id ' + id + ' no existe.'
+                msg: 'El Personaje con id ' + id + ' no existe.'
             });
         }
         await character.destroy();
@@ -233,7 +233,7 @@ export const deleteCharacter = async (req: Request, res: Response) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            msg: 'Ha ocurrido un error eliminando el personaje, contacte el administrador.'
+            msg: 'Ha ocurrido un error eliminando el Personaje, contacte el administrador.'
         })
     }
 }
