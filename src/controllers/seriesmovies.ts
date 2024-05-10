@@ -100,7 +100,14 @@ export const getSerieMovie = async (req: Request, res: Response) => {
                 id,
                 deletedAt: null
             },
-            attributes: { exclude: ['deletedAt'] }
+            attributes: { exclude: ['deletedAt', 'gender_id'] },
+            include: [
+                {
+                    model: Gender,
+                    as: 'gender',
+                    attributes: ['id', 'name']
+                }
+            ]
         });
         if (serieMovie) {
             res.json(serieMovie);
@@ -141,7 +148,22 @@ export const editSerieMovie = async (req: Request, res: Response) => {
             where: {
                 id,
                 deletedAt: null
-            }
+            },
+            attributes: { exclude: ['deletedAt', 'gender_id'] },
+            include: [
+                {
+                    model: Gender,
+                    as: 'gender',
+                    attributes: ['id', 'name']
+                },
+                {
+                    model: Character,
+                    attributes: ['name'],
+                    through: {
+                        attributes: []
+                    }
+                }
+            ]
         });
         if (!serieMovie) {
             return res.status(404).json({
@@ -149,7 +171,32 @@ export const editSerieMovie = async (req: Request, res: Response) => {
             });
         }
         await serieMovie.update({ ...body, image: file?.filename });
-        res.json(serieMovie);
+
+        const seriesMoviesWithImageBuffers = [];
+        const imagesDir = path.join(__dirname, '..', 'public', 'images');
+
+        if (serieMovie.get('image')) {
+            const imageFilePath = path.join(imagesDir, serieMovie.get('image') as string);
+            const imageBuffer = fs.readFileSync(imageFilePath);
+            seriesMoviesWithImageBuffers.push({
+                ...serieMovie.toJSON(),
+                image: imageBuffer
+            });
+        }
+
+        const baseUrl = req.protocol + '://' + req.get('host') + '/';
+
+        const { idi_ma_characters, ...rest } = serieMovie.dataValues;
+        const characters: string[] = [];
+        idi_ma_characters.map((e: { name: string }) => characters.push(e.name));
+
+        const serieMovieUpdated = {
+            ...rest,
+            image: (serieMovie.get('image')) ? baseUrl + 'images/' + serieMovie.get('image') : null,
+            characters: characters
+        };
+
+        res.json(serieMovieUpdated);
     } catch (error) {
         console.log(error);
         res.status(500).json({
