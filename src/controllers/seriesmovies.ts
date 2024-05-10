@@ -159,9 +159,7 @@ export const editSerieMovie = async (req: Request, res: Response) => {
                 {
                     model: Character,
                     attributes: ['name'],
-                    through: {
-                        attributes: []
-                    }
+                    through: { attributes: [] }
                 }
             ]
         });

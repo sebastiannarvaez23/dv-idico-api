@@ -118,7 +118,6 @@ export const getCharacter = async (req: Request, res: Response) => {
 
         const baseUrl = req.protocol + '://' + req.get('host') + '/';
 
-
         if (character) {
             const { idi_ma_seriesmovies, ...rest } = character.dataValues;
             const seriesMovies: string[] = [];
@@ -162,12 +161,18 @@ export const createCharacter = async (req: Request, res: Response) => {
 export const editCharacter = async (req: Request, res: Response) => {
 
     const { id } = req.params;
-    const { body } = req;
+    const { body, file } = req;
     try {
         const character = await Character.findOne({
             where: {
                 id,
                 deletedAt: null
+            },
+            attributes: { exclude: ['deletedAt'] },
+            include: {
+                model: SerieMovie,
+                attributes: ['title'],
+                through: { attributes: [] }
             }
         });
         if (!character) {
@@ -175,8 +180,31 @@ export const editCharacter = async (req: Request, res: Response) => {
                 msg: 'El personaje con id ' + id + ' no existe.'
             });
         }
-        await character.update(body);
-        res.json(body);
+        await character.update({ ...body, image: file?.filename });
+        const charactersWithImagesBuffers = [];
+        const imagesDir = path.join(__dirname, '..', 'public', 'images');
+
+        if (character.get('image')) {
+            const imageFilePath = path.join(imagesDir, character.get('image') as string);
+            const imageBuffer = fs.readFileSync(imageFilePath);
+            charactersWithImagesBuffers.push({
+                ...character.toJSON(),
+                image: imageBuffer
+            })
+        }
+
+        const baseUrl = req.protocol + '://' + req.get('host') + '/';
+
+        const { idi_ma_seriesmovies, ...rest } = character.dataValues;
+        const seriesmovies: string[] = [];
+        idi_ma_seriesmovies.map((e: { title: string }) => seriesmovies.push(e.title));
+
+        const characterUpdated = {
+            ...rest,
+            image: (character.get('image')) ? baseUrl + 'images/' + character.get('image') : null,
+            seriesmovies: seriesmovies
+        }
+        res.json(characterUpdated);
     } catch (error) {
         console.log(error);
         res.status(500).json({

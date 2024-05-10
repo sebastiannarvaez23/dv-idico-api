@@ -9,7 +9,7 @@ const router = Router();
 router.get('/', getCharacters);
 router.get('/:id', getCharacter);
 router.post('/', upload.single('image'), createCharacter);
-router.put('/:id', editCharacter);
+router.put('/:id', upload.single('image'), editCharacter);
 router.delete('/:id', deleteCharacter);
 
 export default router;
