@@ -27,7 +27,7 @@ export const getGenders = async (req: Request, res: Response) => {
 
         const baseUrl = req.protocol + '://' + req.get('host') + '/';
         const gendersWithImages = genders.map((gender: any) => {
-            const { id, ...rest } = gender.dataValues;
+            const { ...rest } = gender.dataValues;
             return {
                 ...rest,
                 image: baseUrl + 'images/' + gender.image

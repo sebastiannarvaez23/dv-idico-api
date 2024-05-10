@@ -42,7 +42,7 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
                 {
                     model: Gender,
                     as: 'gender',
-                    attributes: ['name']
+                    attributes: ['id', 'name']
                 },
                 {
                     model: Character,
@@ -73,12 +73,10 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
 
         const seriesMoviesImages = seriesMovies.map((seriemovie: any) => {
             const { idi_ma_characters, ...rest } = seriemovie.dataValues;
-            const genderName = seriemovie.gender ? seriemovie.gender.name : null;
             const characters: string[] = [];
             idi_ma_characters.map((e: { name: string }) => characters.push(e.name));
             return {
                 ...rest,
-                gender: genderName ? genderName : null,
                 image: (seriemovie.image) ? baseUrl + 'images/' + seriemovie.image : null,
                 characters: characters
             };
