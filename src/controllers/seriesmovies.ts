@@ -190,8 +190,12 @@ export const editSerieMovie = async (req: Request, res: Response) => {
         const characters: string[] = [];
         idi_ma_characters.map((e: { name: string }) => characters.push(e.name));
 
+        const date = new Date(rest.created_date);
+        const formattedDate = date.toISOString().split('T')[0];
+
         const serieMovieUpdated = {
             ...rest,
+            created_date: formattedDate,
             image: (serieMovie.get('image')) ? baseUrl + 'images/' + serieMovie.get('image') : null,
             characters: characters
         };
