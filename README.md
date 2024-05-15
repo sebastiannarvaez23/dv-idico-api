@@ -1,4 +1,4 @@
-![image](https://github.com/sebastiannarvaez23/dv-idico-api/assets/88569352/d52eeea0-9027-478c-a179-43f547395a36)# API para Explorar el Universo Disney
+# API para Explorar el Universo Disney
 
 Esta es una aplicación desarrollada para explorar el universo de Disney, permitiendo conocer y modificar los personajes, así como comprender las películas en las que participaron. La API expone la información de manera que cualquier frontend pueda consumirla de manera sencilla.
 
