@@ -4,6 +4,7 @@
   "description": "Disney Verse API",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon dist/app.js",
     "build": "tsc && cp -r src/public/. dist/public",
     "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"

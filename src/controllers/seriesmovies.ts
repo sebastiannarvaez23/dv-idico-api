@@ -36,21 +36,24 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
         const seriesMovies = await SerieMovie.findAll({
             where: whereClause,
             attributes: {
-                exclude: ['deletedAt', 'gender_id']
+                exclude: [
+                    'created_date',
+                    'qualification',
+                    'gender',
+                    'createdAt',
+                    'updatedAt',
+                    'deletedAt',
+                    'gender_id']
             },
             include: [
                 {
                     model: Gender,
                     as: 'gender',
-                    attributes: ['id', 'name']
+                    attributes: [
+                        'id',
+                        'name',
+                    ]
                 },
-                {
-                    model: Character,
-                    attributes: ['name'],
-                    through: {
-                        attributes: []
-                    }
-                }
             ],
             order: orderBy
         });
@@ -72,13 +75,11 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
         const baseUrl = req.protocol + '://' + req.get('host') + '/';
 
         const seriesMoviesImages = seriesMovies.map((seriemovie: any) => {
-            const { idi_ma_characters, ...rest } = seriemovie.dataValues;
-            const characters: string[] = [];
-            idi_ma_characters.map((e: { name: string }) => characters.push(e.name));
+            const { id, ...rest } = seriemovie.dataValues;
             return {
                 ...rest,
                 image: (seriemovie.image) ? baseUrl + 'images/' + seriemovie.image : null,
-                characters: characters
+                endpoint: `/serie-movie/${id}`
             };
         });
 
@@ -100,22 +101,50 @@ export const getSerieMovie = async (req: Request, res: Response) => {
                 id,
                 deletedAt: null
             },
-            attributes: { exclude: ['deletedAt', 'gender_id'] },
+
             include: [
                 {
                     model: Gender,
                     as: 'gender',
                     attributes: ['id', 'name']
+                },
+                {
+                    model: Character,
+                    attributes: ['id', 'name'],
+                    through: { attributes: [] }
                 }
-            ]
-        });
-        if (serieMovie) {
-            res.json(serieMovie);
-        } else {
+            ],
+            attributes: { exclude: ['deletedAt', 'gender_id'] }
+        })
+        if (!serieMovie) {
             res.status(404).json({
                 msg: 'La serie o película con el id ' + id + ' no existe.'
             })
         }
+
+        const seriesMoviesWithImageBuffers = [];
+        const imagesDir = path.join(__dirname, '..', 'public', 'images');
+
+
+        if (serieMovie?.get('image')) {
+            const imageFilePath = path.join(imagesDir, serieMovie.get('image') as string);
+            const imageBuffer = fs.readFileSync(imageFilePath);
+            seriesMoviesWithImageBuffers.push({
+                ...serieMovie.toJSON(),
+                image: imageBuffer
+            });
+        }
+
+        const baseUrl = req.protocol + '://' + req.get('host') + '/';
+        const { idi_ma_characters, ...rest } = serieMovie?.dataValues;
+        const characters: string[] = [];
+        idi_ma_characters.map((character: { name: string }) => characters.push(character.name));
+        const response = {
+            ...rest,
+            image: (serieMovie?.get('image')) ? baseUrl + 'images/' + serieMovie.get('image') : null,
+            characters
+        };
+        res.json(response);
     } catch (error) {
         console.log(error);
         res.status(500).json({
