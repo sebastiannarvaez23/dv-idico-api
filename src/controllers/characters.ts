@@ -5,8 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import Character from '../models/character';
 import SerieMovie from '../models/seriemovie';
-
-const multer = require('multer');
+import processor from '../utils/imgprocessors';
 
 export const getCharacters = async (req: Request, res: Response) => {
     try {
@@ -54,26 +53,11 @@ export const getCharacters = async (req: Request, res: Response) => {
             }
         });
 
-        const charactersWithImageBuffers = [];
-        const imagesDir = path.join(__dirname, '..', 'public', 'images');
-
-        for (const character of characters) {
-            if (character.get('image')) {
-                const imageFilePath = path.join(imagesDir, character.get('image') as string);
-                const imageBuffer = fs.readFileSync(imageFilePath);
-                charactersWithImageBuffers.push({
-                    ...character.toJSON(),
-                    image: imageBuffer
-                });
-            }
-        }
-
-        const baseUrl = req.protocol + '://' + req.get('host') + '/';
         const charactersWithEndpoints = characters.map((character: any) => {
             const { id, ...rest } = character.dataValues;
             return {
                 ...rest,
-                image: baseUrl + 'images/' + character.image,
+                image: processor(character, req),
                 endpoint: `/character/${id}`
             };
         });
@@ -104,27 +88,13 @@ export const getCharacter = async (req: Request, res: Response) => {
             attributes: { exclude: ['deletedAt'] }
         });
 
-        const characterWithImageBuffers = [];
-        const imagesDir = path.join(__dirname, '..', 'public', 'images');
-
-        if (character?.get('image')) {
-            const imageFilePath = path.join(imagesDir, character.get('image') as string);
-            const imageBuffer = fs.readFileSync(imageFilePath);
-            characterWithImageBuffers.push({
-                ...character.toJSON(),
-                image: imageBuffer
-            });
-        }
-
-        const baseUrl = req.protocol + '://' + req.get('host') + '/';
-
         if (character) {
             const { idi_ma_seriesmovies, ...rest } = character.dataValues;
             const seriesMovies: string[] = [];
             idi_ma_seriesmovies.map((e: { title: string }) => seriesMovies.push(e.title));
             let resCharacter = {
                 ...rest,
-                image: character.get('image') ? baseUrl + 'images/' + character.get('image') : null,
+                image: processor(character, req),
                 seriesMovies: seriesMovies
             }
 
@@ -181,19 +151,6 @@ export const editCharacter = async (req: Request, res: Response) => {
             });
         }
         await character.update({ ...body, image: file?.filename });
-        const charactersWithImagesBuffers = [];
-        const imagesDir = path.join(__dirname, '..', 'public', 'images');
-
-        if (character.get('image')) {
-            const imageFilePath = path.join(imagesDir, character.get('image') as string);
-            const imageBuffer = fs.readFileSync(imageFilePath);
-            charactersWithImagesBuffers.push({
-                ...character.toJSON(),
-                image: imageBuffer
-            })
-        }
-
-        const baseUrl = req.protocol + '://' + req.get('host') + '/';
 
         const { idi_ma_seriesmovies, ...rest } = character.dataValues;
         const seriesmovies: string[] = [];
@@ -201,7 +158,7 @@ export const editCharacter = async (req: Request, res: Response) => {
 
         const characterUpdated = {
             ...rest,
-            image: (character.get('image')) ? baseUrl + 'images/' + character.get('image') : null,
+            image: processor(character, req),
             seriesmovies: seriesmovies
         }
         res.json(characterUpdated);

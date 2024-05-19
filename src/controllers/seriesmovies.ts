@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
-import fs from 'fs';
-import path from 'path';
 import SerieMovie from '../models/seriemovie';
 import Gender from '../models/gender';
 import Character from '../models/character';
 import '../models/characterseriemovie';
+import processor from '../utils/imgprocessors';
 
 export const getSeriesMovies = async (req: Request, res: Response) => {
     try {
@@ -58,27 +57,11 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
             order: orderBy
         });
 
-        const seriesMoviesWithImageBuffers = [];
-        const imagesDir = path.join(__dirname, '..', 'public', 'images');
-
-        for (const seriemovie of seriesMovies) {
-            if (seriemovie.get('image')) {
-                const imageFilePath = path.join(imagesDir, seriemovie.get('image') as string);
-                const imageBuffer = fs.readFileSync(imageFilePath);
-                seriesMoviesWithImageBuffers.push({
-                    ...seriemovie.toJSON(),
-                    image: imageBuffer
-                });
-            }
-        }
-
-        const baseUrl = req.protocol + '://' + req.get('host') + '/';
-
         const seriesMoviesImages = seriesMovies.map((seriemovie: any) => {
             const { id, ...rest } = seriemovie.dataValues;
             return {
                 ...rest,
-                image: (seriemovie.image) ? baseUrl + 'images/' + seriemovie.image : null,
+                image: processor(seriemovie, req),
                 endpoint: `/serie-movie/${id}`
             };
         });
@@ -122,26 +105,13 @@ export const getSerieMovie = async (req: Request, res: Response) => {
             })
         }
 
-        const seriesMoviesWithImageBuffers = [];
-        const imagesDir = path.join(__dirname, '..', 'public', 'images');
-
-
-        if (serieMovie?.get('image')) {
-            const imageFilePath = path.join(imagesDir, serieMovie.get('image') as string);
-            const imageBuffer = fs.readFileSync(imageFilePath);
-            seriesMoviesWithImageBuffers.push({
-                ...serieMovie.toJSON(),
-                image: imageBuffer
-            });
-        }
-
-        const baseUrl = req.protocol + '://' + req.get('host') + '/';
         const { idi_ma_characters, ...rest } = serieMovie?.dataValues;
         const characters: string[] = [];
+
         idi_ma_characters.map((character: { name: string }) => characters.push(character.name));
         const response = {
             ...rest,
-            image: (serieMovie?.get('image')) ? baseUrl + 'images/' + serieMovie.get('image') : null,
+            image: processor(serieMovie, req),
             characters
         };
         res.json(response);
@@ -199,20 +169,6 @@ export const editSerieMovie = async (req: Request, res: Response) => {
         }
         await serieMovie.update({ ...body, image: file?.filename });
 
-        const seriesMoviesWithImageBuffers = [];
-        const imagesDir = path.join(__dirname, '..', 'public', 'images');
-
-        if (serieMovie.get('image')) {
-            const imageFilePath = path.join(imagesDir, serieMovie.get('image') as string);
-            const imageBuffer = fs.readFileSync(imageFilePath);
-            seriesMoviesWithImageBuffers.push({
-                ...serieMovie.toJSON(),
-                image: imageBuffer
-            });
-        }
-
-        const baseUrl = req.protocol + '://' + req.get('host') + '/';
-
         const { idi_ma_characters, ...rest } = serieMovie.dataValues;
         const characters: string[] = [];
         idi_ma_characters.map((e: { name: string }) => characters.push(e.name));
@@ -223,7 +179,7 @@ export const editSerieMovie = async (req: Request, res: Response) => {
         const serieMovieUpdated = {
             ...rest,
             created_date: formattedDate,
-            image: (serieMovie.get('image')) ? baseUrl + 'images/' + serieMovie.get('image') : null,
+            image: processor(serieMovie, req),
             characters: characters
         };
 
