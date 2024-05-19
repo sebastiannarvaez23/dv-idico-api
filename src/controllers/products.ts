@@ -62,7 +62,7 @@ export const getProducts = async (req: Request, res: Response) => {
             return {
                 ...rest,
                 image: processor(seriemovie, req),
-                endpoint: `/serie-movie/${id}`
+                endpoint: `/product/${id}`
             };
         });
 

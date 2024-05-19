@@ -14,7 +14,7 @@ class Server {
     private port: string;
     private apiPaths = {
         characters: '/api/character',
-        seriesMovies: '/api/serie-movie',
+        seriesMovies: '/api/product',
         genders: '/api/gender',
         login: '/api/auth',
     }
