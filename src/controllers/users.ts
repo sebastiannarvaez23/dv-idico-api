@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/users';
-import Credential from '../models/credentials';
+import Credential from '../models/credential';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 

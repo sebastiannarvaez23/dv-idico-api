@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 import fs from 'fs';
 import path from 'path';
 import Character from '../models/character';
-import SerieMovie from '../models/seriemovie';
+import SerieMovie from '../models/product';
 import processor from '../utils/imgprocessors';
 
 export const getCharacters = async (req: Request, res: Response) => {
@@ -89,9 +89,9 @@ export const getCharacter = async (req: Request, res: Response) => {
         });
 
         if (character) {
-            const { idi_ma_seriesmovies, ...rest } = character.dataValues;
+            const { idi_ma_products, ...rest } = character.dataValues;
             const seriesMovies: string[] = [];
-            idi_ma_seriesmovies.map((e: { title: string }) => seriesMovies.push(e.title));
+            idi_ma_products.map((e: { title: string }) => seriesMovies.push(e.title));
             let resCharacter = {
                 ...rest,
                 image: processor(character, req),
@@ -152,14 +152,14 @@ export const editCharacter = async (req: Request, res: Response) => {
         }
         await character.update({ ...body, image: file?.filename });
 
-        const { idi_ma_seriesmovies, ...rest } = character.dataValues;
-        const seriesmovies: string[] = [];
-        idi_ma_seriesmovies.map((e: { title: string }) => seriesmovies.push(e.title));
+        const { idi_ma_products, ...rest } = character.dataValues;
+        const products: string[] = [];
+        idi_ma_products.map((e: { title: string }) => products.push(e.title));
 
         const characterUpdated = {
             ...rest,
             image: processor(character, req),
-            seriesmovies: seriesmovies
+            products: products
         }
         res.json(characterUpdated);
     } catch (error) {

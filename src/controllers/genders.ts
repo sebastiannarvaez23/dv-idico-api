@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 import fs from 'fs';
 import path from 'path';
 import Gender from '../models/gender';
-import SerieMovie from '../models/seriemovie';
+import SerieMovie from '../models/product';
 
 export const getGenders = async (req: Request, res: Response) => {
     try {

@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
-import SerieMovie from '../models/seriemovie';
+import SerieMovie from '../models/product';
 import Gender from '../models/gender';
 import Character from '../models/character';
-import '../models/characterseriemovie';
 import processor from '../utils/imgprocessors';
+import '../models/characterproduct';
 
-export const getSeriesMovies = async (req: Request, res: Response) => {
+export const getProducts = async (req: Request, res: Response) => {
     try {
         const { name, gender, order } = req.query;
         let whereClause: any = { deletedAt: null };
@@ -32,7 +32,7 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
             orderBy = [['created_date', 'DESC']];
         }
 
-        const seriesMovies = await SerieMovie.findAll({
+        const products = await SerieMovie.findAll({
             where: whereClause,
             attributes: {
                 exclude: [
@@ -57,7 +57,7 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
             order: orderBy
         });
 
-        const seriesMoviesImages = seriesMovies.map((seriemovie: any) => {
+        const productsResponse = products.map((seriemovie: any) => {
             const { id, ...rest } = seriemovie.dataValues;
             return {
                 ...rest,
@@ -66,7 +66,7 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
             };
         });
 
-        res.json({ seriesMovies: seriesMoviesImages });
+        res.json({ products: productsResponse });
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -75,11 +75,11 @@ export const getSeriesMovies = async (req: Request, res: Response) => {
     }
 }
 
-export const getSerieMovie = async (req: Request, res: Response) => {
+export const getProduct = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     try {
-        const serieMovie = await SerieMovie.findOne({
+        const product = await SerieMovie.findOne({
             where: {
                 id,
                 deletedAt: null
@@ -99,19 +99,19 @@ export const getSerieMovie = async (req: Request, res: Response) => {
             ],
             attributes: { exclude: ['deletedAt', 'gender_id'] }
         })
-        if (!serieMovie) {
+        if (!product) {
             res.status(404).json({
                 msg: 'La serie o película con el id ' + id + ' no existe.'
             })
         }
 
-        const { idi_ma_characters, ...rest } = serieMovie?.dataValues;
+        const { idi_ma_characters, ...rest } = product?.dataValues;
         const characters: string[] = [];
 
         idi_ma_characters.map((character: { name: string }) => characters.push(character.name));
         const response = {
             ...rest,
-            image: processor(serieMovie, req),
+            image: processor(product, req),
             characters
         };
         res.json(response);
@@ -123,7 +123,7 @@ export const getSerieMovie = async (req: Request, res: Response) => {
     }
 }
 
-export const createSerieMovie = async (req: Request, res: Response) => {
+export const createProduct = async (req: Request, res: Response) => {
 
     const { body, file } = req;
     try {
@@ -138,12 +138,12 @@ export const createSerieMovie = async (req: Request, res: Response) => {
     }
 }
 
-export const editSerieMovie = async (req: Request, res: Response) => {
+export const editProduct = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const { body, file } = req;
     try {
-        const serieMovie = await SerieMovie.findOne({
+        const product = await SerieMovie.findOne({
             where: {
                 id,
                 deletedAt: null
@@ -162,28 +162,28 @@ export const editSerieMovie = async (req: Request, res: Response) => {
                 }
             ]
         });
-        if (!serieMovie) {
+        if (!product) {
             return res.status(404).json({
                 msg: 'La serie o película con id ' + id + ' no existe.'
             });
         }
-        await serieMovie.update({ ...body, image: file?.filename });
+        await product.update({ ...body, image: file?.filename });
 
-        const { idi_ma_characters, ...rest } = serieMovie.dataValues;
+        const { idi_ma_characters, ...rest } = product.dataValues;
         const characters: string[] = [];
         idi_ma_characters.map((e: { name: string }) => characters.push(e.name));
 
         const date = new Date(rest.created_date);
         const formattedDate = date.toISOString().split('T')[0];
 
-        const serieMovieUpdated = {
+        const productUpdated = {
             ...rest,
             created_date: formattedDate,
-            image: processor(serieMovie, req),
+            image: processor(product, req),
             characters: characters
         };
 
-        res.json(serieMovieUpdated);
+        res.json(productUpdated);
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -192,23 +192,23 @@ export const editSerieMovie = async (req: Request, res: Response) => {
     }
 }
 
-export const deleteSerieMovie = async (req: Request, res: Response) => {
+export const deleteProduct = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     try {
-        const serieMovie = await SerieMovie.findOne({
+        const product = await SerieMovie.findOne({
             where: {
                 id,
                 deletedAt: null
             }
         });
-        if (!serieMovie) {
+        if (!product) {
             return res.status(404).json({
                 msg: 'La serie o película con id ' + id + ' no existe.'
             });
         }
-        await serieMovie.destroy();
-        res.json(serieMovie);
+        await product.destroy();
+        res.json(product);
     } catch (error) {
         console.log(error);
         res.status(500).json({
