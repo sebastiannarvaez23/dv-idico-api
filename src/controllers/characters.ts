@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 import fs from 'fs';
 import path from 'path';
 import Character from '../models/character';
-import SerieMovie from '../models/product';
+import Product from '../models/product';
 import processor from '../utils/imgprocessors';
 
 export const getCharacters = async (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ export const getCharacters = async (req: Request, res: Response) => {
         if (movies) {
             const charactersWithMovie = await Character.findAll({
                 include: [{
-                    model: SerieMovie,
+                    model: Product,
                     where: { title: movies }
                 }],
                 attributes: ['id']
@@ -81,7 +81,7 @@ export const getCharacter = async (req: Request, res: Response) => {
                 deletedAt: null
             },
             include: {
-                model: SerieMovie,
+                model: Product,
                 attributes: ['title'],
                 through: { attributes: [] }
             },
@@ -90,12 +90,12 @@ export const getCharacter = async (req: Request, res: Response) => {
 
         if (character) {
             const { idi_ma_products, ...rest } = character.dataValues;
-            const seriesMovies: string[] = [];
-            idi_ma_products.map((e: { title: string }) => seriesMovies.push(e.title));
+            const products: string[] = [];
+            idi_ma_products.map((e: { title: string }) => products.push(e.title));
             let resCharacter = {
                 ...rest,
                 image: processor(character, req),
-                seriesMovies: seriesMovies
+                products: products
             }
 
             res.json(resCharacter);
@@ -128,40 +128,40 @@ export const createCharacter = async (req: Request, res: Response) => {
     }
 }
 
-export const editCharacter = async (req: Request, res: Response) => {
+export const updateCharacter = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const { body, file } = req;
     try {
-        const character = await Character.findOne({
-            where: {
-                id,
-                deletedAt: null
-            },
-            attributes: { exclude: ['deletedAt'] },
-            include: {
-                model: SerieMovie,
-                attributes: ['title'],
-                through: { attributes: [] }
-            }
-        });
+        const character = await Character.findOne({ where: { id } });
         if (!character) {
             return res.status(404).json({
                 msg: 'El Personaje con id ' + id + ' no existe.'
             });
         }
         await character.update({ ...body, image: file?.filename });
-
-        const { idi_ma_products, ...rest } = character.dataValues;
+        const characterUpdated = await Character.findOne({
+            where: {
+                id,
+                deletedAt: null
+            },
+            attributes: { exclude: ['deletedAt'] },
+            include: {
+                model: Product,
+                attributes: ['title'],
+                through: { attributes: [] }
+            }
+        });
+        const { idi_ma_products, ...rest } = characterUpdated?.dataValues;
         const products: string[] = [];
         idi_ma_products.map((e: { title: string }) => products.push(e.title));
 
-        const characterUpdated = {
+        const characterResponse = {
             ...rest,
-            image: processor(character, req),
+            image: processor(characterUpdated, req),
             products: products
         }
-        res.json(characterUpdated);
+        res.json(characterResponse);
     } catch (error) {
         console.log(error);
         res.status(500).json({

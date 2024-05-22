@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import db from '../db/conn';
-import SerieMovie from './product'; // Importar SerieMovie al principio
-import CharacterSerieMovie from './characterproduct';
+import Product from './product'; // Importar Product al principio
+import CharacterProduct from './characterproduct';
 
 const Character = db.define('idi_ma_character', {
     image: {

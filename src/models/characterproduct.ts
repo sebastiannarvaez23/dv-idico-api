@@ -8,7 +8,7 @@ const CharacterProduct = db.define('idi_re_characters_products', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    seriemovie_id: {
+    product_id: {
         type: DataTypes.INTEGER,
         allowNull: false
     }

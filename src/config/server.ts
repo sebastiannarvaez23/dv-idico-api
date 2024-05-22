@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import characterRoutes from '../routes/character';
-import serieMoviesRoutes from '../routes/seriemovie';
+import productsRoutes from '../routes/product';
 import gendersRoutes from '../routes/gender';
 import authRoutes from '../routes/auth';
 import jwtMiddleware from '../auth/jwt-middleware';
@@ -14,7 +14,7 @@ class Server {
     private port: string;
     private apiPaths = {
         characters: '/api/character',
-        seriesMovies: '/api/product',
+        products: '/api/product',
         genders: '/api/gender',
         login: '/api/auth',
     }
@@ -45,7 +45,7 @@ class Server {
 
     routes() {
         this.app.use(this.apiPaths.characters, jwtMiddleware, characterRoutes);
-        this.app.use(this.apiPaths.seriesMovies, jwtMiddleware, serieMoviesRoutes);
+        this.app.use(this.apiPaths.products, jwtMiddleware, productsRoutes);
         this.app.use(this.apiPaths.genders, jwtMiddleware, gendersRoutes);
 
         this.app.use(this.apiPaths.login, authRoutes);

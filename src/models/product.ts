@@ -3,7 +3,7 @@ import db from '../db/conn';
 import Gender from './gender';
 import Kind from './kind';
 
-const SerieMovie = db.define('idi_ma_products', {
+const Product = db.define('idi_ma_products', {
     title: {
         type: DataTypes.STRING
     },
@@ -26,7 +26,7 @@ const SerieMovie = db.define('idi_ma_products', {
     paranoid: true
 });
 
-SerieMovie.belongsTo(Gender, { foreignKey: 'gender_id', as: 'gender' });
-SerieMovie.belongsTo(Kind, { foreignKey: 'kind_id', as: 'kind' });
+Product.belongsTo(Gender, { foreignKey: 'gender_id', as: 'gender' });
+Product.belongsTo(Kind, { foreignKey: 'kind_id', as: 'kind' });
 
-export default SerieMovie;
+export default Product;
