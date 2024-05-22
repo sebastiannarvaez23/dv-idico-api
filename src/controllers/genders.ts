@@ -1,10 +1,5 @@
 import { Request, Response } from 'express';
-import sequelize from './../db/conn';
-import { Op } from 'sequelize';
-import fs from 'fs';
-import path from 'path';
 import Gender from '../models/gender';
-import Product from '../models/product';
 import processor from '../utils/imgprocessors';
 
 export const getGenders = async (req: Request, res: Response) => {

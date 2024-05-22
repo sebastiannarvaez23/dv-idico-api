@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 import sequelize from './../db/conn';
 import { Op } from 'sequelize';
-import fs from 'fs';
-import path from 'path';
 import Character from '../models/character';
 import Product from '../models/product';
 import processor from '../utils/imgprocessors';
