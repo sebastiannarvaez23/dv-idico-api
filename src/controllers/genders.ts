@@ -59,7 +59,7 @@ export const createGender = async (req: Request, res: Response) => {
     }
 }
 
-export const editGender = async (req: Request, res: Response) => {
+export const updateGender = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const { body } = req;
