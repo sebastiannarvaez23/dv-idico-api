@@ -5,7 +5,7 @@ import productsRoutes from '../routes/product';
 import gendersRoutes from '../routes/gender';
 import authRoutes from '../routes/auth';
 import jwtMiddleware from '../auth/jwt-middleware';
-import db from '../db/conn';
+import db from './db/conn';
 import path from 'path';
 
 class Server {

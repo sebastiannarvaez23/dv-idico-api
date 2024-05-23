@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import db from '../db/conn';
+import db from '../config/db/conn';
 
 const Gender = db.define('idi_ma_genders', {
     name: {

@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import db from '../db/conn';
+import db from '../config/db/conn';
 import Gender from './gender';
 import Kind from './kind';
 

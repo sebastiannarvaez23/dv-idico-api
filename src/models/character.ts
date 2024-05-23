@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import db from '../db/conn';
+import db from '../config/db/conn';
 import Product from './product'; // Importar Product al principio
 import CharacterProduct from './characterproduct';
 

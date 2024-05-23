@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import sequelize from './../db/conn';
+import sequelize from '../config/db/conn';
 import { Op } from 'sequelize';
 import Character from '../models/character';
 import Product from '../models/product';
