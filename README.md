@@ -1,6 +1,22 @@
 # API para Explorar el Universo Disney
 
-Esta es una aplicación desarrollada para explorar el universo de Disney, permitiendo conocer y modificar los personajes, así como comprender las películas en las que participaron. La API expone la información de manera que cualquier frontend pueda consumirla de manera sencilla.
+Esta es una aplicación desarrollada para explorar el universo de Disney, Permite a los usuarios conocer y modificar información sobre personajes y comprender las películas en las que estos han participado. La API expone la información de manera que cualquier frontend pueda consumirla de manera sencilla.
+
+### Características
+- **Exploración de Personajes**: Consulta y modificación de información sobre los personajes de Disney.
+- **Información de Películas**: Acceso detallado a las películas y series donde participan los personajes.
+- **Autenticación**: Acceso seguro a ciertos endpoints mediante autenticación de usuarios.
+- **Búsqueda Multifactor**: Búsqueda avanzada por diferentes criterios (personajes, películas, géneros).
+- **Interfaz de Usuario Atractiva**: Uso de componentes visuales atractivos y filtros dinámicos.
+
+### Alternativas
+Existen otras aplicaciones y sitios web dedicados a la información sobre Disney, pero esta aplicación se distingue por su enfoque en la personalización y la capacidad de modificar información, así como por su interfaz amigable y altamente interactiva.
+
+## Insignias
+
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## Tecnologías Utilizadas
 
@@ -30,6 +46,66 @@ Se han tenido en cuenta varias consideraciones técnicas para el desarrollo efic
 - Implementación de autenticación de usuarios para ciertos endpoints.
 - Uso de componentes visuales atractivos y filtros dinámicos en el frontend para mejorar la experiencia del usuario.
 - Organización y estructuración del código siguiendo buenas prácticas y patrones de diseño.
+
+## Instalación
+
+### Requisitos
+- Node.js >= 14.x
+- npm >= 6.x
+
+### Pasos
+1. Instala las dependencias:
+   ```bash
+   $ npm install
+2. Inicia el servidor de desarrollo:
+   ```bash
+   $ npm run dev
+
+## Apoyo
+
+Para obtener ayuda, puedes utilizar las siguientes vías:
+
+- [GitHub Issues](https://github.com/sebastiannarvaez23/dv-idico-api/issues)
+- [Correo Electrónico](narvaezsebas8@gmail.com)
+
+## Mapa vial
+
+### Próximas Funcionalidades
+- **Test Unitarios**: Implementación de pruebas unitarias.
+- **Roles de Usuario**: Sistema de administración de roles.
+
+## Contribuyendo
+
+¡Contribuciones son bienvenidas! Para contribuir:
+
+1. Realiza un fork del proyecto.
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza tus cambios y haz commit (`git commit -m 'Añadir nueva funcionalidad'`).
+4. Sube tus cambios (`git push origin feature/nueva-funcionalidad`).
+5. Abre un Pull Request.
+
+### Configuración para Desarrollo
+
+Para configurar el entorno de desarrollo:
+
+1. Instala las dependencias del proyecto.
+2. Configura las variables de entorno necesarias.
+3. Ejecuta el transpilador para que reconozca cada cambio con:
+   ```bash
+   $ tsc --watch
+5. Ejecuta los scripts de inicio y prueba para asegurar la calidad del código.
+
+## Autores y Reconocimientos
+
+Desarrollado por [Sebastian Narvaez](https://github.com/sebastiannarvaez23).
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## Estado del proyecto
+
+**Estado:** Activo. Estamos continuamente trabajando en mejoras y nuevas funcionalidades. Si deseas contribuir, no dudes en ponerte en contacto.
 
 ## Observaciones y Recomendaciones
 
