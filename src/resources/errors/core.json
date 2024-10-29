@@ -1,0 +1,107 @@
+{
+    "000000": {
+        "serverStatusCode": 500,
+        "messageClient": "An unexpected error occurred",
+        "messageLog": "An unexpected error occurred"
+    },
+    "000001": {
+        "serverStatusCode": 500,
+        "messageClient": "Error storing the token",
+        "messageLog": "Error storing the token"
+    },
+    "000002": {
+        "serverStatusCode": 500,
+        "messageClient": "Error retrieving the token",
+        "messageLog": "Error retrieving the token"
+    },
+    "000003": {
+        "serverStatusCode": 400,
+        "messageClient": "No token provided",
+        "messageLog": "No token provided"
+    },
+    "000004": {
+        "serverStatusCode": 500,
+        "messageClient": "Error deleting the token",
+        "messageLog": "Error deleting the token"
+    },
+    "000005": {
+        "serverStatusCode": 404,
+        "messageClient": "Token not found",
+        "messageLog": "Token not found"
+    },
+    "000006": {
+        "serverStatusCode": 401,
+        "messageClient": "Token expired",
+        "messageLog": "Token expired"
+    },
+    "000007": {
+        "serverStatusCode": 401,
+        "messageClient": "Invalid token",
+        "messageLog": "Invalid token"
+    },
+    "000008": {
+        "serverStatusCode": 400,
+        "messageClient": "Invalid UUID format",
+        "messageLog": "Invalid UUID format"
+    },
+    "000009": {
+        "serverStatusCode": 400,
+        "messageClient": "A record with the same data already exists. Please verify the information provided.",
+        "messageLog": "Unique constraint violation: A record with the same unique field(s) already exists"
+    },
+    "000010": {
+        "serverStatusCode": 403,
+        "messageClient": "Access denied. Not authorized.",
+        "messageLog": "Access denied. Not authorized"
+    },
+    "000011": {
+        "serverStatusCode": 403,
+        "messageClient": "Access denied. You do not have permissions for this service.",
+        "messageLog": "Access denied. You do not have permissions for this service"
+    },
+    "000012": {
+        "serverStatusCode": 400,
+        "messageClient": "Foreign key violation.",
+        "messageLog": "Foreign key violation"
+    },
+    "000013": {
+        "serverStatusCode": 401,
+        "messageClient": "Reset pass token expired.",
+        "messageLog": "Reset pass token expired"
+    },
+    "000014": {
+        "serverStatusCode": 401,
+        "messageClient": "The user associated with the token does not exist.",
+        "messageLog": "The user associated with the token does not exist"
+    },
+    "000015": {
+        "serverStatusCode": 401,
+        "messageClient": "Invalid expiry time.",
+        "messageLog": "Invalid expiry time token"
+    },
+    "000017": {
+        "serverStatusCode": 401,
+        "messageClient": "Invalid or revoked token.",
+        "messageLog": "Token is invalid, expired, or has been revoked."
+    },
+    "000018": {
+        "serverStatusCode": 500,
+        "messageClient": "Failed to revoke token.",
+        "messageLog": "An internal error occurred while attempting to revoke the token."
+    },
+    "000019": {
+        "serverStatusCode": 400,
+        "messageClient": "client_id and client_secret are required.",
+        "messageLog": "client_id and client_secret are required."
+    },
+    "000020": {
+        "serverStatusCode": 401,
+        "messageClient": "invalid Client.",
+        "messageLog": "invalid Client."
+    },
+    "000021": {
+        "serverStatusCode": 400,
+        "messageClient": "The parameter was not expected.",
+        "messageLog": "The parameter was not expected."
+    }
+}
