@@ -1,0 +1,7 @@
+{
+    "050001": {
+        "serverStatusCode": 404,
+        "messageClient": "Character not found",
+        "messageLog": "Character not found"
+    }
+}
