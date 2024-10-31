@@ -1,17 +1,16 @@
 import { Optional, UniqueConstraintError } from "sequelize";
 
+import { CharacterEntity } from "../../../../../lib-entities/characters/character/character.entity";
+import { CharacterModel } from "../../domain/models/character.model";
+import { CharactersRepository } from "../../domain/repositories/character.repository";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
-import { RoleEntity } from "../../../../../lib-entities/security/role.entity";
-import { RoleModel } from "../../domain/models/role.model";
-import { RolesRepository } from "../../domain/repositories/roles.repository";
-import { ServiceModel } from "../../../service/domain/models/service.model";
 
-export class RolesRepositoryImpl implements RolesRepository {
+export class CharactersRepositoryImpl implements CharactersRepository {
 
-    async getList(queryParams: QueryParams): Promise<{ rows: RoleModel[]; count: number; }> {
+    async getList(queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
         try {
-            return await RoleModel.findAndCountAll({
+            return await CharacterModel.findAndCountAll({
                 where: queryParams.filters,
                 order: [["createdAt", "desc"]],
                 limit: queryParams.limit,
@@ -19,13 +18,6 @@ export class RolesRepositoryImpl implements RolesRepository {
                 attributes: {
                     exclude: ['updatedAt', 'deletedAt']
                 },
-                include: [{
-                    model: ServiceModel,
-                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
-                    through: {
-                        attributes: []
-                    }
-                }],
             });
         } catch (e) {
             console.debug(e);
@@ -33,23 +25,12 @@ export class RolesRepositoryImpl implements RolesRepository {
         }
     }
 
-    async get(id: string): Promise<RoleModel | null> {
+    async get(id: string): Promise<CharacterModel | null> {
         try {
-            const person = await RoleModel.findOne(
-                {
-                    where: { id },
-                    include: [
-                        {
-                            model: ServiceModel,
-                            attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
-                            through: {
-                                attributes: []
-                            }
-                        }
-                    ]
-                });
+            const person = await CharacterModel.findOne(
+                { where: { id } });
             if (!person) {
-                throw new HttpError("030001");
+                throw new HttpError("050001");
             }
             return person;
         } catch (error) {
@@ -57,9 +38,9 @@ export class RolesRepositoryImpl implements RolesRepository {
         }
     }
 
-    async add(person: RoleEntity): Promise<RoleModel> {
+    async add(person: CharacterEntity): Promise<CharacterModel> {
         try {
-            return await RoleModel.create(
+            return await CharacterModel.create(
                 person as Optional<any, string>);
         } catch (error) {
             if (error instanceof UniqueConstraintError) {
@@ -69,90 +50,32 @@ export class RolesRepositoryImpl implements RolesRepository {
         }
     }
 
-    async edit(id: string, person: RoleEntity): Promise<RoleModel> {
+    async edit(id: string, person: CharacterEntity): Promise<CharacterModel> {
         try {
-            const [affectRows, editedPerson] = await RoleModel.update(
+            const [affectRows, editedPerson] = await CharacterModel.update(
                 person as Optional<any, string>, {
                 where: {
                     id: id,
                 },
                 returning: true
             });
-            if (!editedPerson[0]) throw new HttpError("030001")
+            if (!editedPerson[0]) throw new HttpError("050001")
             return editedPerson[0];
         } catch (error) {
             throw error;
         }
     }
 
-    async delete(id: string): Promise<RoleModel> {
+    async delete(id: string): Promise<CharacterModel> {
         try {
-            const personToDelete = await RoleModel.findOne({
+            const personToDelete = await CharacterModel.findOne({
                 where: { id: id }
             });
             if (!personToDelete) {
-                throw new HttpError("030001");
+                throw new HttpError("050001");
             }
             await personToDelete.destroy();
             return personToDelete;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async addServiceAssignment(roleId: string, services: string[]): Promise<RoleModel> {
-        try {
-
-            let role = await RoleModel.findOne({
-                where: { id: roleId }
-            });
-
-            const serviceInstances = await ServiceModel.findAll({
-                where: { id: services }
-            });
-
-            if (!role) throw new HttpError("030001");
-            if (serviceInstances.length !== services.length) throw new HttpError("040002");
-
-            await role.$add('services', serviceInstances);
-
-            role = await RoleModel.findOne({
-                where: { id: roleId },
-                include: [ServiceModel],
-            });
-            if (!role) throw new HttpError("030001");
-
-            return role;
-
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async deleteServiceAssignment(roleId: string, services: string[]): Promise<RoleModel> {
-        try {
-
-            let role = await RoleModel.findOne({
-                where: { id: roleId }
-            });
-
-            const serviceInstances = await ServiceModel.findAll({
-                where: { id: services }
-            });
-
-            if (!role) throw new HttpError("030001");
-            if (serviceInstances.length !== services.length) throw new HttpError("040002");
-
-            await role.$remove('services', serviceInstances);
-
-            role = await RoleModel.findOne({
-                where: { id: roleId },
-                include: [ServiceModel],
-            });
-            if (!role) throw new HttpError("030001");
-
-            return role;
-
         } catch (error) {
             throw error;
         }

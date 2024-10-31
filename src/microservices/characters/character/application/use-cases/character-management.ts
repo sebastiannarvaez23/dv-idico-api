@@ -1,15 +1,15 @@
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { RoleEntity } from "../../../../../lib-entities/security/role.entity";
-import { RoleModel } from "../../domain/models/role.model";
-import { RolesRepository } from "../../domain/repositories/roles.repository";
+import { CharacterModel } from "../../domain/models/character.model";
+import { CharactersRepository } from "../../domain/repositories/character.repository";
 
-export class RoleManagement {
+export class CharacterManagement {
 
     constructor(
-        private readonly _rolesRepository: RolesRepository
+        private readonly _rolesRepository: CharactersRepository
     ) { }
 
-    async getList(queryParams: QueryParams): Promise<{ rows: RoleModel[]; count: number; }> {
+    async getList(queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
         try {
             return await this._rolesRepository.getList(queryParams);
         } catch (e) {
@@ -17,7 +17,7 @@ export class RoleManagement {
         }
     }
 
-    async get(id: string): Promise<RoleModel | null> {
+    async get(id: string): Promise<CharacterModel | null> {
         try {
             return await this._rolesRepository.get(id);
         } catch (e) {
@@ -42,27 +42,9 @@ export class RoleManagement {
         }
     }
 
-    async delete(id: string): Promise<RoleModel | null> {
+    async delete(id: string): Promise<CharacterModel | null> {
         try {
             const resultRole = await this._rolesRepository.delete(id);
-            return resultRole;
-        } catch (e) {
-            throw e;
-        }
-    }
-
-    async addServiceAssignment(id: string, services: { services: string[] }): Promise<RoleModel | null> {
-        try {
-            const resultRole = await this._rolesRepository.addServiceAssignment(id, services.services);
-            return resultRole;
-        } catch (e) {
-            throw e;
-        }
-    }
-
-    async deleteServiceAssignment(id: string, services: { services: string[] }): Promise<RoleModel | null> {
-        try {
-            const resultRole = await this._rolesRepository.deleteServiceAssignment(id, services.services);
             return resultRole;
         } catch (e) {
             throw e;

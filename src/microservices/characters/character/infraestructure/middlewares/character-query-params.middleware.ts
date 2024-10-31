@@ -1,9 +1,9 @@
 import { Op } from "sequelize";
 
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
-import { RolListParams } from "../../../../../lib-entities/security/role-qlist.entity";
+import { CharacterListParams } from "../../../../../lib-entities/characters/character/character-qlist.entity";
 
-export function buildRolListQueryParams(data: RolListParams): QueryParams {
+export function buildCharacterListQueryParams(data: CharacterListParams): QueryParams {
 
     const LIST_PAGINATION_LIMIT = Number(process.env.LIST_PAGINATION_LIMIT!);
 

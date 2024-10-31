@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-export class RolSerialzerMiddleware {
+export class CharacterSerialzerMiddleware {
     add() {
         return (req: Request, res: Response, next: NextFunction) => {
             req.body.createdBy = req.user!.id;

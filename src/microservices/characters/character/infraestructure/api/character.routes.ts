@@ -1,51 +1,39 @@
 import express from "express";
 
-import { buildRolListQueryParams } from "../middlewares/character-query-params.middleware";
-import { roleController, roleMiddleware, authMiddleware, authorizationMiddleware, queryParamsMiddleware, rolSerialzerMiddleware } from "../../../dependencies";
-import { RolListValidator } from "../../application/validations/character-qlist.validator";
+import { authMiddleware, authorizationMiddleware, characterController, characterMiddleware, characterSerialzerMiddleware, queryParamsMiddleware } from "../../../dependencies";
+import { buildCharacterListQueryParams } from "../middlewares/character-query-params.middleware";
+import { CharacterListValidator } from "../../application/validations/character-qlist.validator";
 
-const rolesRoutes = express.Router();
+const charactersRoutes = express.Router();
 
-rolesRoutes.get("/",
+charactersRoutes.get("/",
     authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0301'),
-    queryParamsMiddleware.queryValidationMiddleware(new RolListValidator(), buildRolListQueryParams),
-    roleController.getList.bind(roleController));
+    authorizationMiddleware.checkAccess('0501'),
+    queryParamsMiddleware.queryValidationMiddleware(new CharacterListValidator(), buildCharacterListQueryParams),
+    characterController.getList.bind(characterController));
 
-rolesRoutes.get("/:id",
+charactersRoutes.get("/:id",
     authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0302'),
-    roleController.get.bind(roleController));
+    authorizationMiddleware.checkAccess('0502'),
+    characterController.get.bind(characterController));
 
-rolesRoutes.post("/",
+charactersRoutes.post("/",
     authMiddleware.authenticateToken,
-    roleMiddleware.validateAdd.bind(roleMiddleware),
-    authorizationMiddleware.checkAccess('0303'),
-    rolSerialzerMiddleware.add(),
-    roleController.add.bind(roleController));
+    characterMiddleware.validateAdd.bind(characterMiddleware),
+    authorizationMiddleware.checkAccess('0503'),
+    characterSerialzerMiddleware.add(),
+    characterController.add.bind(characterController));
 
-rolesRoutes.put("/:id",
+charactersRoutes.put("/:id",
     authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0304'),
-    roleMiddleware.validateEdit.bind(roleMiddleware),
-    rolSerialzerMiddleware.edit(),
-    roleController.edit.bind(roleController));
+    authorizationMiddleware.checkAccess('0504'),
+    characterMiddleware.validateEdit.bind(characterMiddleware),
+    characterSerialzerMiddleware.edit(),
+    characterController.edit.bind(characterController));
 
-rolesRoutes.delete("/:id",
+charactersRoutes.delete("/:id",
     authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0305'),
-    roleController.delete.bind(roleController));
+    authorizationMiddleware.checkAccess('0505'),
+    characterController.delete.bind(characterController));
 
-rolesRoutes.post("/service-assignment/:id",
-    authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0306'),
-    roleMiddleware.validateRolAddorDeleteServiceAssignment.bind(roleMiddleware),
-    roleController.addServiceAssignment.bind(roleController));
-
-rolesRoutes.delete("/service-assignment/:id",
-    authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0307'),
-    roleMiddleware.validateRolAddorDeleteServiceAssignment.bind(roleMiddleware),
-    roleController.deleteServiceAssignment.bind(roleController));
-
-export default rolesRoutes;
+export default charactersRoutes;
