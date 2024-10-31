@@ -1,11 +1,12 @@
 const { EncryptionUtil } = require('../dist/lib-core/utils/encryption.util');
 
+const { createTableCharacters } = require('./tables/characters.js');
 const { createTableOAuthClients } = require('./tables/oauth-clients.js');
-const { createTableUsers } = require('./tables/users.js');
-const { createTableRoles } = require('./tables/roles.js');
 const { createTablePersons } = require('./tables/persons.js');
-const { createTableServices } = require('./tables/services.js');
+const { createTableRoles } = require('./tables/roles.js');
 const { createTableRolesServices } = require('./tables/roles-services.js');
+const { createTableServices } = require('./tables/services.js');
+const { createTableUsers } = require('./tables/users.js');
 
 const { bulkInsertOAuthClients } = require('./bulk/oauth-clients.js');
 const { bulkInsertUsers } = require('./bulk/users.js');
@@ -30,6 +31,7 @@ module.exports = {
     await createTablePersons(queryInterface, Sequelize);
     await createTableServices(queryInterface, Sequelize);
     await createTableRolesServices(queryInterface, Sequelize);
+    await createTableCharacters(queryInterface, Sequelize);
 
     // Data initial migration
 
