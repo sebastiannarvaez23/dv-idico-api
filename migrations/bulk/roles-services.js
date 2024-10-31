@@ -76,5 +76,25 @@ module.exports.bulkInsertRolesServices = async (queryInterface) => {
             service_id: 'e4031627-c90d-4ca0-9ec9-dacd5037fab0',
             role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
         },
+        {
+            service_id: 'f989a389-79de-4c42-a0d7-cce4b8200abc',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '647a3059-491a-4601-9d19-6edf8462f1d1',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: 'e029322f-e798-45c7-bb16-74ee3a7e9c13',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: 'c58a704f-3a90-4e5b-a378-81aff194d172',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: 'b6b941ea-3307-4056-967d-2895f6371eb0',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
     ]);
 }
