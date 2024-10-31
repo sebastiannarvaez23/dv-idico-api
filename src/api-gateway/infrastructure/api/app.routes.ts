@@ -8,6 +8,7 @@ import personsRoutes from "../../../microservices/users/person/infrastructure/ap
 import rolesRoutes from "../../../microservices/security/role/infraestructure/api/roles.routes";
 import servicesRoutes from "../../../microservices/security/service/infraestructure/api/service.routes";
 import usersRoutes from "../../../microservices/users/user/infrastructure/api/users.routes";
+import charactersRoutes from "../../../microservices/characters/character/infraestructure/api/character.routes";
 
 export class AppRoutes {
 
@@ -37,6 +38,10 @@ export class AppRoutes {
     {
       path: `${this.base}/service`,
       router: servicesRoutes
+    },
+    {
+      path: `${this.base}/character`,
+      router: charactersRoutes
     },
   ];
 
