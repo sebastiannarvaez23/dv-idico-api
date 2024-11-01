@@ -27,21 +27,21 @@ export class CharactersRepositoryImpl implements CharactersRepository {
 
     async get(id: string): Promise<CharacterModel | null> {
         try {
-            const person = await CharacterModel.findOne(
+            const character = await CharacterModel.findOne(
                 { where: { id } });
-            if (!person) {
+            if (!character) {
                 throw new HttpError("050001");
             }
-            return person;
+            return character;
         } catch (error) {
             throw error;
         }
     }
 
-    async add(person: CharacterEntity): Promise<CharacterModel> {
+    async add(character: CharacterEntity): Promise<CharacterModel> {
         try {
             return await CharacterModel.create(
-                person as Optional<any, string>);
+                character as Optional<any, string>);
         } catch (error) {
             if (error instanceof UniqueConstraintError) {
                 throw error;
@@ -50,10 +50,10 @@ export class CharactersRepositoryImpl implements CharactersRepository {
         }
     }
 
-    async edit(id: string, person: CharacterEntity): Promise<CharacterModel> {
+    async edit(id: string, character: CharacterEntity): Promise<CharacterModel> {
         try {
             const [affectRows, editedPerson] = await CharacterModel.update(
-                person as Optional<any, string>, {
+                character as Optional<any, string>, {
                 where: {
                     id: id,
                 },
@@ -68,14 +68,14 @@ export class CharactersRepositoryImpl implements CharactersRepository {
 
     async delete(id: string): Promise<CharacterModel> {
         try {
-            const personToDelete = await CharacterModel.findOne({
+            const characterToDelete = await CharacterModel.findOne({
                 where: { id: id }
             });
-            if (!personToDelete) {
+            if (!characterToDelete) {
                 throw new HttpError("050001");
             }
-            await personToDelete.destroy();
-            return personToDelete;
+            await characterToDelete.destroy();
+            return characterToDelete;
         } catch (error) {
             throw error;
         }
