@@ -5,6 +5,7 @@ import { Sequelize, SequelizeOptions } from "sequelize-typescript";
 import { CharacterModel } from "../microservices/characters/character/domain/models/character.model";
 import { OAuthClientModel } from "../microservices/auth/domain/models/o-auth-client.model";
 import { PersonModel } from "../microservices/users/person/domain/models/person.model";
+import { ProductModel } from "../microservices/products/product/domain/models/product.model";
 import { RoleModel } from "../microservices/security/role/domain/models/role.model";
 import { RoleServiceModel } from "../microservices/security/role/domain/models/role-service.model";
 import { ServiceModel } from "../microservices/security/service/domain/models/service.model";
@@ -36,7 +37,8 @@ export class DatabaseConfig {
                 RoleModel,
                 ServiceModel,
                 RoleServiceModel,
-                CharacterModel
+                CharacterModel,
+                ProductModel
             ],
         };
 
