@@ -35,7 +35,7 @@ export class RolesRepositoryImpl implements RolesRepository {
 
     async get(id: string): Promise<RoleModel | null> {
         try {
-            const person = await RoleModel.findOne(
+            const role = await RoleModel.findOne(
                 {
                     where: { id },
                     include: [
@@ -48,19 +48,19 @@ export class RolesRepositoryImpl implements RolesRepository {
                         }
                     ]
                 });
-            if (!person) {
+            if (!role) {
                 throw new HttpError("030001");
             }
-            return person;
+            return role;
         } catch (error) {
             throw error;
         }
     }
 
-    async add(person: RoleEntity): Promise<RoleModel> {
+    async add(role: RoleEntity): Promise<RoleModel> {
         try {
             return await RoleModel.create(
-                person as Optional<any, string>);
+                role as Optional<any, string>);
         } catch (error) {
             if (error instanceof UniqueConstraintError) {
                 throw error;
@@ -69,10 +69,10 @@ export class RolesRepositoryImpl implements RolesRepository {
         }
     }
 
-    async edit(id: string, person: RoleEntity): Promise<RoleModel> {
+    async edit(id: string, role: RoleEntity): Promise<RoleModel> {
         try {
             const [affectRows, editedPerson] = await RoleModel.update(
-                person as Optional<any, string>, {
+                role as Optional<any, string>, {
                 where: {
                     id: id,
                 },
@@ -87,14 +87,14 @@ export class RolesRepositoryImpl implements RolesRepository {
 
     async delete(id: string): Promise<RoleModel> {
         try {
-            const personToDelete = await RoleModel.findOne({
+            const roleToDelete = await RoleModel.findOne({
                 where: { id: id }
             });
-            if (!personToDelete) {
+            if (!roleToDelete) {
                 throw new HttpError("030001");
             }
-            await personToDelete.destroy();
-            return personToDelete;
+            await roleToDelete.destroy();
+            return roleToDelete;
         } catch (error) {
             throw error;
         }

@@ -25,17 +25,17 @@ export class RoleManagement {
         }
     }
 
-    async add(person: RoleEntity): Promise<RoleEntity | null> {
+    async add(role: RoleEntity): Promise<RoleEntity | null> {
         try {
-            return await this._rolesRepository.add(person);
+            return await this._rolesRepository.add(role);
         } catch (e) {
             throw e;
         }
     }
 
-    async edit(id: string, person: RoleEntity): Promise<RoleEntity | null> {
+    async edit(id: string, role: RoleEntity): Promise<RoleEntity | null> {
         try {
-            const resultRole = await this._rolesRepository.edit(id, person);
+            const resultRole = await this._rolesRepository.edit(id, role);
             return resultRole;
         } catch (e) {
             throw e;
