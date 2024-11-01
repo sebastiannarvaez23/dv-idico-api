@@ -1,8 +1,8 @@
 import { BaseValidator } from "../../../../../lib-core/middlewares/validators/validation.middleware";
 import { isRequired, isString, maxLength } from "../../../../../lib-core/middlewares/validators/validation.type";
-import { RoleEntity } from "../../../../../lib-entities/security/role.entity";
+import { KindEntity } from "../../../../../lib-entities/products/kind/kind.entity";
 
-export class RoleEditValidator extends BaseValidator<RoleEntity> {
+export class KindEditValidator extends BaseValidator<KindEntity> {
     constructor() {
         super({
             name: [isRequired, isString, maxLength(70)]
