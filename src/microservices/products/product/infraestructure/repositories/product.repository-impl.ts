@@ -30,7 +30,7 @@ export class ProductsRepositoryImpl implements ProductsRepository {
             const product = await ProductModel.findOne(
                 { where: { id }, });
             if (!product) {
-                throw new HttpError("030001");
+                throw new HttpError("060001");
             }
             return product;
         } catch (error) {
@@ -59,7 +59,7 @@ export class ProductsRepositoryImpl implements ProductsRepository {
                 },
                 returning: true
             });
-            if (!editedPerson[0]) throw new HttpError("030001")
+            if (!editedPerson[0]) throw new HttpError("060001")
             return editedPerson[0];
         } catch (error) {
             throw error;
@@ -72,7 +72,7 @@ export class ProductsRepositoryImpl implements ProductsRepository {
                 where: { id: id }
             });
             if (!productToDelete) {
-                throw new HttpError("030001");
+                throw new HttpError("060001");
             }
             await productToDelete.destroy();
             return productToDelete;
