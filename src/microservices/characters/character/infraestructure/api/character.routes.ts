@@ -21,9 +21,9 @@ charactersRoutes.get("/:id",
 
 charactersRoutes.post("/",
     authMiddleware.authenticateToken,
-    //characterMiddleware.validateAdd.bind(characterMiddleware),
     authorizationMiddleware.checkAccess('0503'),
     upload.single('image'),
+    characterMiddleware.validateAdd.bind(characterMiddleware),
     characterSerialzerMiddleware.add(),
     characterController.add.bind(characterController));
 
