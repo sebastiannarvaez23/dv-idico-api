@@ -9,7 +9,7 @@ export class CharactersController {
 
     constructor(
         private readonly _characterManagement: CharacterManagement,
-        private readonly _handlerError: ErrorHandlerUtil
+        private readonly _handlerError: ErrorHandlerUtil,
     ) { }
 
     async getList(req: Request, res: Response) {
@@ -32,7 +32,7 @@ export class CharactersController {
 
     async add(req: Request, res: Response) {
         try {
-            const result = await this._characterManagement.add(req.body);
+            const result = await this._characterManagement.add(req.file!, { ...req.body });
             res.status(200).json(result);
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);

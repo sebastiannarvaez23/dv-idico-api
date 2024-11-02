@@ -1,10 +1,12 @@
 import express from "express";
+import multer from "multer";
 
-import { authMiddleware, authorizationMiddleware, characterController, characterMiddleware, characterSerialzerMiddleware, queryParamsMiddleware } from "../../../dependencies";
+import { authMiddleware, authorizationMiddleware, characterController, characterMiddleware, characterSerialzerMiddleware, queryParamsMiddleware, minioConfig } from '../../../dependencies';
 import { buildCharacterListQueryParams } from "../middlewares/character-query-params.middleware";
 import { CharacterListValidator } from "../../application/validations/character-qlist.validator";
 
 const charactersRoutes = express.Router();
+const upload = multer({ storage: minioConfig.getStorage() });
 
 charactersRoutes.get("/",
     authMiddleware.authenticateToken,
@@ -19,8 +21,9 @@ charactersRoutes.get("/:id",
 
 charactersRoutes.post("/",
     authMiddleware.authenticateToken,
-    characterMiddleware.validateAdd.bind(characterMiddleware),
+    //characterMiddleware.validateAdd.bind(characterMiddleware),
     authorizationMiddleware.checkAccess('0503'),
+    upload.single('image'),
     characterSerialzerMiddleware.add(),
     characterController.add.bind(characterController));
 
