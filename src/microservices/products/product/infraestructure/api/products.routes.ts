@@ -8,7 +8,7 @@ const productsRoutes = express.Router();
 
 productsRoutes.get("/",
     authMiddleware.authenticateToken,
-    //authorizationMiddleware.checkAccess('0301'),
+    authorizationMiddleware.checkAccess('0601'),
     queryParamsMiddleware.queryValidationMiddleware(new ProductListValidator(), buildProductListQueryParams),
     productController.getList.bind(productController));
 
