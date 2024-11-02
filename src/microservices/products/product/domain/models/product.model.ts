@@ -1,7 +1,9 @@
-import { BelongsTo, Column, CreatedAt, DataType, DeletedAt, Model, Table, UpdatedAt } from "sequelize-typescript";
-import { Qualification } from "../../../../../lib-entities/products/product/product.entity";
+import { BelongsTo, BelongsToMany, Column, CreatedAt, DataType, DeletedAt, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { CharacterModel } from "../../../../characters/character/domain/models/character.model";
 import { GenderModel } from "../../../gender/domain/models/gender.model";
 import { KindModel } from "../../../kind/domain/models/kind.model";
+import { ProductCharacterModel } from "./product-character.model";
+import { Qualification } from "../../../../../lib-entities/products/product/product.entity";
 
 @Table({
     timestamps: true,
@@ -114,4 +116,7 @@ export class ProductModel extends Model {
         targetKey: 'id',
     })
     declare kind: KindModel;
+
+    @BelongsToMany(() => CharacterModel, () => ProductCharacterModel)
+    characters!: CharacterModel[];
 }
