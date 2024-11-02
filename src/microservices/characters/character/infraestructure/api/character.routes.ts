@@ -30,6 +30,7 @@ charactersRoutes.post("/",
 charactersRoutes.put("/:id",
     authMiddleware.authenticateToken,
     authorizationMiddleware.checkAccess('0504'),
+    upload.single('image'),
     characterMiddleware.validateEdit.bind(characterMiddleware),
     characterSerialzerMiddleware.edit(),
     characterController.edit.bind(characterController));

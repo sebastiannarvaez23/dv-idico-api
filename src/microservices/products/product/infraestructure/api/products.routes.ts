@@ -30,6 +30,7 @@ productsRoutes.post("/",
 productsRoutes.put("/:id",
     authMiddleware.authenticateToken,
     authorizationMiddleware.checkAccess('0604'),
+    upload.single('image'),
     productMiddleware.validateEdit.bind(productMiddleware),
     productSerialzerMiddleware.edit(),
     productController.edit.bind(productController));

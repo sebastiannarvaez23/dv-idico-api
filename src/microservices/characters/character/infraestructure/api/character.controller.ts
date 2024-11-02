@@ -22,8 +22,8 @@ export class CharactersController {
     }
 
     async get(req: Request, res: Response) {
-        const { id } = req.params;
         try {
+            const { id } = req.params;
             res.status(200).json(await this._characterManagement.get(id));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
@@ -32,8 +32,7 @@ export class CharactersController {
 
     async add(req: Request, res: Response) {
         try {
-            const result = await this._characterManagement.add(req.file!, { ...req.body });
-            res.status(200).json(result);
+            res.status(200).json(await this._characterManagement.add(req.file!, { ...req.body }));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
@@ -42,7 +41,7 @@ export class CharactersController {
     async edit(req: Request, res: Response) {
         const { id } = req.params;
         try {
-            res.status(200).json(await this._characterManagement.edit(id, req.body));
+            res.status(200).json(await this._characterManagement.edit(id, req.file!, { ...req.body }));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }

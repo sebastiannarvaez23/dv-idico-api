@@ -22,8 +22,8 @@ export class ProductsController {
     }
 
     async get(req: Request, res: Response) {
-        const { id } = req.params;
         try {
+            const { id } = req.params;
             res.status(200).json(await this._productManagement.get(id));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
@@ -40,9 +40,9 @@ export class ProductsController {
     }
 
     async edit(req: Request, res: Response) {
-        const { id } = req.params;
         try {
-            res.status(200).json(await this._productManagement.edit(id, req.body));
+            const { id } = req.params;
+            res.status(200).json(await this._productManagement.edit(id, req.file!, { ...req.body }));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }

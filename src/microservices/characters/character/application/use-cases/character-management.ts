@@ -1,8 +1,8 @@
-import { MinioConfig } from "../../../../../config/minio";
 import { CharacterEntity } from "../../../../../lib-entities/characters/character/character.entity";
-import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { CharacterModel } from "../../domain/models/character.model";
 import { CharactersRepository } from "../../domain/repositories/character.repository";
+import { MinioConfig } from "../../../../../config/minio";
+import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 
 export class CharacterManagement {
 
@@ -38,8 +38,10 @@ export class CharacterManagement {
         }
     }
 
-    async edit(id: string, character: CharacterEntity): Promise<CharacterEntity | null> {
+    async edit(id: string, file: Express.Multer.File, character: CharacterEntity): Promise<CharacterEntity | null> {
         try {
+            const old = await this._characterRepository.get(id);
+            this._minioConfig.replaceImage(old?.image!, file!);
             const resultRole = await this._characterRepository.edit(id, character);
             return resultRole;
         } catch (e) {
@@ -49,6 +51,8 @@ export class CharacterManagement {
 
     async delete(id: string): Promise<CharacterModel | null> {
         try {
+            const character = await this._characterRepository.get(id);
+            this._minioConfig.deleteImage(character?.image!);
             const resultRole = await this._characterRepository.delete(id);
             return resultRole;
         } catch (e) {

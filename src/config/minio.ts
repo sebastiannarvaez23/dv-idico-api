@@ -29,6 +29,15 @@ export class MinioConfig {
         return await this._client.presignedGetObject(this._bucketName, objectName, 24 * 60 * 60, headers);
     }
 
+    async deleteImage(objectName: string) {
+        await this._client.removeObject(this._bucketName, objectName);
+    }
+
+    async replaceImage(objectName: string, file: Express.Multer.File) {
+        this.deleteImage(objectName);
+        this.setFile(file);
+    }
+
     getBucketName() {
         return this._bucketName;
     }

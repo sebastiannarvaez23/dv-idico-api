@@ -1,8 +1,8 @@
+import { MinioConfig } from "../../../../../config/minio";
 import { ProductEntity } from "../../../../../lib-entities/products/product/product.entity";
 import { ProductModel } from "../../domain/models/product.model";
 import { ProductsRepository } from "../../domain/repositories/product.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
-import { MinioConfig } from "../../../../../config/minio";
 
 export class ProductManagement {
 
@@ -38,8 +38,10 @@ export class ProductManagement {
         }
     }
 
-    async edit(id: string, product: ProductEntity): Promise<ProductEntity | null> {
+    async edit(id: string, file: Express.Multer.File, product: ProductEntity): Promise<ProductEntity | null> {
         try {
+            const old = await this._productsRepository.get(id);
+            this._minioConfig.replaceImage(old?.image!, file!);
             const resultProduct = await this._productsRepository.edit(id, product);
             return resultProduct;
         } catch (e) {
@@ -49,6 +51,8 @@ export class ProductManagement {
 
     async delete(id: string): Promise<ProductModel | null> {
         try {
+            const product = await this._productsRepository.get(id);
+            this._minioConfig.deleteImage(product?.image!);
             const resultProduct = await this._productsRepository.delete(id);
             return resultProduct;
         } catch (e) {
