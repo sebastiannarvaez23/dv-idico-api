@@ -21,7 +21,9 @@ export class CharacterManagement {
 
     async get(id: string): Promise<CharacterModel | null> {
         try {
-            return await this._characterRepository.get(id);
+            const res = await this._characterRepository.get(id);
+            if (res) res.image = await this._minioConfig.getPresignedUrl(res.image);
+            return res;
         } catch (e) {
             throw e;
         }

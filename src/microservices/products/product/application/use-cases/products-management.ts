@@ -7,13 +7,13 @@ import { MinioConfig } from "../../../../../config/minio";
 export class ProductManagement {
 
     constructor(
-        private readonly _rolesRepository: ProductsRepository,
+        private readonly _productsRepository: ProductsRepository,
         private readonly _minioConfig: MinioConfig,
     ) { }
 
     async getList(queryParams: QueryParams): Promise<{ rows: ProductModel[]; count: number; }> {
         try {
-            return await this._rolesRepository.getList(queryParams);
+            return await this._productsRepository.getList(queryParams);
         } catch (e) {
             throw e;
         }
@@ -21,7 +21,9 @@ export class ProductManagement {
 
     async get(id: string): Promise<ProductModel | null> {
         try {
-            return await this._rolesRepository.get(id);
+            const res = await this._productsRepository.get(id);
+            if (res) res.image = await this._minioConfig.getPresignedUrl(res.image);
+            return res;
         } catch (e) {
             throw e;
         }
@@ -30,7 +32,7 @@ export class ProductManagement {
     async add(file: Express.Multer.File, product: ProductEntity): Promise<ProductEntity | null> {
         try {
             this._minioConfig.setFile(file!);
-            return await this._rolesRepository.add(product);
+            return await this._productsRepository.add(product);
         } catch (e) {
             throw e;
         }
@@ -38,7 +40,7 @@ export class ProductManagement {
 
     async edit(id: string, product: ProductEntity): Promise<ProductEntity | null> {
         try {
-            const resultProduct = await this._rolesRepository.edit(id, product);
+            const resultProduct = await this._productsRepository.edit(id, product);
             return resultProduct;
         } catch (e) {
             throw e;
@@ -47,7 +49,7 @@ export class ProductManagement {
 
     async delete(id: string): Promise<ProductModel | null> {
         try {
-            const resultProduct = await this._rolesRepository.delete(id);
+            const resultProduct = await this._productsRepository.delete(id);
             return resultProduct;
         } catch (e) {
             throw e;
@@ -56,7 +58,7 @@ export class ProductManagement {
 
     async addCharacterAssignment(id: string, characters: { characters: string[] }): Promise<ProductModel | null> {
         try {
-            const resultRole = await this._rolesRepository.addCharacterAssignment(id, characters.characters);
+            const resultRole = await this._productsRepository.addCharacterAssignment(id, characters.characters);
             return resultRole;
         } catch (e) {
             throw e;
@@ -65,7 +67,7 @@ export class ProductManagement {
 
     async deleteCharacterAssignment(id: string, characters: { characters: string[] }): Promise<ProductModel | null> {
         try {
-            const resultRole = await this._rolesRepository.deleteCharacterAssignment(id, characters.characters);
+            const resultRole = await this._productsRepository.deleteCharacterAssignment(id, characters.characters);
             return resultRole;
         } catch (e) {
             throw e;

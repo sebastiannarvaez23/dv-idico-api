@@ -24,6 +24,11 @@ export class MinioConfig {
         await this._client.putObject(this._bucketName, originalname, buffer);
     }
 
+    async getPresignedUrl(objectName: string) {
+        const headers = { 'response-content-type': 'image/jpeg' };
+        return await this._client.presignedGetObject(this._bucketName, objectName, 24 * 60 * 60, headers);
+    }
+
     getBucketName() {
         return this._bucketName;
     }
