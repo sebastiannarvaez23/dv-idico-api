@@ -1,6 +1,8 @@
 const { EncryptionUtil } = require('../dist/lib-core/utils/encryption.util');
 
 const { createTableCharacters } = require('./tables/characters.js');
+const { createTableKinds } = require('./tables/kinds.js');
+const { createTableGenders } = require('./tables/genders.js');
 const { createTableOAuthClients } = require('./tables/oauth-clients.js');
 const { createTablePersons } = require('./tables/persons.js');
 const { createTableProducts } = require('./tables/products.js');
@@ -33,6 +35,8 @@ module.exports = {
     await createTableServices(queryInterface, Sequelize);
     await createTableRolesServices(queryInterface, Sequelize);
     await createTableCharacters(queryInterface, Sequelize);
+    await createTableKinds(queryInterface, Sequelize);
+    await createTableGenders(queryInterface, Sequelize);
     await createTableProducts(queryInterface, Sequelize);
 
     // Data initial migration
@@ -46,6 +50,10 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('characters', null, {});
+    await queryInterface.bulkDelete('kinds', null, {});
+    await queryInterface.bulkDelete('genders', null, {});
+    await queryInterface.bulkDelete('products', null, {});
     await queryInterface.bulkDelete('persons', null, {});
     await queryInterface.bulkDelete('roles_services', null, {});
     await queryInterface.bulkDelete('services', null, {});
@@ -53,6 +61,10 @@ module.exports = {
     await queryInterface.bulkDelete('users', null, {});
     await queryInterface.bulkDelete('oauth_clients', null, {});
 
+    await queryInterface.dropTable('characters');
+    await queryInterface.dropTable('kinds');
+    await queryInterface.dropTable('genders');
+    await queryInterface.dropTable('products');
     await queryInterface.dropTable('roles_services');
     await queryInterface.dropTable('persons');
     await queryInterface.dropTable('services');
