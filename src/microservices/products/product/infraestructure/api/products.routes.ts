@@ -36,4 +36,16 @@ productsRoutes.delete("/:id",
     authorizationMiddleware.checkAccess('0605'),
     productController.delete.bind(productController));
 
+productsRoutes.post("/character-assignment/:id",
+    authMiddleware.authenticateToken,
+    authorizationMiddleware.checkAccess('0306'),
+    productMiddleware.validateProductAddorDeleteCharacterAssignment.bind(productMiddleware),
+    productController.addCharacterAssignment.bind(productController));
+
+productsRoutes.delete("/character-assignment/:id",
+    authMiddleware.authenticateToken,
+    authorizationMiddleware.checkAccess('0307'),
+    productMiddleware.validateProductAddorDeleteCharacterAssignment.bind(productMiddleware),
+    productController.deleteCharacterAssignment.bind(productController));
+
 export default productsRoutes;

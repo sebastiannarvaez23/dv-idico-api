@@ -8,4 +8,6 @@ export interface ProductsRepository {
     add(person: ProductEntity): Promise<ProductModel>;
     edit(id: string, person: ProductEntity): Promise<ProductModel>;
     delete(id: string): Promise<ProductModel>;
+    addCharacterAssignment(id: string, characters: string[]): Promise<ProductModel>;
+    deleteCharacterAssignment(id: string, characters: string[]): Promise<ProductModel>;
 }

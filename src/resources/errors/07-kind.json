@@ -3,5 +3,10 @@
         "serverStatusCode": 404,
         "messageClient": "Kind not found",
         "messageLog": "Kind not found"
+    },
+    "040002": {
+        "serverStatusCode": 404,
+        "messageClient": "Some of the characters do not exist, please validate the information",
+        "messageLog": "Some of the characters do not exist, please validate the information"
     }
 }

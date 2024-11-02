@@ -56,4 +56,22 @@ export class ProductsController {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
     };
+
+    async addCharacterAssignment(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            res.status(200).json(await this._productManagement.addCharacterAssignment(id, req.body));
+        } catch (error) {
+            this._handlerError.handle(error as HttpError | Error, req, res);
+        }
+    }
+
+    async deleteCharacterAssignment(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            res.status(200).json(await this._productManagement.deleteCharacterAssignment(id, req.body));
+        } catch (error) {
+            this._handlerError.handle(error as HttpError | Error, req, res);
+        }
+    }
 }

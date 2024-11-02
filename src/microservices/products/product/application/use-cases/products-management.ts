@@ -2,6 +2,7 @@ import { ProductEntity } from "../../../../../lib-entities/products/product/prod
 import { ProductModel } from "../../domain/models/product.model";
 import { ProductsRepository } from "../../domain/repositories/product.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { CharacterModel } from "../../../../characters/character/domain/models/character.model";
 
 export class ProductManagement {
 
@@ -46,6 +47,24 @@ export class ProductManagement {
         try {
             const resultProduct = await this._rolesRepository.delete(id);
             return resultProduct;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async addCharacterAssignment(id: string, characters: { characters: string[] }): Promise<ProductModel | null> {
+        try {
+            const resultRole = await this._rolesRepository.addCharacterAssignment(id, characters.characters);
+            return resultRole;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async deleteCharacterAssignment(id: string, characters: { characters: string[] }): Promise<ProductModel | null> {
+        try {
+            const resultRole = await this._rolesRepository.deleteCharacterAssignment(id, characters.characters);
+            return resultRole;
         } catch (e) {
             throw e;
         }

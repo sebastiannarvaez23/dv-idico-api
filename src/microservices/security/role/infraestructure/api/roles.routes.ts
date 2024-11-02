@@ -2,7 +2,7 @@ import express from "express";
 
 import { buildRolListQueryParams } from "../middlewares/rol-query-params.middleware";
 import { roleController, roleMiddleware, authMiddleware, authorizationMiddleware, queryParamsMiddleware, roleSerialzerMiddleware } from "../../../dependencies";
-import { RolListValidator } from "../../application/validations/rol-qlist.validator";
+import { RolListValidator } from "../../application/validations/role-qlist.validator";
 
 const rolesRoutes = express.Router();
 

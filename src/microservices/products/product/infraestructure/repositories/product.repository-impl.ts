@@ -89,4 +89,62 @@ export class ProductsRepositoryImpl implements ProductsRepository {
             throw error;
         }
     }
+
+    async addCharacterAssignment(id: string, characters: string[]): Promise<ProductModel> {
+        try {
+
+            let product = await ProductModel.findOne({
+                where: { id: id }
+            });
+
+            const serviceInstances = await CharacterModel.findAll({
+                where: { id: characters }
+            });
+
+            if (!product) throw new HttpError("060001");
+            if (serviceInstances.length !== characters.length) throw new HttpError("070002");
+
+            await product.$add('characters', serviceInstances);
+
+            product = await ProductModel.findOne({
+                where: { id: id },
+                include: [CharacterModel],
+            });
+            if (!product) throw new HttpError("060001");
+
+            return product;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deleteCharacterAssignment(id: string, characters: string[]): Promise<ProductModel> {
+        try {
+
+            let product = await ProductModel.findOne({
+                where: { id: id }
+            });
+
+            const serviceInstances = await CharacterModel.findAll({
+                where: { id: characters }
+            });
+
+            if (!product) throw new HttpError("060001");
+            if (serviceInstances.length !== characters.length) throw new HttpError("070002");
+
+            await product.$remove('characters', serviceInstances);
+
+            product = await ProductModel.findOne({
+                where: { id: id },
+                include: [CharacterModel],
+            });
+            if (!product) throw new HttpError("060001");
+
+            return product;
+
+        } catch (error) {
+            throw error;
+        }
+    }
 }
