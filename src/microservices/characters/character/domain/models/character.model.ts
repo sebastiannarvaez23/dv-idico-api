@@ -88,6 +88,6 @@ export class CharacterModel extends Model {
     declare deletedAt: Date;
 
     @BelongsToMany(() => ProductModel, () => ProductCharacterModel)
-    roles!: ProductModel[];
+    products!: ProductModel[];
 
 }
