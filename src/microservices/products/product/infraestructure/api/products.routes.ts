@@ -14,26 +14,26 @@ productsRoutes.get("/",
 
 productsRoutes.get("/:id",
     authMiddleware.authenticateToken,
-    //authorizationMiddleware.checkAccess('0302'),
+    authorizationMiddleware.checkAccess('0602'),
     productController.get.bind(productController));
 
 productsRoutes.post("/",
     authMiddleware.authenticateToken,
     productMiddleware.validateAdd.bind(productMiddleware),
-    //authorizationMiddleware.checkAccess('0303'),
+    authorizationMiddleware.checkAccess('0603'),
     productSerialzerMiddleware.add(),
     productController.add.bind(productController));
 
 productsRoutes.put("/:id",
     authMiddleware.authenticateToken,
-    //authorizationMiddleware.checkAccess('0304'),
+    authorizationMiddleware.checkAccess('0604'),
     productMiddleware.validateEdit.bind(productMiddleware),
     productSerialzerMiddleware.edit(),
     productController.edit.bind(productController));
 
 productsRoutes.delete("/:id",
     authMiddleware.authenticateToken,
-    //authorizationMiddleware.checkAccess('0305'),
+    authorizationMiddleware.checkAccess('0605'),
     productController.delete.bind(productController));
 
 export default productsRoutes;

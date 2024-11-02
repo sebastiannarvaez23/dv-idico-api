@@ -96,5 +96,65 @@ module.exports.bulkInsertRolesServices = async (queryInterface) => {
             service_id: 'b6b941ea-3307-4056-967d-2895f6371eb0',
             role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
         },
+        {
+            service_id: 'acfe6c6a-d70d-4333-9d2d-9f5f643f6a03',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '683dc9da-24bd-4476-83b5-9a63f1bad937',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: 'f4959de2-16ad-4294-bfa3-0141f9e6598d',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: 'b578ac9b-36d7-4f65-bdb0-53f6eb5e8023',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '09c01118-1baa-4b68-95f7-a88fdc20cb17',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: 'a2390d88-773e-4403-bd9a-f461efd50ace',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '5467e316-1463-477c-ba6b-1d8e371f7e3c',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '2102cd71-4897-45c0-a97a-c09d7162eedc',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '27f9188f-1700-4a36-bf1a-b336a2cacc8a',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: 'ec4db40f-820f-4b62-b62e-ae66282644c2',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '3680d5d3-4ebe-40df-8886-9ab97007c4d4',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: 'e513676b-c288-489a-a9a3-f1951abaa6b4',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '011bf7a1-2d57-4d5d-a334-9f8fbe888444',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '2d45f492-e7c6-4f3a-8ba3-e4d0eaaddfbe',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
+        {
+            service_id: '7297317c-22bf-417c-8b38-8fa4ca89cb3e',
+            role_id: '3ba6c285-e5f6-4e3f-9d7d-a64519105593',
+        },
     ]);
 }
