@@ -10,6 +10,8 @@ import { RoleModel } from "../microservices/security/role/domain/models/role.mod
 import { RoleServiceModel } from "../microservices/security/role/domain/models/role-service.model";
 import { ServiceModel } from "../microservices/security/service/domain/models/service.model";
 import { UserModel } from "../microservices/users/user/domain/models/user.model";
+import { GenderModel } from "../microservices/products/gender/domain/models/gender.model";
+import { KindModel } from "../microservices/products/kind/domain/models/kind.model";
 
 config();
 
@@ -38,7 +40,9 @@ export class DatabaseConfig {
                 ServiceModel,
                 RoleServiceModel,
                 CharacterModel,
-                ProductModel
+                KindModel,
+                GenderModel,
+                ProductModel,
             ],
         };
 

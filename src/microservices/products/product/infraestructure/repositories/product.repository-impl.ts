@@ -1,4 +1,4 @@
-import { Optional, UniqueConstraintError } from "sequelize";
+import { ForeignKeyConstraintError, Optional, UniqueConstraintError } from "sequelize";
 
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { ProductEntity } from "../../../../../lib-entities/products/product/product.entity";
@@ -43,7 +43,7 @@ export class ProductsRepositoryImpl implements ProductsRepository {
             return await ProductModel.create(
                 product as Optional<any, string>);
         } catch (error) {
-            if (error instanceof UniqueConstraintError) {
+            if (error instanceof UniqueConstraintError || error instanceof ForeignKeyConstraintError) {
                 throw error;
             }
             throw new HttpError("000000");

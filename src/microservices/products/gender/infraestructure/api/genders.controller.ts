@@ -2,20 +2,20 @@ import { Request, Response } from "express";
 
 import { ErrorHandlerUtil } from "../../../../../lib-core/utils/error-handler.util";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
-import { ProductManagement } from "../../application/use-cases/gender-management";
+import { GenderManagement } from "../../application/use-cases/gender-management";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 
-export class ProductsController {
+export class GendersController {
 
     constructor(
-        private readonly _roleManagement: ProductManagement,
+        private readonly _genderManagement: GenderManagement,
         private readonly _handlerError: ErrorHandlerUtil
     ) { }
 
     async getList(req: Request, res: Response) {
         try {
             const queryParams: QueryParams = (req as any).queryParams;
-            res.status(200).json(await this._roleManagement.getList(queryParams));
+            res.status(200).json(await this._genderManagement.getList(queryParams));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
@@ -24,7 +24,7 @@ export class ProductsController {
     async get(req: Request, res: Response) {
         const { id } = req.params;
         try {
-            res.status(200).json(await this._roleManagement.get(id));
+            res.status(200).json(await this._genderManagement.get(id));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
@@ -32,7 +32,7 @@ export class ProductsController {
 
     async add(req: Request, res: Response) {
         try {
-            const result = await this._roleManagement.add(req.body);
+            const result = await this._genderManagement.add(req.body);
             res.status(200).json(result);
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
@@ -42,7 +42,7 @@ export class ProductsController {
     async edit(req: Request, res: Response) {
         const { id } = req.params;
         try {
-            res.status(200).json(await this._roleManagement.edit(id, req.body));
+            res.status(200).json(await this._genderManagement.edit(id, req.body));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
@@ -51,7 +51,7 @@ export class ProductsController {
     async delete(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            res.status(200).json(await this._roleManagement.delete(id));
+            res.status(200).json(await this._genderManagement.delete(id));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }

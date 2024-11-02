@@ -8,14 +8,14 @@ import { QueryParams } from "../../../../../lib-entities/core/query-params.entit
 export class ProductsController {
 
     constructor(
-        private readonly _roleManagement: ProductManagement,
+        private readonly _productManagement: ProductManagement,
         private readonly _handlerError: ErrorHandlerUtil
     ) { }
 
     async getList(req: Request, res: Response) {
         try {
             const queryParams: QueryParams = (req as any).queryParams;
-            res.status(200).json(await this._roleManagement.getList(queryParams));
+            res.status(200).json(await this._productManagement.getList(queryParams));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
@@ -24,7 +24,7 @@ export class ProductsController {
     async get(req: Request, res: Response) {
         const { id } = req.params;
         try {
-            res.status(200).json(await this._roleManagement.get(id));
+            res.status(200).json(await this._productManagement.get(id));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
@@ -32,7 +32,7 @@ export class ProductsController {
 
     async add(req: Request, res: Response) {
         try {
-            const result = await this._roleManagement.add(req.body);
+            const result = await this._productManagement.add(req.body);
             res.status(200).json(result);
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
@@ -42,7 +42,7 @@ export class ProductsController {
     async edit(req: Request, res: Response) {
         const { id } = req.params;
         try {
-            res.status(200).json(await this._roleManagement.edit(id, req.body));
+            res.status(200).json(await this._productManagement.edit(id, req.body));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
@@ -51,7 +51,7 @@ export class ProductsController {
     async delete(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            res.status(200).json(await this._roleManagement.delete(id));
+            res.status(200).json(await this._productManagement.delete(id));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }

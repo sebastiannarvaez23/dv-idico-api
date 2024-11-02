@@ -2,7 +2,7 @@ import { BaseValidator } from "../../../../../lib-core/middlewares/validators/va
 import { isNumericString, isString, maxLength, minLength } from "../../../../../lib-core/middlewares/validators/validation.type";
 import { RolListParams } from "../../../../../lib-entities/security/role-qlist.entity";
 
-export class ProductListValidator extends BaseValidator<RolListParams> {
+export class GenderListValidator extends BaseValidator<RolListParams> {
     constructor() {
         super({
             page: [isNumericString],

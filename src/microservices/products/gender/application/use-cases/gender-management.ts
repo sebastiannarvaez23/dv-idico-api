@@ -1,51 +1,51 @@
-import { ProductEntity } from "../../../../../lib-entities/products/product/product.entity";
-import { ProductModel } from "../../domain/models/gender.model";
-import { ProductsRepository } from "../../domain/repositories/gender.repository";
+import { GenderEntity } from "../../../../../lib-entities/products/gender/gender.entity";
+import { GenderModel } from "../../domain/models/gender.model";
+import { GendersRepository } from "../../domain/repositories/gender.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 
-export class ProductManagement {
+export class GenderManagement {
 
     constructor(
-        private readonly _rolesRepository: ProductsRepository
+        private readonly _gendersRepository: GendersRepository
     ) { }
 
-    async getList(queryParams: QueryParams): Promise<{ rows: ProductModel[]; count: number; }> {
+    async getList(queryParams: QueryParams): Promise<{ rows: GenderModel[]; count: number; }> {
         try {
-            return await this._rolesRepository.getList(queryParams);
+            return await this._gendersRepository.getList(queryParams);
         } catch (e) {
             throw e;
         }
     }
 
-    async get(id: string): Promise<ProductModel | null> {
+    async get(id: string): Promise<GenderModel | null> {
         try {
-            return await this._rolesRepository.get(id);
+            return await this._gendersRepository.get(id);
         } catch (e) {
             throw e;
         }
     }
 
-    async add(product: ProductEntity): Promise<ProductEntity | null> {
+    async add(gender: GenderEntity): Promise<GenderEntity | null> {
         try {
-            return await this._rolesRepository.add(product);
+            return await this._gendersRepository.add(gender);
         } catch (e) {
             throw e;
         }
     }
 
-    async edit(id: string, product: ProductEntity): Promise<ProductEntity | null> {
+    async edit(id: string, gender: GenderEntity): Promise<GenderEntity | null> {
         try {
-            const resultProduct = await this._rolesRepository.edit(id, product);
-            return resultProduct;
+            const resultGender = await this._gendersRepository.edit(id, gender);
+            return resultGender;
         } catch (e) {
             throw e;
         }
     }
 
-    async delete(id: string): Promise<ProductModel | null> {
+    async delete(id: string): Promise<GenderModel | null> {
         try {
-            const resultProduct = await this._rolesRepository.delete(id);
-            return resultProduct;
+            const resultGender = await this._gendersRepository.delete(id);
+            return resultGender;
         } catch (e) {
             throw e;
         }

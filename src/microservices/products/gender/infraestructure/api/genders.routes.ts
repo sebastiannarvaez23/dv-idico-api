@@ -1,39 +1,39 @@
 import express from "express";
 
-import { authMiddleware, authorizationMiddleware, productController, productMiddleware, productSerialzerMiddleware, queryParamsMiddleware, } from "../../../dependencies";
-import { buildProductListQueryParams } from "../middlewares/gender-query-params.middleware";
-import { ProductListValidator } from "../../application/validations/gender-qlist.validator";
+import { authMiddleware, authorizationMiddleware, genderController, genderMiddleware, genderSerialzerMiddleware, queryParamsMiddleware, } from "../../../dependencies";
+import { buildGenderListQueryParams } from "../middlewares/gender-query-params.middleware";
+import { GenderListValidator } from "../../application/validations/gender-qlist.validator";
 
-const productsRoutes = express.Router();
+const gendersRoutes = express.Router();
 
-productsRoutes.get("/",
+gendersRoutes.get("/",
     authMiddleware.authenticateToken,
     //authorizationMiddleware.checkAccess('0301'),
-    queryParamsMiddleware.queryValidationMiddleware(new ProductListValidator(), buildProductListQueryParams),
-    productController.getList.bind(productController));
+    queryParamsMiddleware.queryValidationMiddleware(new GenderListValidator(), buildGenderListQueryParams),
+    genderController.getList.bind(genderController));
 
-productsRoutes.get("/:id",
+gendersRoutes.get("/:id",
     authMiddleware.authenticateToken,
     //authorizationMiddleware.checkAccess('0302'),
-    productController.get.bind(productController));
+    genderController.get.bind(genderController));
 
-productsRoutes.post("/",
+gendersRoutes.post("/",
     authMiddleware.authenticateToken,
-    productMiddleware.validateAdd.bind(productMiddleware),
+    genderMiddleware.validateAdd.bind(genderMiddleware),
     //authorizationMiddleware.checkAccess('0303'),
-    productSerialzerMiddleware.add(),
-    productController.add.bind(productController));
+    genderSerialzerMiddleware.add(),
+    genderController.add.bind(genderController));
 
-productsRoutes.put("/:id",
+gendersRoutes.put("/:id",
     authMiddleware.authenticateToken,
     //authorizationMiddleware.checkAccess('0304'),
-    productMiddleware.validateEdit.bind(productMiddleware),
-    productSerialzerMiddleware.edit(),
-    productController.edit.bind(productController));
+    genderMiddleware.validateEdit.bind(genderMiddleware),
+    genderSerialzerMiddleware.edit(),
+    genderController.edit.bind(genderController));
 
-productsRoutes.delete("/:id",
+gendersRoutes.delete("/:id",
     authMiddleware.authenticateToken,
     //authorizationMiddleware.checkAccess('0305'),
-    productController.delete.bind(productController));
+    genderController.delete.bind(genderController));
 
-export default productsRoutes;
+export default gendersRoutes;

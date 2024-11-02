@@ -1,8 +1,8 @@
 import { BaseValidator } from "../../../../../lib-core/middlewares/validators/validation.middleware";
-import { isRequired, isString, maxLength, isNumericString } from "../../../../../lib-core/middlewares/validators/validation.type";
-import { ProductEntity } from "../../../../../lib-entities/products/product/product.entity";
+import { isRequired, isString, maxLength } from "../../../../../lib-core/middlewares/validators/validation.type";
+import { GenderEntity } from "../../../../../lib-entities/products/gender/gender.entity";
 
-export class ProductAddValidator extends BaseValidator<ProductEntity> {
+export class GenderAddValidator extends BaseValidator<GenderEntity> {
     constructor() {
         super({
             name: [isRequired, isString, maxLength(70)]

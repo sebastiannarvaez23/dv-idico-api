@@ -1,16 +1,16 @@
 import { Optional, UniqueConstraintError } from "sequelize";
 
 import { HttpError } from "../../../../../lib-core/utils/error.util";
-import { ProductEntity } from "../../../../../lib-entities/products/product/product.entity";
-import { ProductModel } from "../../domain/models/gender.model";
-import { ProductsRepository } from "../../domain/repositories/gender.repository";
+import { GenderEntity } from "../../../../../lib-entities/products/gender/gender.entity";
+import { GenderModel } from "../../domain/models/gender.model";
+import { GendersRepository } from "../../domain/repositories/gender.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 
-export class ProductsRepositoryImpl implements ProductsRepository {
+export class GendersRepositoryImpl implements GendersRepository {
 
-    async getList(queryParams: QueryParams): Promise<{ rows: ProductModel[]; count: number; }> {
+    async getList(queryParams: QueryParams): Promise<{ rows: GenderModel[]; count: number; }> {
         try {
-            return await ProductModel.findAndCountAll({
+            return await GenderModel.findAndCountAll({
                 where: queryParams.filters,
                 order: [["createdAt", "desc"]],
                 limit: queryParams.limit,
@@ -25,23 +25,23 @@ export class ProductsRepositoryImpl implements ProductsRepository {
         }
     }
 
-    async get(id: string): Promise<ProductModel | null> {
+    async get(id: string): Promise<GenderModel | null> {
         try {
-            const product = await ProductModel.findOne(
+            const gender = await GenderModel.findOne(
                 { where: { id }, });
-            if (!product) {
-                throw new HttpError("030001");
+            if (!gender) {
+                throw new HttpError("080001");
             }
-            return product;
+            return gender;
         } catch (error) {
             throw error;
         }
     }
 
-    async add(product: ProductEntity): Promise<ProductModel> {
+    async add(gender: GenderEntity): Promise<GenderModel> {
         try {
-            return await ProductModel.create(
-                product as Optional<any, string>);
+            return await GenderModel.create(
+                gender as Optional<any, string>);
         } catch (error) {
             if (error instanceof UniqueConstraintError) {
                 throw error;
@@ -50,32 +50,32 @@ export class ProductsRepositoryImpl implements ProductsRepository {
         }
     }
 
-    async edit(id: string, product: ProductEntity): Promise<ProductModel> {
+    async edit(id: string, gender: GenderEntity): Promise<GenderModel> {
         try {
-            const [affectRows, editedPerson] = await ProductModel.update(
-                product as Optional<any, string>, {
+            const [affectRows, editedPerson] = await GenderModel.update(
+                gender as Optional<any, string>, {
                 where: {
                     id: id,
                 },
                 returning: true
             });
-            if (!editedPerson[0]) throw new HttpError("030001")
+            if (!editedPerson[0]) throw new HttpError("080001")
             return editedPerson[0];
         } catch (error) {
             throw error;
         }
     }
 
-    async delete(id: string): Promise<ProductModel> {
+    async delete(id: string): Promise<GenderModel> {
         try {
-            const productToDelete = await ProductModel.findOne({
+            const genderToDelete = await GenderModel.findOne({
                 where: { id: id }
             });
-            if (!productToDelete) {
-                throw new HttpError("030001");
+            if (!genderToDelete) {
+                throw new HttpError("080001");
             }
-            await productToDelete.destroy();
-            return productToDelete;
+            await genderToDelete.destroy();
+            return genderToDelete;
         } catch (error) {
             throw error;
         }

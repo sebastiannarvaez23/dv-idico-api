@@ -1,5 +1,7 @@
-import { Column, CreatedAt, DataType, DeletedAt, Model, Table, UpdatedAt } from "sequelize-typescript";
+import { BelongsTo, Column, CreatedAt, DataType, DeletedAt, Model, Table, UpdatedAt } from "sequelize-typescript";
 import { Qualification } from "../../../../../lib-entities/products/product/product.entity";
+import { GenderModel } from "../../../gender/domain/models/gender.model";
+import { KindModel } from "../../../kind/domain/models/kind.model";
 
 @Table({
     timestamps: true,
@@ -101,17 +103,15 @@ export class ProductModel extends Model {
     })
     declare deletedAt: Date;
 
-    /* @BelongsTo(() => UserModel, {
+    @BelongsTo(() => GenderModel, {
         foreignKey: 'createdBy',
         targetKey: 'id',
-        as: 'userCreatedBy',
     })
-    declare userCreatedBy: UserModel;
+    declare gender: GenderModel;
 
-    @BelongsTo(() => UserModel, {
+    @BelongsTo(() => KindModel, {
         foreignKey: 'updatedBy',
         targetKey: 'id',
-        as: 'userUpdatedBy',
     })
-    declare userUpdatedBy: UserModel; */
+    declare kind: KindModel;
 }

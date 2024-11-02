@@ -1,19 +1,19 @@
 import { Request, Response, NextFunction } from "express";
 
-import { ProductAddValidator } from "../../application/validations/gender-add.validator";
-import { ProductEditValidator } from "../../application/validations/gender-edit.validator";
+import { GenderAddValidator } from "../../application/validations/gender-add.validator";
+import { GenderEditValidator } from "../../application/validations/gender-edit.validator";
 import { validationMiddleware } from "../../../../../lib-core/middlewares/validators/validation.middleware";
 
-const productAddValidator = new ProductAddValidator();
-const productEditValidator = new ProductEditValidator();
+const genderAddValidator = new GenderAddValidator();
+const genderEditValidator = new GenderEditValidator();
 
-export class ProductMiddleware {
+export class GenderMiddleware {
 
     validateAdd(req: Request, res: Response, next: NextFunction): void {
-        validationMiddleware(productAddValidator)(req, res, next);
+        validationMiddleware(genderAddValidator)(req, res, next);
     }
 
     validateEdit(req: Request, res: Response, next: NextFunction): void {
-        validationMiddleware(productEditValidator)(req, res, next);
+        validationMiddleware(genderEditValidator)(req, res, next);
     }
 }
