@@ -51,9 +51,9 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete('characters', null, {});
+    await queryInterface.bulkDelete('products', null, {});
     await queryInterface.bulkDelete('kinds', null, {});
     await queryInterface.bulkDelete('genders', null, {});
-    await queryInterface.bulkDelete('products', null, {});
     await queryInterface.bulkDelete('persons', null, {});
     await queryInterface.bulkDelete('roles_services', null, {});
     await queryInterface.bulkDelete('services', null, {});
@@ -62,9 +62,9 @@ module.exports = {
     await queryInterface.bulkDelete('oauth_clients', null, {});
 
     await queryInterface.dropTable('characters');
+    await queryInterface.dropTable('products');
     await queryInterface.dropTable('kinds');
     await queryInterface.dropTable('genders');
-    await queryInterface.dropTable('products');
     await queryInterface.dropTable('roles_services');
     await queryInterface.dropTable('persons');
     await queryInterface.dropTable('services');
