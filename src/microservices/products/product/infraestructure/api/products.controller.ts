@@ -32,7 +32,7 @@ export class ProductsController {
 
     async add(req: Request, res: Response) {
         try {
-            const result = await this._productManagement.add(req.body);
+            const result = await this._productManagement.add(req.file!, { ...req.body });
             res.status(200).json(result);
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);

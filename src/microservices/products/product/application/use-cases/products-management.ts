@@ -2,12 +2,13 @@ import { ProductEntity } from "../../../../../lib-entities/products/product/prod
 import { ProductModel } from "../../domain/models/product.model";
 import { ProductsRepository } from "../../domain/repositories/product.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
-import { CharacterModel } from "../../../../characters/character/domain/models/character.model";
+import { MinioConfig } from "../../../../../config/minio";
 
 export class ProductManagement {
 
     constructor(
-        private readonly _rolesRepository: ProductsRepository
+        private readonly _rolesRepository: ProductsRepository,
+        private readonly _minioConfig: MinioConfig,
     ) { }
 
     async getList(queryParams: QueryParams): Promise<{ rows: ProductModel[]; count: number; }> {
@@ -26,8 +27,9 @@ export class ProductManagement {
         }
     }
 
-    async add(product: ProductEntity): Promise<ProductEntity | null> {
+    async add(file: Express.Multer.File, product: ProductEntity): Promise<ProductEntity | null> {
         try {
+            this._minioConfig.setFile(file!);
             return await this._rolesRepository.add(product);
         } catch (e) {
             throw e;

@@ -20,7 +20,9 @@ import { ProductsRepositoryImpl } from "./product/infraestructure/repositories/p
 import { QueryParamsMiddleware } from "../../lib-core/middlewares/validators/validation-query-params.middleware";
 import { RedisConfig } from "../../config/redis";
 import { TokenManager } from "../../lib-core/utils/token-manager.util";
+import { MinioConfig } from "../../config/minio";
 
+export const minioConfig: MinioConfig = new MinioConfig();
 
 const handlerError: ErrorHandlerUtil = new ErrorHandlerUtil();
 const authValidator: AuthValidator = new AuthValidator();
@@ -30,7 +32,7 @@ const productsRepository = new ProductsRepositoryImpl();
 const kindsRepository = new KindsRepositoryImpl();
 const gendersRepository = new GendersRepositoryImpl();
 
-const productManagement = new ProductManagement(productsRepository);
+const productManagement = new ProductManagement(productsRepository, minioConfig);
 const kindManagement = new KindManagement(kindsRepository);
 const genderManagement = new GenderManagement(gendersRepository);
 

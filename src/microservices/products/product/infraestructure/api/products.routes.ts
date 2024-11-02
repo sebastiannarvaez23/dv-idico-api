@@ -1,10 +1,12 @@
 import express from "express";
+import multer from "multer";
 
-import { authMiddleware, authorizationMiddleware, productController, productMiddleware, productSerialzerMiddleware, queryParamsMiddleware, } from "../../../dependencies";
+import { authMiddleware, authorizationMiddleware, minioConfig, productController, productMiddleware, productSerialzerMiddleware, queryParamsMiddleware, } from "../../../dependencies";
 import { buildProductListQueryParams } from "../middlewares/product-query-params.middleware";
 import { ProductListValidator } from "../../application/validations/product-qlist.validator";
 
 const productsRoutes = express.Router();
+const upload = multer({ storage: minioConfig.getStorage() });
 
 productsRoutes.get("/",
     authMiddleware.authenticateToken,
@@ -19,8 +21,9 @@ productsRoutes.get("/:id",
 
 productsRoutes.post("/",
     authMiddleware.authenticateToken,
-    productMiddleware.validateAdd.bind(productMiddleware),
     authorizationMiddleware.checkAccess('0603'),
+    upload.single('image'),
+    productMiddleware.validateAdd.bind(productMiddleware),
     productSerialzerMiddleware.add(),
     productController.add.bind(productController));
 
