@@ -5,6 +5,7 @@ import { CharacterModel } from "../../domain/models/character.model";
 import { CharactersRepository } from "../../domain/repositories/character.repository";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { ProductModel } from "../../../../products/product/domain/models/product.model";
 
 export class CharactersRepositoryImpl implements CharactersRepository {
 
@@ -27,8 +28,16 @@ export class CharactersRepositoryImpl implements CharactersRepository {
 
     async get(id: string): Promise<CharacterModel | null> {
         try {
-            const character = await CharacterModel.findOne(
-                { where: { id } });
+            const character = await CharacterModel.findOne({
+                where: { id },
+                include: [{
+                    model: ProductModel,
+                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    through: {
+                        attributes: []
+                    }
+                }],
+            });
             if (!character) {
                 throw new HttpError("050001");
             }

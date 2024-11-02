@@ -3,15 +3,16 @@ import { Dialect } from "sequelize";
 import { Sequelize, SequelizeOptions } from "sequelize-typescript";
 
 import { CharacterModel } from "../microservices/characters/character/domain/models/character.model";
+import { GenderModel } from "../microservices/products/gender/domain/models/gender.model";
+import { KindModel } from "../microservices/products/kind/domain/models/kind.model";
 import { OAuthClientModel } from "../microservices/auth/domain/models/o-auth-client.model";
 import { PersonModel } from "../microservices/users/person/domain/models/person.model";
+import { ProductCharacterModel } from "../microservices/products/product/domain/models/product-character.model";
 import { ProductModel } from "../microservices/products/product/domain/models/product.model";
 import { RoleModel } from "../microservices/security/role/domain/models/role.model";
 import { RoleServiceModel } from "../microservices/security/role/domain/models/role-service.model";
 import { ServiceModel } from "../microservices/security/service/domain/models/service.model";
 import { UserModel } from "../microservices/users/user/domain/models/user.model";
-import { GenderModel } from "../microservices/products/gender/domain/models/gender.model";
-import { KindModel } from "../microservices/products/kind/domain/models/kind.model";
 
 config();
 
@@ -43,6 +44,7 @@ export class DatabaseConfig {
                 KindModel,
                 GenderModel,
                 ProductModel,
+                ProductCharacterModel,
             ],
         };
 

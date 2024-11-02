@@ -5,6 +5,7 @@ import { ProductEntity } from "../../../../../lib-entities/products/product/prod
 import { ProductModel } from "../../domain/models/product.model";
 import { ProductsRepository } from "../../domain/repositories/product.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { CharacterModel } from "../../../../characters/character/domain/models/character.model";
 
 export class ProductsRepositoryImpl implements ProductsRepository {
 
@@ -27,8 +28,16 @@ export class ProductsRepositoryImpl implements ProductsRepository {
 
     async get(id: string): Promise<ProductModel | null> {
         try {
-            const product = await ProductModel.findOne(
-                { where: { id }, });
+            const product = await ProductModel.findOne({
+                where: { id },
+                include: [{
+                    model: CharacterModel,
+                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    through: {
+                        attributes: []
+                    }
+                }],
+            });
             if (!product) {
                 throw new HttpError("060001");
             }

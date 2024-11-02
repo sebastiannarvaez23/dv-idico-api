@@ -19,13 +19,6 @@ export class RolesRepositoryImpl implements RolesRepository {
                 attributes: {
                     exclude: ['updatedAt', 'deletedAt']
                 },
-                include: [{
-                    model: ServiceModel,
-                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
-                    through: {
-                        attributes: []
-                    }
-                }],
             });
         } catch (e) {
             console.debug(e);
@@ -38,6 +31,9 @@ export class RolesRepositoryImpl implements RolesRepository {
             const role = await RoleModel.findOne(
                 {
                     where: { id },
+                    attributes: {
+                        exclude: ['updatedAt', 'deletedAt']
+                    },
                     include: [
                         {
                             model: ServiceModel,
