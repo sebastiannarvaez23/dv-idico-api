@@ -13,7 +13,14 @@ export class CharacterManagement {
 
     async getList(queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
         try {
-            return await this._characterRepository.getList(queryParams);
+            const response = await this._characterRepository.getList(queryParams);
+            response.rows = await Promise.all(
+                response.rows.map(async e => {
+                    e.image = await this._minioConfig.getPresignedUrl(e.image);
+                    return e;
+                })
+            );
+            return response;
         } catch (e) {
             throw e;
         }
@@ -40,8 +47,10 @@ export class CharacterManagement {
 
     async edit(id: string, file: Express.Multer.File, character: CharacterEntity): Promise<CharacterEntity | null> {
         try {
-            const old = await this._characterRepository.get(id);
-            this._minioConfig.replaceImage(old?.image!, file!);
+            if (file) {
+                const old = await this._characterRepository.get(id);
+                this._minioConfig.replaceImage(old?.image!, file!);
+            }
             const resultRole = await this._characterRepository.edit(id, character);
             return resultRole;
         } catch (e) {

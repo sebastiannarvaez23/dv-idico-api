@@ -32,7 +32,7 @@ export class CharacterModel extends Model {
         allowNull: true,
         unique: true,
     })
-    declare image: string;
+    declare image: string | null | undefined;
 
     @Column({
         type: DataType.STRING(3),

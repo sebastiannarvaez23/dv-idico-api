@@ -1,11 +1,12 @@
 import { ForeignKeyConstraintError, Optional, UniqueConstraintError } from "sequelize";
 
+import { CharacterModel } from "../../../../characters/character/domain/models/character.model";
+import { GenderModel } from "../../../gender/domain/models/gender.model";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { ProductEntity } from "../../../../../lib-entities/products/product/product.entity";
 import { ProductModel } from "../../domain/models/product.model";
 import { ProductsRepository } from "../../domain/repositories/product.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
-import { CharacterModel } from "../../../../characters/character/domain/models/character.model";
 
 export class ProductsRepositoryImpl implements ProductsRepository {
 
@@ -30,13 +31,18 @@ export class ProductsRepositoryImpl implements ProductsRepository {
         try {
             const product = await ProductModel.findOne({
                 where: { id },
-                include: [{
-                    model: CharacterModel,
-                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
-                    through: {
-                        attributes: []
-                    }
-                }],
+                include: [
+                    {
+                        model: GenderModel,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    },
+                    {
+                        model: CharacterModel,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                        through: {
+                            attributes: []
+                        }
+                    }],
             });
             if (!product) {
                 throw new HttpError("060001");

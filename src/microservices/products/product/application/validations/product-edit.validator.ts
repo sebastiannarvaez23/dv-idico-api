@@ -6,7 +6,7 @@ export class ProductEditValidator extends BaseValidator<ProductEntity> {
     constructor() {
         super({
             title: [isRequired, isString, maxLength(100)],
-            image: [isRequired, isFile],
+            image: [isFile],
             createdDate: [isDate],
             qualification: [isNumericString, maxLength(1)],
             genderId: [isUUID],

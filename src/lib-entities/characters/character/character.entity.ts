@@ -1,7 +1,7 @@
 export interface CharacterEntity {
     id?: string;
     name?: string;
-    image?: string;
+    image?: string | null | undefined;
     age?: string;
     history?: string;
     createdBy?: string;

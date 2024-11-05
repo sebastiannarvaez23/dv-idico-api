@@ -34,7 +34,7 @@ export class ProductModel extends Model {
         allowNull: true,
         unique: true,
     })
-    declare image: string;
+    declare image: string | null | undefined;
 
     @Column({
         type: DataType.DATE,
@@ -106,13 +106,13 @@ export class ProductModel extends Model {
     declare deletedAt: Date;
 
     @BelongsTo(() => GenderModel, {
-        foreignKey: 'createdBy',
+        foreignKey: 'genderId',
         targetKey: 'id',
     })
     declare gender: GenderModel;
 
     @BelongsTo(() => KindModel, {
-        foreignKey: 'updatedBy',
+        foreignKey: 'kindId',
         targetKey: 'id',
     })
     declare kind: KindModel;

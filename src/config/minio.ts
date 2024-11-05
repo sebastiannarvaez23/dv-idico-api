@@ -20,17 +20,23 @@ export class MinioConfig {
     }
 
     async setFile(file: Express.Multer.File) {
-        const { originalname, buffer } = file!;
-        await this._client.putObject(this._bucketName, originalname, buffer);
+        if (file) {
+            const { originalname, buffer } = file!;
+            await this._client.putObject(this._bucketName, originalname, buffer);
+        }
     }
 
-    async getPresignedUrl(objectName: string) {
-        const headers = { 'response-content-type': 'image/jpeg' };
-        return await this._client.presignedGetObject(this._bucketName, objectName, 24 * 60 * 60, headers);
+    async getPresignedUrl(objectName: string | null | undefined) {
+        if (objectName) {
+            const headers = { 'response-content-type': 'image/jpeg' };
+            return await this._client.presignedGetObject(this._bucketName, objectName, 24 * 60 * 60, headers);
+        }
     }
 
     async deleteImage(objectName: string) {
-        await this._client.removeObject(this._bucketName, objectName);
+        if (objectName) {
+            await this._client.removeObject(this._bucketName, objectName);
+        }
     }
 
     async replaceImage(objectName: string, file: Express.Multer.File) {

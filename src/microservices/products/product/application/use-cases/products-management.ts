@@ -13,7 +13,14 @@ export class ProductManagement {
 
     async getList(queryParams: QueryParams): Promise<{ rows: ProductModel[]; count: number; }> {
         try {
-            return await this._productsRepository.getList(queryParams);
+            const response = await this._productsRepository.getList(queryParams);
+            response.rows = await Promise.all(
+                response.rows.map(async e => {
+                    e.image = await this._minioConfig.getPresignedUrl(e.image);
+                    return e;
+                })
+            );
+            return response;
         } catch (e) {
             throw e;
         }
@@ -40,8 +47,10 @@ export class ProductManagement {
 
     async edit(id: string, file: Express.Multer.File, product: ProductEntity): Promise<ProductEntity | null> {
         try {
-            const old = await this._productsRepository.get(id);
-            this._minioConfig.replaceImage(old?.image!, file!);
+            if (file) {
+                const old = await this._productsRepository.get(id);
+                this._minioConfig.replaceImage(old?.image!, file!);
+            }
             const resultProduct = await this._productsRepository.edit(id, product);
             return resultProduct;
         } catch (e) {

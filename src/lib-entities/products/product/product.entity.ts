@@ -3,7 +3,7 @@ export type Qualification = '1' | '2' | '3' | '4' | '5';
 export interface ProductEntity {
     id?: string;
     title?: string;
-    image?: string;
+    image?: string | null | undefined;
     createdDate?: Date;
     qualification?: Qualification;
     genderId?: string;
