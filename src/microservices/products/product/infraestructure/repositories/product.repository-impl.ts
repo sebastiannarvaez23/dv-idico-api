@@ -67,15 +67,27 @@ export class ProductsRepositoryImpl implements ProductsRepository {
 
     async edit(id: string, product: ProductEntity): Promise<ProductModel> {
         try {
-            const [affectRows, editedPerson] = await ProductModel.update(
-                product as Optional<any, string>, {
-                where: {
-                    id: id,
-                },
-                returning: true
+            const [affectRows] = await ProductModel.update(product as Optional<any, string>, {
+                where: { id },
+                returning: true,
             });
-            if (!editedPerson[0]) throw new HttpError("060001")
-            return editedPerson[0];
+
+            if (!affectRows) throw new HttpError("060001");
+
+            const updatedProduct = await ProductModel.findOne({
+                where: { id },
+                include: [{
+                    model: CharacterModel,
+                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    through: {
+                        attributes: []
+                    }
+                }],
+            });
+
+            if (!updatedProduct) throw new HttpError("060001");
+
+            return updatedProduct;
         } catch (error) {
             throw error;
         }

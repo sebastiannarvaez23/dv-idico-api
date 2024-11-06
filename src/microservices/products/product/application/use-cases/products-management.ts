@@ -51,8 +51,9 @@ export class ProductManagement {
                 const old = await this._productsRepository.get(id);
                 this._minioConfig.replaceImage(old?.image!, file!);
             }
-            const resultProduct = await this._productsRepository.edit(id, product);
-            return resultProduct;
+            const res = await this._productsRepository.edit(id, product);
+            if (res) res.image = await this._minioConfig.getPresignedUrl(res.image);
+            return res;
         } catch (e) {
             throw e;
         }

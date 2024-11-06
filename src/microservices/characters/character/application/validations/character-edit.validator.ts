@@ -6,7 +6,7 @@ export class CharacterEditValidator extends BaseValidator<CharacterEntity> {
     constructor() {
         super({
             name: [isRequired, isString, maxLength(100)],
-            image: [isRequired, isFile],
+            image: [isFile],
             age: [isRequired, isNumericString, maxLength(3)],
             history: [isRequired, isString, maxLength(1000)]
         });

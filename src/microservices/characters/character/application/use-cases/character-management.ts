@@ -51,8 +51,9 @@ export class CharacterManagement {
                 const old = await this._characterRepository.get(id);
                 this._minioConfig.replaceImage(old?.image!, file!);
             }
-            const resultRole = await this._characterRepository.edit(id, character);
-            return resultRole;
+            const res = await this._characterRepository.edit(id, character);
+            if (res) res.image = await this._minioConfig.getPresignedUrl(res.image);
+            return res;
         } catch (e) {
             throw e;
         }
@@ -62,8 +63,8 @@ export class CharacterManagement {
         try {
             const character = await this._characterRepository.get(id);
             this._minioConfig.deleteImage(character?.image!);
-            const resultRole = await this._characterRepository.delete(id);
-            return resultRole;
+            const res = await this._characterRepository.delete(id);
+            return res;
         } catch (e) {
             throw e;
         }

@@ -61,15 +61,27 @@ export class CharactersRepositoryImpl implements CharactersRepository {
 
     async edit(id: string, character: CharacterEntity): Promise<CharacterModel> {
         try {
-            const [affectRows, editedPerson] = await CharacterModel.update(
-                character as Optional<any, string>, {
-                where: {
-                    id: id,
-                },
-                returning: true
+            const [affectRows] = await CharacterModel.update(character as Optional<any, string>, {
+                where: { id },
+                returning: true,
             });
-            if (!editedPerson[0]) throw new HttpError("050001")
-            return editedPerson[0];
+
+            if (!affectRows) throw new HttpError("050001");
+
+            const updatedCharacter = await CharacterModel.findOne({
+                where: { id },
+                include: [{
+                    model: ProductModel,
+                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    through: {
+                        attributes: []
+                    }
+                }],
+            });
+
+            if (!updatedCharacter) throw new HttpError("050001");
+
+            return updatedCharacter;
         } catch (error) {
             throw error;
         }
