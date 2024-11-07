@@ -81,13 +81,23 @@ export class ProductsRepositoryImpl implements ProductsRepository {
 
             const updatedProduct = await ProductModel.findOne({
                 where: { id },
-                include: [{
-                    model: CharacterModel,
-                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
-                    through: {
-                        attributes: []
+                include: [
+                    {
+                        model: KindModel,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    },
+                    {
+                        model: GenderModel,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    },
+                    {
+                        model: CharacterModel,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                        through: {
+                            attributes: []
+                        }
                     }
-                }],
+                ],
             });
 
             if (!updatedProduct) throw new HttpError("060001");
