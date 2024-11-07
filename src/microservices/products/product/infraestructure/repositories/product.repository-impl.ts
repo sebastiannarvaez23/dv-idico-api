@@ -7,6 +7,7 @@ import { ProductEntity } from "../../../../../lib-entities/products/product/prod
 import { ProductModel } from "../../domain/models/product.model";
 import { ProductsRepository } from "../../domain/repositories/product.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { KindModel } from '../../../kind/domain/models/kind.model';
 
 export class ProductsRepositoryImpl implements ProductsRepository {
 
@@ -32,6 +33,10 @@ export class ProductsRepositoryImpl implements ProductsRepository {
             const product = await ProductModel.findOne({
                 where: { id },
                 include: [
+                    {
+                        model: KindModel,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    },
                     {
                         model: GenderModel,
                         attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
