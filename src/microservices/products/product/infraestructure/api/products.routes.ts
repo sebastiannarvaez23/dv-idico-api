@@ -40,13 +40,13 @@ productsRoutes.delete("/:id",
     authorizationMiddleware.checkAccess('0605'),
     productController.delete.bind(productController));
 
-productsRoutes.post("/character-assignment/:id",
+productsRoutes.post("/add-character-assignment/:id",
     authMiddleware.authenticateToken,
     authorizationMiddleware.checkAccess('0606'),
     productMiddleware.validateProductAddorDeleteCharacterAssignment.bind(productMiddleware),
     productController.addCharacterAssignment.bind(productController));
 
-productsRoutes.delete("/character-assignment/:id",
+productsRoutes.post("/delete-character-assignment/:id",
     authMiddleware.authenticateToken,
     authorizationMiddleware.checkAccess('0607'),
     productMiddleware.validateProductAddorDeleteCharacterAssignment.bind(productMiddleware),
