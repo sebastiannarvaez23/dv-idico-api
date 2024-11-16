@@ -18,7 +18,7 @@ export class CharactersRepositoryImpl implements CharactersRepository {
                 limit: queryParams.limit,
                 offset: queryParams.offset,
                 attributes: {
-                    exclude: ['updatedAt', 'deletedAt']
+                    exclude: ['updatedAt', 'deletedAt', 'products']
                 },
                 include: {
                     model: ProductModel,
@@ -26,7 +26,8 @@ export class CharactersRepositoryImpl implements CharactersRepository {
                     through: {
                         where: queryParams.through,
                         attributes: []
-                    }
+                    },
+                    attributes: []
                 },
             });
         } catch (e) {
