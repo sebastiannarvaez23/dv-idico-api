@@ -1,4 +1,4 @@
-import { Optional, UniqueConstraintError } from "sequelize";
+import { Op, Optional, UniqueConstraintError } from "sequelize";
 
 import { CharacterEntity } from "../../../../../lib-entities/characters/character/character.entity";
 import { CharacterModel } from "../../../../../lib-models/character/character.model";
@@ -6,6 +6,7 @@ import { CharactersRepository } from "../../domain/repositories/character.reposi
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { ProductModel } from "../../../../../lib-models/product/product.model";
+import { ProductCharacterModel } from "../../../../../lib-models/product/product-character.model";
 
 export class CharactersRepositoryImpl implements CharactersRepository {
 
@@ -18,6 +19,14 @@ export class CharactersRepositoryImpl implements CharactersRepository {
                 offset: queryParams.offset,
                 attributes: {
                     exclude: ['updatedAt', 'deletedAt']
+                },
+                include: {
+                    model: ProductModel,
+                    required: true,
+                    through: {
+                        where: queryParams.through,
+                        attributes: []
+                    }
                 },
             });
         } catch (e) {

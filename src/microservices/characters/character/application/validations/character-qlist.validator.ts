@@ -1,13 +1,14 @@
 import { BaseValidator } from "../../../../../lib-core/middlewares/validators/validation.middleware";
-import { isNumericString, isString, maxLength, minLength } from "../../../../../lib-core/middlewares/validators/validation.type";
-import { RolListParams } from "../../../../../lib-entities/security/role-qlist.entity";
+import { isNumericString, isString, isUUID, maxLength, minLength } from "../../../../../lib-core/middlewares/validators/validation.type";
+import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 
-export class CharacterListValidator extends BaseValidator<RolListParams> {
+export class CharacterListValidator extends BaseValidator<QueryParams> {
     constructor() {
         super({
             page: [isNumericString],
-            name: [isString, minLength(3), maxLength(70)],
             limit: [isNumericString],
+            name: [isString, minLength(3), maxLength(70)],
+            excludeProduct: [isUUID],
         });
     }
 }

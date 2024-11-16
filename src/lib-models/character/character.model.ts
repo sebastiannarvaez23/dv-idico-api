@@ -38,7 +38,7 @@ export class CharacterModel extends Model {
         type: DataType.STRING(3),
         field: 'age',
         allowNull: false,
-        unique: true,
+        unique: false,
     })
     declare age: string;
 
@@ -46,7 +46,7 @@ export class CharacterModel extends Model {
         type: DataType.TEXT,
         field: 'history',
         allowNull: false,
-        unique: true,
+        unique: false,
     })
     declare history: string;
 
@@ -54,7 +54,7 @@ export class CharacterModel extends Model {
         type: DataType.UUID,
         field: 'created_by',
         allowNull: false,
-        unique: true,
+        unique: false,
     })
     declare createdBy: string;
 
@@ -62,7 +62,7 @@ export class CharacterModel extends Model {
         type: DataType.UUID,
         field: 'updated_by',
         allowNull: true,
-        unique: true,
+        unique: false,
     })
     declare updatedBy: string;
 

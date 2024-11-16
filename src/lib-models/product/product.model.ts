@@ -32,7 +32,7 @@ export class ProductModel extends Model {
         type: DataType.STRING(255),
         field: 'image',
         allowNull: true,
-        unique: true,
+        unique: false,
     })
     declare image: string | null | undefined;
 

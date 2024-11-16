@@ -47,7 +47,6 @@ export class DatabaseConfig {
                 ProductCharacterModel,
             ],
         };
-
         this.sequelize = new Sequelize(name, user, password, databaseOptions);
     }
 
