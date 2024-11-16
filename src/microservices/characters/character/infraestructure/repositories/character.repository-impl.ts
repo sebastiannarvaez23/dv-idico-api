@@ -32,16 +32,20 @@ export class CharactersRepositoryImpl implements CharactersRepository {
                 where: { id },
                 include: [{
                     model: ProductModel,
-                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    attributes: ['title'],
                     through: {
                         attributes: []
                     }
                 }],
             });
-            if (!character) {
-                throw new HttpError("050001");
-            }
-            return character;
+            if (!character) throw new HttpError("050001");
+
+            const result = {
+                ...character.toJSON(),
+                products: character.products?.map((product: ProductModel) => product.title) || []
+            };
+
+            return result;
         } catch (error) {
             throw error;
         }

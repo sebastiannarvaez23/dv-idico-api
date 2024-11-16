@@ -13,5 +13,4 @@ export interface ProductEntity {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;
-
 }

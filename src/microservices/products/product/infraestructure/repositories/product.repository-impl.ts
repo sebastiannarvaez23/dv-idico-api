@@ -43,16 +43,20 @@ export class ProductsRepositoryImpl implements ProductsRepository {
                     },
                     {
                         model: CharacterModel,
-                        attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                        attributes: ['name'],
                         through: {
                             attributes: []
                         }
                     }],
             });
-            if (!product) {
-                throw new HttpError("060001");
-            }
-            return product;
+            if (!product) throw new HttpError("060001");
+
+            const result = {
+                ...product.toJSON(),
+                characters: product.characters?.map((character: CharacterModel) => character.name) || []
+            };
+
+            return result;
         } catch (error) {
             throw error;
         }
