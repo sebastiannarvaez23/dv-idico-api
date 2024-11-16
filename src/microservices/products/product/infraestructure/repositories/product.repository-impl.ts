@@ -1,13 +1,13 @@
 import { ForeignKeyConstraintError, Optional, UniqueConstraintError } from "sequelize";
 
-import { CharacterModel } from "../../../../characters/character/domain/models/character.model";
-import { GenderModel } from "../../../gender/domain/models/gender.model";
+import { CharacterModel } from "../../../../../lib-models/character/character.model";
+import { GenderModel } from "../../../../../lib-models/product/gender.model";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { ProductEntity } from "../../../../../lib-entities/products/product/product.entity";
-import { ProductModel } from "../../domain/models/product.model";
+import { ProductModel } from "../../../../../lib-models/product/product.model";
 import { ProductsRepository } from "../../domain/repositories/product.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
-import { KindModel } from '../../../kind/domain/models/kind.model';
+import { KindModel } from "../../../../../lib-models/product/kind.model";
 
 export class ProductsRepositoryImpl implements ProductsRepository {
 

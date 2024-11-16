@@ -3,9 +3,9 @@ import { Optional, UniqueConstraintError } from "sequelize";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { RoleEntity } from "../../../../../lib-entities/security/role.entity";
-import { RoleModel } from "../../domain/models/role.model";
+import { RoleModel } from "../../../../../lib-models/security/role.model";
 import { RolesRepository } from "../../domain/repositories/roles.repository";
-import { ServiceModel } from "../../../service/domain/models/service.model";
+import { ServiceModel } from "../../../../../lib-models/security/service.model";
 
 export class RolesRepositoryImpl implements RolesRepository {
 

@@ -1,6 +1,6 @@
 import { BelongsToMany, Column, CreatedAt, DataType, DeletedAt, Model, Table, UpdatedAt } from "sequelize-typescript";
-import { ProductCharacterModel } from "../../../../products/product/domain/models/product-character.model";
-import { ProductModel } from "../../../../products/product/domain/models/product.model";
+import { ProductCharacterModel } from "../product/product-character.model";
+import { ProductModel } from "../product/product.model";
 
 @Table({
     timestamps: true,

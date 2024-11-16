@@ -1,5 +1,5 @@
 import { GenderEntity } from "../../../../../lib-entities/products/gender/gender.entity";
-import { GenderModel } from "../../domain/models/gender.model";
+import { GenderModel } from "../../../../../lib-models/product/gender.model";
 import { GendersRepository } from "../../domain/repositories/gender.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 

@@ -1,11 +1,11 @@
 import { Optional, UniqueConstraintError } from "sequelize";
 
 import { CharacterEntity } from "../../../../../lib-entities/characters/character/character.entity";
-import { CharacterModel } from "../../domain/models/character.model";
+import { CharacterModel } from "../../../../../lib-models/character/character.model";
 import { CharactersRepository } from "../../domain/repositories/character.repository";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
-import { ProductModel } from "../../../../products/product/domain/models/product.model";
+import { ProductModel } from "../../../../../lib-models/product/product.model";
 
 export class CharactersRepositoryImpl implements CharactersRepository {
 

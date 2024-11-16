@@ -2,17 +2,17 @@ import { config } from "dotenv";
 import { Dialect } from "sequelize";
 import { Sequelize, SequelizeOptions } from "sequelize-typescript";
 
-import { CharacterModel } from "../microservices/characters/character/domain/models/character.model";
-import { GenderModel } from "../microservices/products/gender/domain/models/gender.model";
-import { KindModel } from "../microservices/products/kind/domain/models/kind.model";
-import { OAuthClientModel } from "../microservices/auth/domain/models/o-auth-client.model";
-import { PersonModel } from "../microservices/users/person/domain/models/person.model";
-import { ProductCharacterModel } from "../microservices/products/product/domain/models/product-character.model";
-import { ProductModel } from "../microservices/products/product/domain/models/product.model";
-import { RoleModel } from "../microservices/security/role/domain/models/role.model";
-import { RoleServiceModel } from "../microservices/security/role/domain/models/role-service.model";
-import { ServiceModel } from "../microservices/security/service/domain/models/service.model";
-import { UserModel } from "../microservices/users/user/domain/models/user.model";
+import { CharacterModel } from "../lib-models/character/character.model";
+import { GenderModel } from "../lib-models/product/gender.model";
+import { KindModel } from "../lib-models/product/kind.model";
+import { OAuthClientModel } from "../lib-models/auth/o-auth-client.model";
+import { PersonModel } from "../lib-models/user/person.model";
+import { ProductCharacterModel } from "../lib-models/product/product-character.model";
+import { ProductModel } from "../lib-models/product/product.model";
+import { RoleModel } from "../lib-models/security/role.model";
+import { RoleServiceModel } from "../lib-models/security/role-service.model";
+import { ServiceModel } from "../lib-models/security/service.model";
+import { UserModel } from '../lib-models/user/user.model';
 
 config();
 

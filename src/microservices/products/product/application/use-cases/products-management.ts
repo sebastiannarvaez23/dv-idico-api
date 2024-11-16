@@ -1,6 +1,6 @@
 import { MinioConfig } from "../../../../../config/minio";
 import { ProductEntity } from "../../../../../lib-entities/products/product/product.entity";
-import { ProductModel } from "../../domain/models/product.model";
+import { ProductModel } from "../../../../../lib-models/product/product.model";
 import { ProductsRepository } from "../../domain/repositories/product.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 

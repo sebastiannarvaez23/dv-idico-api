@@ -1,4 +1,4 @@
-import { CharacterModel } from "../../../../characters/character/domain/models/character.model";
+import { CharacterModel } from "../character/character.model";
 import { Column, DataType, Model, Table, ForeignKey } from "sequelize-typescript";
 import { ProductModel } from "./product.model";
 

@@ -1,15 +1,12 @@
-import { BelongsToMany, Column, CreatedAt, DataType, DeletedAt, Model, Table, UpdatedAt } from "sequelize-typescript";
-
-import { RoleModel } from "../../../role/domain/models/role.model";
-import { RoleServiceModel } from "../../../role/domain/models/role-service.model";
+import { Column, CreatedAt, DataType, DeletedAt, Model, Table, UpdatedAt } from "sequelize-typescript";
 
 @Table({
     timestamps: true,
-    tableName: 'services',
+    tableName: 'genders',
     paranoid: true,
-    modelName: 'ServiceModel',
+    modelName: 'GenderModel',
 })
-export class ServiceModel extends Model {
+export class GenderModel extends Model {
     @Column({
         primaryKey: true,
         type: DataType.UUID,
@@ -19,17 +16,10 @@ export class ServiceModel extends Model {
     declare id: string;
 
     @Column({
-        type: DataType.STRING(4),
-        field: 'code',
-        unique: true,
-        allowNull: false,
-    })
-    declare code: string;
-
-    @Column({
-        type: DataType.STRING(70),
+        type: DataType.STRING(100),
         field: 'name',
         allowNull: false,
+        unique: true,
     })
     declare name: string;
 
@@ -69,7 +59,4 @@ export class ServiceModel extends Model {
         field: 'deleted_at',
     })
     declare deletedAt: Date;
-
-    @BelongsToMany(() => RoleModel, () => RoleServiceModel)
-    roles!: RoleModel[];
 }

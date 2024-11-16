@@ -1,5 +1,5 @@
 import { CharacterEntity } from "../../../../../lib-entities/characters/character/character.entity";
-import { CharacterModel } from "../../domain/models/character.model";
+import { CharacterModel } from "../../../../../lib-models/character/character.model";
 import { CharactersRepository } from "../../domain/repositories/character.repository";
 import { MinioConfig } from "../../../../../config/minio";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";

@@ -1,5 +1,5 @@
 import { KindEntity } from "../../../../../lib-entities/products/kind/kind.entity";
-import { KindModel } from "../../domain/models/kind.model";
+import { KindModel } from "../../../../../lib-models/product/kind.model";
 import { KindsRepository } from "../../domain/repositories/kind.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 
