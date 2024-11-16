@@ -2,7 +2,6 @@ import { Op } from "sequelize";
 
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { CharacterListParams } from "../../../../../lib-entities/characters/character/character-qlist.entity";
-import { ProductCharacterModel } from "../../../../../lib-models/product/product-character.model";
 
 export function buildCharacterListQueryParams(data: CharacterListParams): QueryParams {
 
@@ -21,6 +20,10 @@ export function buildCharacterListQueryParams(data: CharacterListParams): QueryP
 
     if (data.excludeProduct) {
         through.productId = { [Op.ne]: `${data.excludeProduct}` };
+    }
+
+    if (data.includeProduct) {
+        through.productId = data.includeProduct;
     }
 
     return {
