@@ -126,7 +126,7 @@ export class CharactersRepositoryImpl implements CharactersRepository {
                                 { characterId: null }
                             ]
                         },
-                        attributes: [{ required: false }]
+                        attributes: []
                     },
                     attributes: []
                 }
