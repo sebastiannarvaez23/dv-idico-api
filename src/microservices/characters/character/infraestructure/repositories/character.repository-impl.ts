@@ -6,7 +6,6 @@ import { CharactersRepository } from "../../domain/repositories/character.reposi
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { ProductModel } from "../../../../../lib-models/product/product.model";
-import { ProductCharacterModel } from "../../../../../lib-models/product/product-character.model";
 
 export class CharactersRepositoryImpl implements CharactersRepository {
 
@@ -19,15 +18,6 @@ export class CharactersRepositoryImpl implements CharactersRepository {
                 offset: queryParams.offset,
                 attributes: {
                     exclude: ['updatedAt', 'deletedAt', 'products']
-                },
-                include: {
-                    model: ProductModel,
-                    required: true,
-                    through: {
-                        where: queryParams.through,
-                        attributes: []
-                    },
-                    attributes: []
                 },
             });
         } catch (e) {
@@ -113,6 +103,64 @@ export class CharactersRepositoryImpl implements CharactersRepository {
             return characterToDelete;
         } catch (error) {
             throw error;
+        }
+    }
+
+    async getListNotAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
+        try {
+            return await CharacterModel.findAndCountAll({
+                where: queryParams.filters,
+                order: [["createdAt", "desc"]],
+                limit: queryParams.limit,
+                offset: queryParams.offset,
+                attributes: {
+                    exclude: ['updatedAt', 'deletedAt', 'products']
+                },
+                include: {
+                    model: ProductModel,
+                    required: false,
+                    through: {
+                        where: {
+                            [Op.or]: [
+                                { productId: { [Op.ne]: productId } },
+                                { characterId: null }
+                            ]
+                        },
+                        attributes: [{ required: false }]
+                    },
+                    attributes: []
+                }
+            });
+        } catch (e) {
+            console.debug(e);
+            throw e;
+        }
+    }
+
+    async getListAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
+        try {
+            return await CharacterModel.findAndCountAll({
+                where: queryParams.filters,
+                order: [["createdAt", "desc"]],
+                limit: queryParams.limit,
+                offset: queryParams.offset,
+                attributes: {
+                    exclude: ['updatedAt', 'deletedAt', 'products']
+                },
+                include: {
+                    model: ProductModel,
+                    required: false,
+                    where: { id: queryParams.through?.productId },
+                    through: {
+                        where: queryParams.through,
+                        attributes: []
+                    },
+                    attributes: []
+                },
+            });
+        } catch (e) {
+            console.debug(e);
+            throw e;
         }
     }
 }

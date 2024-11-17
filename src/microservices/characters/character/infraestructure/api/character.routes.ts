@@ -40,4 +40,16 @@ charactersRoutes.delete("/:id",
     authorizationMiddleware.checkAccess('0505'),
     characterController.delete.bind(characterController));
 
+charactersRoutes.get("/not-assigned-product/:productId",
+    authMiddleware.authenticateToken,
+    authorizationMiddleware.checkAccess('0506'),
+    queryParamsMiddleware.queryValidationMiddleware(new CharacterListValidator(), buildCharacterListQueryParams),
+    characterController.getListNotAssignedProduct.bind(characterController));
+
+charactersRoutes.get("/assigned-product/:productId",
+    authMiddleware.authenticateToken,
+    authorizationMiddleware.checkAccess('0507'),
+    queryParamsMiddleware.queryValidationMiddleware(new CharacterListValidator(), buildCharacterListQueryParams),
+    characterController.getListAssignedProduct.bind(characterController));
+
 export default charactersRoutes;

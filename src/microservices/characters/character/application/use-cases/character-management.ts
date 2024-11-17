@@ -69,4 +69,34 @@ export class CharacterManagement {
             throw e;
         }
     }
+
+    async getListNotAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
+        try {
+            const response = await this._characterRepository.getListNotAssignedProduct(productId, queryParams);
+            response.rows = await Promise.all(
+                response.rows.map(async e => {
+                    e.image = await this._minioConfig.getPresignedUrl(e.image);
+                    return e;
+                })
+            );
+            return response;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async getListAssignedProduct(queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
+        try {
+            const response = await this._characterRepository.getList(queryParams);
+            response.rows = await Promise.all(
+                response.rows.map(async e => {
+                    e.image = await this._minioConfig.getPresignedUrl(e.image);
+                    return e;
+                })
+            );
+            return response;
+        } catch (e) {
+            throw e;
+        }
+    }
 }

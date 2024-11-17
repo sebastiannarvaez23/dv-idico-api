@@ -8,8 +8,6 @@ export class CharacterListValidator extends BaseValidator<QueryParams> {
             page: [isNumericString],
             limit: [isNumericString],
             name: [isString, minLength(3), maxLength(70)],
-            excludeProduct: [isUUID],
-            includeProduct: [isUUID],
         });
     }
 }

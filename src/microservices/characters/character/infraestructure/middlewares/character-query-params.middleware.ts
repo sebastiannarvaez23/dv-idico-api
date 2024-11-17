@@ -19,7 +19,12 @@ export function buildCharacterListQueryParams(data: CharacterListParams): QueryP
     }
 
     if (data.excludeProduct) {
-        through.productId = { [Op.ne]: `${data.excludeProduct}` };
+        through.productId = {
+            [Op.or]: [
+                { [Op.ne]: `${data.excludeProduct}` },
+                { [Op.is]: null }
+            ]
+        };
     }
 
     if (data.includeProduct) {
