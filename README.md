@@ -32,7 +32,7 @@ Existen otras aplicaciones y sitios web dedicados a la información sobre Disney
   <img src="https://github.com/sebastiannarvaez23/dv-idico-api/assets/88569352/823a060f-fe4f-4814-99d5-afc066546443" width="auto" height="90">
   <img src="https://github.com/user-attachments/assets/1b85c542-a58c-4672-8203-7f48bc6f0f9b" width="auto" height="90">
   <img src="https://github.com/user-attachments/assets/03a34047-ff1b-4e0c-bdf3-756671046ded" width="auto" height="90">
-  <img src="https://static-00.iconduck.com/assets.00/git-icon-1024x1024-pqp7u4hl.png" width="auto" height="90">
+  <img src="https://user-images.githubusercontent.com/88569352/218376962-a4a1839f-684e-4da1-9233-7cc5edcd379f.png" width="auto" height="80">
 </p>
 
 ## Entrega del Código
