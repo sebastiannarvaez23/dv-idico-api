@@ -1,4 +1,4 @@
-import { Op, Optional, UniqueConstraintError } from "sequelize";
+import { Optional, UniqueConstraintError } from "sequelize";
 
 import { CharacterEntity } from "../../../../../lib-entities/characters/character/character.entity";
 import { CharacterModel } from "../../../../../lib-models/character/character.model";
@@ -6,8 +6,8 @@ import { CharactersRepository } from "../../domain/repositories/character.reposi
 import { CustomQueryListPaginator } from "../../../../../lib-core/utils/custom-query-list-paginator";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { ProductModel } from "../../../../../lib-models/product/product.model";
-import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { queryListNotAssignedProduct } from "../../domain/queries/list-not-assigned-product";
+import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 
 export class CharactersRepositoryImpl implements CharactersRepository {
 
@@ -116,7 +116,7 @@ export class CharactersRepositoryImpl implements CharactersRepository {
         try {
             return await this._query.execute(queryListNotAssignedProduct, {
                 replacements: { productId },
-                pagination: { page: queryParams.offset / queryParams.limit + 1, limit: queryParams.filters.limit }
+                pagination: { offset: queryParams.offset, limit: queryParams.filters.limit }
             });
         } catch (e) {
             console.debug(e);

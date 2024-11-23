@@ -12,11 +12,10 @@ export class CustomQueryListPaginator {
 
     async execute<T>(
         query: string,
-        params: { replacements?: Record<string, any>, pagination?: { page: number; limit: number } }
+        params: { replacements?: Record<string, any>, pagination?: { offset: number; limit: number } }
     ): Promise<{ count: number; rows: T[] }> {
         const { replacements = {}, pagination } = params;
-        const { page = 1, limit = 10 } = pagination || {};
-        const offset = (page - 1) * limit;
+        const { offset = 0, limit = 10 } = pagination || {};
 
         const countQuery = `SELECT COUNT(*) as total FROM (${query}) AS subquery`;
         let total: number;
