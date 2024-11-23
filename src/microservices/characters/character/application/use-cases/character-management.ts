@@ -85,9 +85,9 @@ export class CharacterManagement {
         }
     }
 
-    async getListAssignedProduct(queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
+    async getListAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
         try {
-            const response = await this._characterRepository.getList(queryParams);
+            const response = await this._characterRepository.getListAssignedProduct(productId, queryParams);
             response.rows = await Promise.all(
                 response.rows.map(async e => {
                     e.image = await this._minioConfig.getPresignedUrl(e.image);

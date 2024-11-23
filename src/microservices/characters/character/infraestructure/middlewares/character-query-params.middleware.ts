@@ -11,30 +11,15 @@ export function buildCharacterListQueryParams(data: CharacterListParams): QueryP
     const page = data.page ? parseInt(data.page, 10) : 1;
     const offset = (page - 1) * limit;
 
-    const through: { [key: string]: any } = {};
     const filters: { [key: string]: any } = {};
 
     if (data.name) {
         filters.name = { [Op.iLike]: `%${data.name}%` };
     }
 
-    if (data.excludeProduct) {
-        through.productId = {
-            [Op.or]: [
-                { [Op.ne]: `${data.excludeProduct}` },
-                { [Op.is]: null }
-            ]
-        };
-    }
-
-    if (data.includeProduct) {
-        through.productId = data.includeProduct;
-    }
-
     return {
         limit,
         offset,
-        filters,
-        through
+        filters
     };
 }

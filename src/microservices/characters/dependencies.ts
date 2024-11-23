@@ -6,6 +6,8 @@ import { CharacterMiddleware } from "./character/infraestructure/middlewares/cha
 import { CharactersController } from "./character/infraestructure/api/character.controller";
 import { CharacterSerialzerMiddleware } from "./character/infraestructure/middlewares/character-serializer.middleware";
 import { CharactersRepositoryImpl } from "./character/infraestructure/repositories/character.repository-impl";
+import { CustomQueryListPaginator } from "../../lib-core/utils/custom-query-list-paginator";
+import { DatabaseConfig } from "../../config/database";
 import { ErrorHandlerUtil } from "../../lib-core/utils/error-handler.util";
 import { MinioConfig } from "../../config/minio";
 import { QueryParamsMiddleware } from "../../lib-core/middlewares/validators/validation-query-params.middleware";
@@ -14,11 +16,13 @@ import { TokenManager } from "../../lib-core/utils/token-manager.util";
 
 export const minioConfig: MinioConfig = new MinioConfig();
 
+const appConfig = new DatabaseConfig();
 const handlerError: ErrorHandlerUtil = new ErrorHandlerUtil();
 const authValidator: AuthValidator = new AuthValidator();
 const redisConfig: RedisConfig = new RedisConfig();
+const customQueryListPaginator: CustomQueryListPaginator = new CustomQueryListPaginator(appConfig.getDatabase());
 
-const charactersRepository = new CharactersRepositoryImpl();
+const charactersRepository = new CharactersRepositoryImpl(customQueryListPaginator);
 
 const characterManagement = new CharacterManagement(charactersRepository, minioConfig);
 

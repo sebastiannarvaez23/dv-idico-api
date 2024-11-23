@@ -9,4 +9,5 @@ export interface CharactersRepository {
     edit(id: string, character: RoleEntity): Promise<CharacterModel>;
     delete(id: string): Promise<CharacterModel>;
     getListNotAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }>;
+    getListAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }>;
 }

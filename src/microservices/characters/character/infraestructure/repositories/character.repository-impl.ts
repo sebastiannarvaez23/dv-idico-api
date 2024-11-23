@@ -3,11 +3,17 @@ import { Op, Optional, UniqueConstraintError } from "sequelize";
 import { CharacterEntity } from "../../../../../lib-entities/characters/character/character.entity";
 import { CharacterModel } from "../../../../../lib-models/character/character.model";
 import { CharactersRepository } from "../../domain/repositories/character.repository";
+import { CustomQueryListPaginator } from "../../../../../lib-core/utils/custom-query-list-paginator";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
-import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { ProductModel } from "../../../../../lib-models/product/product.model";
+import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { queryListNotAssignedProduct } from "../../domain/queries/list-not-assigned-product";
 
 export class CharactersRepositoryImpl implements CharactersRepository {
+
+    constructor(
+        private readonly _query: CustomQueryListPaginator,
+    ) { }
 
     async getList(queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
         try {
@@ -108,28 +114,9 @@ export class CharactersRepositoryImpl implements CharactersRepository {
 
     async getListNotAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
         try {
-            return await CharacterModel.findAndCountAll({
-                where: queryParams.filters,
-                order: [["createdAt", "desc"]],
-                limit: queryParams.limit,
-                offset: queryParams.offset,
-                attributes: {
-                    exclude: ['updatedAt', 'deletedAt', 'products']
-                },
-                include: {
-                    model: ProductModel,
-                    required: false,
-                    through: {
-                        where: {
-                            [Op.or]: [
-                                { productId: { [Op.ne]: productId } },
-                                { characterId: null }
-                            ]
-                        },
-                        attributes: []
-                    },
-                    attributes: []
-                }
+            return await this._query.execute(queryListNotAssignedProduct, {
+                replacements: { productId },
+                pagination: { page: queryParams.offset / queryParams.limit + 1, limit: queryParams.filters.limit }
             });
         } catch (e) {
             console.debug(e);
@@ -149,10 +136,9 @@ export class CharactersRepositoryImpl implements CharactersRepository {
                 },
                 include: {
                     model: ProductModel,
-                    required: false,
-                    where: { id: queryParams.through?.productId },
+                    required: true,
                     through: {
-                        where: queryParams.through,
+                        where: { productId },
                         attributes: []
                     },
                     attributes: []
