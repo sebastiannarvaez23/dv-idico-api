@@ -1,3 +1,4 @@
+import { CharacterAssigment } from "../../../../../lib-entities/characters/character/character-assigment.interface";
 import { CharacterEntity } from "../../../../../lib-entities/characters/character/character.entity";
 import { CharacterModel } from "../../../../../lib-models/character/character.model";
 import { CharactersRepository } from "../../domain/repositories/character.repository";
@@ -70,27 +71,12 @@ export class CharacterManagement {
         }
     }
 
-    async getListNotAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
-        try {
-            const response = await this._characterRepository.getListNotAssignedProduct(productId, queryParams);
-            response.rows = await Promise.all(
-                response.rows.map(async e => {
-                    e.image = await this._minioConfig.getPresignedUrl(e.image);
-                    return e;
-                })
-            );
-            return response;
-        } catch (e) {
-            throw e;
-        }
-    }
-
-    async getListAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
+    async getListAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterAssigment[]; count: number; }> {
         try {
             const response = await this._characterRepository.getListAssignedProduct(productId, queryParams);
             response.rows = await Promise.all(
                 response.rows.map(async e => {
-                    e.image = await this._minioConfig.getPresignedUrl(e.image);
+                    e.image = await this._minioConfig.getPresignedUrl(e.image as string);
                     return e;
                 })
             );

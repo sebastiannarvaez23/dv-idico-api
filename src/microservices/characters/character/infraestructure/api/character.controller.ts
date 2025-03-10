@@ -56,16 +56,6 @@ export class CharactersController {
         }
     };
 
-    async getListNotAssignedProduct(req: Request, res: Response) {
-        try {
-            const queryParams: QueryParams = (req as any).queryParams;
-            const { productId } = req.params;
-            res.status(200).json(await this._characterManagement.getListNotAssignedProduct(productId, queryParams));
-        } catch (error) {
-            this._handlerError.handle(error as HttpError | Error, req, res);
-        }
-    }
-
     async getListAssignedProduct(req: Request, res: Response) {
         try {
             const queryParams: QueryParams = (req as any).queryParams;

@@ -6,8 +6,9 @@ import { CharactersRepository } from "../../domain/repositories/character.reposi
 import { CustomQueryListPaginator } from "../../../../../lib-core/utils/custom-query-list-paginator";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
 import { ProductModel } from "../../../../../lib-models/product/product.model";
-import { queryListNotAssignedProduct } from "../../domain/queries/list-not-assigned-product";
+import { queryListAssignedProduct } from "../../domain/queries/list-assigned-product";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { CharacterAssigment } from "../../../../../lib-entities/characters/character/character-assigment.interface";
 
 export class CharactersRepositoryImpl implements CharactersRepository {
 
@@ -112,37 +113,11 @@ export class CharactersRepositoryImpl implements CharactersRepository {
         }
     }
 
-    async getListNotAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
+    async getListAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterAssigment[]; count: number; }> {
         try {
-            return await this._query.execute(queryListNotAssignedProduct, {
+            return await this._query.execute(queryListAssignedProduct, {
                 replacements: { productId },
                 pagination: { offset: queryParams.offset, limit: queryParams.filters.limit }
-            });
-        } catch (e) {
-            console.debug(e);
-            throw e;
-        }
-    }
-
-    async getListAssignedProduct(productId: string, queryParams: QueryParams): Promise<{ rows: CharacterModel[]; count: number; }> {
-        try {
-            return await CharacterModel.findAndCountAll({
-                where: queryParams.filters,
-                order: [["createdAt", "desc"]],
-                limit: queryParams.limit,
-                offset: queryParams.offset,
-                attributes: {
-                    exclude: ['updatedAt', 'deletedAt', 'products']
-                },
-                include: {
-                    model: ProductModel,
-                    required: true,
-                    through: {
-                        where: { productId },
-                        attributes: []
-                    },
-                    attributes: []
-                },
             });
         } catch (e) {
             console.debug(e);
