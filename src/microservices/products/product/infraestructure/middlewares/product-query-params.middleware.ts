@@ -1,9 +1,9 @@
 import { Op } from "sequelize";
 
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
-import { RolListParams } from "../../../../../lib-entities/security/role-qlist.entity";
+import { ProductListParams } from "../../../../../lib-entities/products/product/product-qlist.entity";
 
-export function buildProductListQueryParams(data: RolListParams): QueryParams {
+export function buildProductListQueryParams(data: ProductListParams): QueryParams {
 
     const LIST_PAGINATION_LIMIT = Number(process.env.LIST_PAGINATION_LIMIT!);
 
@@ -13,8 +13,8 @@ export function buildProductListQueryParams(data: RolListParams): QueryParams {
 
     const filters: { [key: string]: any } = {};
 
-    if (data.name) {
-        filters.name = { [Op.iLike]: `%${data.name}%` };
+    if (data.title) {
+        filters.title = { [Op.iLike]: `%${data.title}%` };
     }
 
     return { limit, offset, filters };
