@@ -3,15 +3,15 @@ import express, { Application, Request, Response, NextFunction } from "express";
 
 import { RouteGroup } from "../../../lib-entities/gateway/route-group.entity";
 import apiGatewayRoutes from "./api-gateway.routes";
-import authRoutes from "../../../microservices/auth/infraestructure/api/auth.routes";
-import charactersRoutes from "../../../microservices/characters/character/infraestructure/api/character.routes";
-import gendersRoutes from "../../../microservices/products/gender/infraestructure/api/genders.routes";
-import kindsRoutes from "../../../microservices/products/kind/infraestructure/api/kinds.routes";
-import personsRoutes from "../../../microservices/users/person/infrastructure/api/persons.routes";
-import productsRoutes from "../../../microservices/products/product/infraestructure/api/products.routes";
-import rolesRoutes from "../../../microservices/security/role/infraestructure/api/roles.routes";
-import servicesRoutes from "../../../microservices/security/service/infraestructure/api/service.routes";
-import usersRoutes from "../../../microservices/users/user/infrastructure/api/users.routes";
+import authRoutes from "../../../features/auth/infraestructure/api/auth.routes";
+import charactersRoutes from "../../../features/characters/character/infraestructure/api/character.routes";
+import gendersRoutes from "../../../features/products/gender/infraestructure/api/genders.routes";
+import kindsRoutes from "../../../features/products/kind/infraestructure/api/kinds.routes";
+import personsRoutes from "../../../features/users/person/infrastructure/api/persons.routes";
+import productsRoutes from "../../../features/products/product/infraestructure/api/products.routes";
+import rolesRoutes from "../../../features/security/role/infraestructure/api/roles.routes";
+import servicesRoutes from "../../../features/security/service/infraestructure/api/service.routes";
+import usersRoutes from "../../../features/users/user/infrastructure/api/users.routes";
 
 export class AppRoutes {
 
