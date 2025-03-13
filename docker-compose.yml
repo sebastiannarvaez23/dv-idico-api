@@ -44,6 +44,7 @@ services:
     entrypoint: [ "/bin/sh", "-c", "sleep 5; /mnt/init-minio.sh" ]
     volumes:
       - ./init-minio.sh:/mnt/init-minio.sh
+    restart: "no"
   app:
     build: .
     environment:
