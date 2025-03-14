@@ -14,4 +14,5 @@ export const queryListAssignedProduct = `
             AND T1.product_id = :productId
         ) THEN true ELSE false END) AS assigned
     FROM public.characters T0
+    WHERE T0.deleted_at IS NULL
 `;

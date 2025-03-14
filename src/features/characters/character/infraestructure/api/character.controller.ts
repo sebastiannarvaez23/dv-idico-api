@@ -60,6 +60,7 @@ export class CharactersController {
         try {
             const queryParams: QueryParams = (req as any).queryParams;
             const { productId } = req.params;
+            console.log({ productId, queryParams });
             res.status(200).json(await this._characterManagement.getListAssignedProduct(productId, queryParams));
         } catch (error) {
             this._handlerError.handle(error as HttpError | Error, req, res);
