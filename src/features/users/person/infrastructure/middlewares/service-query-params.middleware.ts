@@ -18,7 +18,7 @@ export function buildServiceListQueryParams(data: ServiceListParams): QueryParam
     }
 
     if (data.code) {
-        filters.code = { [Op.iLike]: `${data.code}` };
+        filters.code = { [Op.iLike]: `%${data.code}%` };
     }
 
     return { limit, offset, filters };

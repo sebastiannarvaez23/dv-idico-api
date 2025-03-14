@@ -6,8 +6,8 @@ export class ServiceListValidator extends BaseValidator<ServiceListParams> {
     constructor() {
         super({
             page: [isNumericString],
-            code: [isNumericString, minLength(4), maxLength(4)],
-            name: [isString, minLength(3), maxLength(70)],
+            code: [isNumericString, maxLength(4)],
+            name: [isString, maxLength(70)],
             limit: [isNumericString],
         });
     }
