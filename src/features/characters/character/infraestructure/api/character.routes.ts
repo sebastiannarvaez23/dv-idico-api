@@ -9,14 +9,10 @@ const charactersRoutes = express.Router();
 const upload = multer({ storage: minioConfig.getStorage() });
 
 charactersRoutes.get("/",
-    authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0501'),
     queryParamsMiddleware.queryValidationMiddleware(new CharacterListValidator(), buildCharacterListQueryParams),
     characterController.getList.bind(characterController));
 
 charactersRoutes.get("/:id",
-    authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0502'),
     characterController.get.bind(characterController));
 
 charactersRoutes.post("/",
@@ -41,8 +37,6 @@ charactersRoutes.delete("/:id",
     characterController.delete.bind(characterController));
 
 charactersRoutes.get("/assigned-product/:productId",
-    authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0506'),
     queryParamsMiddleware.queryValidationMiddleware(new CharacterListValidator(), buildCharacterListQueryParams),
     characterController.getListAssignedProduct.bind(characterController));
 

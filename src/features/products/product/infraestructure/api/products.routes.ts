@@ -9,14 +9,10 @@ const productsRoutes = express.Router();
 const upload = multer({ storage: minioConfig.getStorage() });
 
 productsRoutes.get("/",
-    authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0601'),
     queryParamsMiddleware.queryValidationMiddleware(new ProductListValidator(), buildProductListQueryParams),
     productController.getList.bind(productController));
 
 productsRoutes.get("/:id",
-    authMiddleware.authenticateToken,
-    authorizationMiddleware.checkAccess('0602'),
     productController.get.bind(productController));
 
 productsRoutes.post("/",
