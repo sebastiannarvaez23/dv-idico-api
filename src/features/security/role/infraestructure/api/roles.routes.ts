@@ -36,13 +36,13 @@ rolesRoutes.delete("/:id",
     authorizationMiddleware.checkAccess('0305'),
     roleController.delete.bind(roleController));
 
-rolesRoutes.post("/service-assignment/:id",
+rolesRoutes.post("/add-service-assignment/:id",
     authMiddleware.authenticateToken,
     authorizationMiddleware.checkAccess('0306'),
     roleMiddleware.validateRolAddorDeleteServiceAssignment.bind(roleMiddleware),
     roleController.addServiceAssignment.bind(roleController));
 
-rolesRoutes.delete("/service-assignment/:id",
+rolesRoutes.post("/delete-service-assignment/:id",
     authMiddleware.authenticateToken,
     authorizationMiddleware.checkAccess('0307'),
     roleMiddleware.validateRolAddorDeleteServiceAssignment.bind(roleMiddleware),
