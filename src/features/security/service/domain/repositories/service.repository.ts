@@ -1,6 +1,7 @@
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { ServiceAssigment } from "../../../../../lib-entities/security/service-assigment.entity";
 import { ServiceEntity } from "../../../../../lib-entities/security/service.entity";
-import { ServiceModel } from "../models/service.model";
+import { ServiceModel } from "../../../../../lib-models/security/service.model";
 
 export interface ServicesRepository {
     getList(queryParams: QueryParams): Promise<{ rows: ServiceModel[]; count: number; }>;
@@ -8,4 +9,5 @@ export interface ServicesRepository {
     add(service: ServiceEntity): Promise<ServiceModel>;
     edit(id: string, service: ServiceEntity): Promise<ServiceModel>;
     delete(id: string): Promise<ServiceModel>;
+    getListAssignedRole(roleId: string, queryParams: QueryParams): Promise<{ rows: ServiceAssigment[]; count: number; }>;
 }

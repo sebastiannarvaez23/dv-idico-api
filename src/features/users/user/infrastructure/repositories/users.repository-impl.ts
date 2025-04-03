@@ -1,11 +1,43 @@
 import { Optional, UniqueConstraintError } from "sequelize";
 
 import { HttpError } from "../../../../../lib-core/utils/error.util";
+import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { UserEntity } from "../../../../../lib-entities/users/user.entity";
 import { UserModel } from "../../../../../lib-models/user/user.model";
 import { UsersRepository } from "../../domain/repositories/users.repository";
 
 export class UsersRepositoryImpl implements UsersRepository {
+
+    async getList(queryParams: QueryParams): Promise<{ rows: UserModel[]; count: number; }> {
+        try {
+            return await UserModel.findAndCountAll({
+                where: queryParams.filters,
+                order: [["createdAt", "desc"]],
+                attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                limit: queryParams.limit,
+                offset: queryParams.offset,
+            });
+        } catch (e) {
+            console.debug(e);
+            throw e;
+        }
+    }
+
+    async get(id: string): Promise<UserModel | null> {
+        try {
+            const user = await UserModel.findOne(
+                {
+                    where: { id },
+                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                });
+            if (!user) {
+                throw new HttpError("010001");
+            }
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     async getUserPasswordByNickname(nickname: string): Promise<UserModel | null> {
         try {

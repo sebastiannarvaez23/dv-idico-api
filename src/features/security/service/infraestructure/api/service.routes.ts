@@ -1,6 +1,6 @@
 import express from "express";
 
-import { buildServiceListQueryParams } from "../../../../users/person/infrastructure/middlewares/service-query-params.middleware";
+import { buildServiceListQueryParams } from "../middlewares/service-query-params.middleware";
 import { serviceController, serviceMiddleware, authMiddleware, authorizationMiddleware, queryParamsMiddleware, serviceSerialzerMiddleware } from "../../../dependencies";
 import { ServiceListValidator } from "../../application/validations/service-qlist.validator";
 
@@ -35,5 +35,9 @@ servicesRoutes.delete("/:id",
     authMiddleware.authenticateToken,
     authorizationMiddleware.checkAccess('0405'),
     serviceController.delete.bind(serviceController));
+
+servicesRoutes.get("/assigned-role/:roleId",
+    queryParamsMiddleware.queryValidationMiddleware(new ServiceListValidator(), buildServiceListQueryParams),
+    serviceController.getListAssignedRole.bind(serviceController));
 
 export default servicesRoutes;

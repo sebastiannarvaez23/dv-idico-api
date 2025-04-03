@@ -1,4 +1,5 @@
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { ServiceAssigment } from "../../../../../lib-entities/security/service-assigment.entity";
 import { ServiceEntity } from "../../../../../lib-entities/security/service.entity";
 import { ServiceModel } from "../../../../../lib-models/security/service.model";
 import { ServicesRepository } from "../../domain/repositories/service.repository";
@@ -46,6 +47,14 @@ export class ServiceManagement {
         try {
             const resultService = await this._servicesRepository.delete(id);
             return resultService;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async getListAssignedRole(roleId: string, queryParams: QueryParams): Promise<{ rows: ServiceAssigment[]; count: number; }> {
+        try {
+            return await this._servicesRepository.getListAssignedRole(roleId, queryParams);
         } catch (e) {
             throw e;
         }

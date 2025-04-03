@@ -1,9 +1,11 @@
 import { config } from "dotenv";
 
 import { EncryptionUtil } from "../../../../../lib-core/utils/encryption.util";
-import { UserEntity } from "../../../../../lib-entities/users/user.entity";
-import { UsersRepository } from "../../domain/repositories/users.repository";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
+import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { UserEntity } from "../../../../../lib-entities/users/user.entity";
+import { UserModel } from "../../../../../lib-models/user/user.model";
+import { UsersRepository } from "../../domain/repositories/users.repository";
 
 config();
 
@@ -13,6 +15,22 @@ export class UserManagement {
         private readonly _userRepository: UsersRepository,
         private readonly _encryptedUtils: EncryptionUtil,
     ) { }
+
+    async getList(queryParams: QueryParams): Promise<{ rows: UserModel[]; count: number; }> {
+        try {
+            return await this._userRepository.getList(queryParams);
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async get(id: string): Promise<UserModel | null> {
+        try {
+            return await this._userRepository.get(id);
+        } catch (e) {
+            throw e;
+        }
+    }
 
     async add(user: UserEntity): Promise<UserEntity | null> {
         try {

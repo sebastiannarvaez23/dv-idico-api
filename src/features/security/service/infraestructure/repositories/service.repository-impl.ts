@@ -1,12 +1,19 @@
 import { Optional, UniqueConstraintError } from "sequelize";
 
+import { CustomQueryListPaginator } from "../../../../../lib-core/utils/custom-query-list-paginator";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
+import { queryListAssignedRole } from "../../domain/queries/list-assigned-role";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
+import { ServiceAssigment } from "../../../../../lib-entities/security/service-assigment.entity";
 import { ServiceEntity } from "../../../../../lib-entities/security/service.entity";
 import { ServiceModel } from "../../../../../lib-models/security/service.model";
 import { ServicesRepository } from "../../domain/repositories/service.repository";
 
 export class ServicesRepositoryImpl implements ServicesRepository {
+
+    constructor(
+        private readonly _query: CustomQueryListPaginator,
+    ) { }
 
     async getList(queryParams: QueryParams): Promise<{ rows: ServiceModel[]; count: number; }> {
         try {
@@ -76,6 +83,18 @@ export class ServicesRepositoryImpl implements ServicesRepository {
             return serviceToDelete;
         } catch (error) {
             throw error;
+        }
+    }
+
+    async getListAssignedRole(roleId: string, queryParams: QueryParams): Promise<{ rows: ServiceAssigment[]; count: number; }> {
+        try {
+            return await this._query.execute(queryListAssignedRole, {
+                replacements: { roleId },
+                pagination: { offset: queryParams.offset, limit: queryParams.filters.limit }
+            });
+        } catch (e) {
+            console.debug(e);
+            throw e;
         }
     }
 }

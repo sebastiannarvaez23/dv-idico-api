@@ -60,4 +60,15 @@ export class ServicesController {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
     };
+
+    async getListAssignedRole(req: Request, res: Response) {
+        try {
+            const queryParams: QueryParams = (req as any).queryParams;
+            const { roleId } = req.params;
+            console.log({ roleId, queryParams });
+            res.status(200).json(await this._serviceManagement.getListAssignedRole(roleId, queryParams));
+        } catch (error) {
+            this._handlerError.handle(error as HttpError | Error, req, res);
+        }
+    }
 }

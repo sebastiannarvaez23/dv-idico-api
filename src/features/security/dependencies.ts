@@ -1,6 +1,8 @@
 import { AuthMiddleware } from "../../lib-core/middlewares/auth/authenticate.middleware";
 import { AuthorizationMiddleware } from "../../lib-core/middlewares/auth/authorization.middleware";
 import { AuthValidator } from "../../lib-core/middlewares/validators/auth.validator";
+import { CustomQueryListPaginator } from "../../lib-core/utils/custom-query-list-paginator";
+import { DatabaseConfig } from "../../config/database";
 import { ErrorHandlerUtil } from "../../lib-core/utils/error-handler.util";
 import { QueryParamsMiddleware } from "../../lib-core/middlewares/validators/validation-query-params.middleware";
 import { RedisConfig } from "../../config/redis";
@@ -17,14 +19,16 @@ import { ServicesRepositoryImpl } from "./service/infraestructure/repositories/s
 import { TokenManager } from "../../lib-core/utils/token-manager.util";
 
 
+const appConfig = new DatabaseConfig();
 const handlerError: ErrorHandlerUtil = new ErrorHandlerUtil();
 const authValidator: AuthValidator = new AuthValidator();
 const redisConfig: RedisConfig = new RedisConfig();
+const customQueryListPaginator: CustomQueryListPaginator = new CustomQueryListPaginator(appConfig.getDatabase());
 
 // abstract
 
 const rolesRepository = new RolesRepositoryImpl();
-const servicesRepository = new ServicesRepositoryImpl();
+const servicesRepository = new ServicesRepositoryImpl(customQueryListPaginator);
 
 const roleManagement = new RoleManagement(rolesRepository);
 const serviceManagement = new ServiceManagement(servicesRepository);
