@@ -13,7 +13,7 @@ export class UsersRepositoryImpl implements UsersRepository {
             return await UserModel.findAndCountAll({
                 where: queryParams.filters,
                 order: [["createdAt", "desc"]],
-                attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt'] },
                 limit: queryParams.limit,
                 offset: queryParams.offset,
             });
@@ -28,7 +28,7 @@ export class UsersRepositoryImpl implements UsersRepository {
             const user = await UserModel.findOne(
                 {
                     where: { id },
-                    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+                    attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt'] },
                 });
             if (!user) {
                 throw new HttpError("010001");
