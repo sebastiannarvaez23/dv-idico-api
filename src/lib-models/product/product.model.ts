@@ -37,10 +37,9 @@ export class ProductModel extends Model {
     declare image: string | null | undefined;
 
     @Column({
-        type: DataType.DATE,
+        type: DataType.DATEONLY,
         field: 'created_date',
-        allowNull: true,
-        unique: false,
+        allowNull: false,
     })
     declare createdDate: Date;
 
