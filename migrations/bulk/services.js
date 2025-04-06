@@ -405,5 +405,23 @@ module.exports.bulkInsertServices = async (queryInterface) => {
             created_at: new Date(),
             updated_at: new Date(),
         },
+        {
+            id: 'd9b93792-b02d-4992-8cde-28dde1f316f8',
+            code: '0506',
+            name: 'Listar personajes asignados a producto',
+            created_by: 'b04dd987-27ae-4368-a15b-97ee6feee7d2',
+            updated_by: null,
+            created_at: new Date(),
+            updated_at: new Date(),
+        },
+        {
+            id: '3116cdfa-3afa-4aa4-83f1-28df61a1ab33',
+            code: '0105',
+            name: 'Obtener usuario por nombre de usuario',
+            created_by: 'b04dd987-27ae-4368-a15b-97ee6feee7d2',
+            updated_by: null,
+            created_at: new Date(),
+            updated_at: new Date(),
+        },
     ]);
 }

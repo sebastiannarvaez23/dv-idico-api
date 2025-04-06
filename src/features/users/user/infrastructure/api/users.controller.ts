@@ -56,4 +56,13 @@ export class UsersController {
             this._handlerError.handle(error as HttpError | Error, req, res);
         }
     }
+
+    async getByNickname(req: Request, res: Response) {
+        const { nickname } = req.params;
+        try {
+            res.status(200).json(await this._userManagement.getByNickname(nickname));
+        } catch (error) {
+            this._handlerError.handle(error as HttpError | Error, req, res);
+        }
+    }
 }

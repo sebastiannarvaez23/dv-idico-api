@@ -71,7 +71,7 @@ export const isBoolean = (value: any): boolean | string => {
 };
 
 export const isNullable = (value: any): boolean | string => {
-    return value === undefined || value === null ? true : 'Value cannot be null.';
+    return value === undefined || value === null && true;
 };
 
 export const isArray = (

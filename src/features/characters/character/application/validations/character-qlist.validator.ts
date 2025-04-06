@@ -7,7 +7,7 @@ export class CharacterListValidator extends BaseValidator<QueryParams> {
         super({
             page: [isNumericString],
             limit: [isNumericString],
-            name: [isString, minLength(3), maxLength(70)],
+            name: [isString, maxLength(70)],
         });
     }
 }

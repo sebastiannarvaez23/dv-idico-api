@@ -6,8 +6,8 @@ export class PersonListValidator extends BaseValidator<PersonListParams> {
     constructor() {
         super({
             page: [isNumericString],
-            firstName: [isString, minLength(3), maxLength(70)],
-            lastName: [isString, minLength(3), maxLength(70)],
+            firstName: [isString, maxLength(70)],
+            lastName: [isString, maxLength(70)],
             email: [isString],
             limit: [isNumericString],
         });

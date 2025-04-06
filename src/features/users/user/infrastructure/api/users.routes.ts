@@ -33,4 +33,9 @@ usersRoutes.post("/validate-credentials",
     userMiddleware.validateCredentialBody.bind(userMiddleware),
     userController.validateCredential.bind(userController));
 
+usersRoutes.get("/nickname/:nickname",
+    authMiddleware.authenticateToken,
+    authorizationMiddleware.checkAccess('0105'),
+    userController.getByNickname.bind(userController));
+
 export default usersRoutes;

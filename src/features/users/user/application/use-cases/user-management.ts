@@ -60,4 +60,12 @@ export class UserManagement {
             throw e;
         }
     }
+
+    async getByNickname(nickname: string): Promise<UserModel | null> {
+        try {
+            return await this._userRepository.getByNickname(nickname);
+        } catch (e) {
+            throw e;
+        }
+    }
 }

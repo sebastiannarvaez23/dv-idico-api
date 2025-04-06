@@ -6,7 +6,7 @@ export class ProductListValidator extends BaseValidator<RolListParams> {
     constructor() {
         super({
             page: [isNumericString],
-            title: [isString, minLength(3), maxLength(70)],
+            title: [isString, maxLength(70)],
             createdDate: [isDate],
             qualification: [isNumericString, maxLength(1)],
             genderId: [isUUID],

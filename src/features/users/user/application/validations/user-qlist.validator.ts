@@ -6,7 +6,7 @@ export class UserListValidator extends BaseValidator<UserListParams> {
     constructor() {
         super({
             page: [isNumericString],
-            nickname: [isString, minLength(2), maxLength(70)],
+            nickname: [isString, maxLength(70)],
             limit: [isNumericString],
         });
     }

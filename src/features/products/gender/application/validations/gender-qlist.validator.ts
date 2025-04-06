@@ -6,7 +6,7 @@ export class GenderListValidator extends BaseValidator<RolListParams> {
     constructor() {
         super({
             page: [isNumericString],
-            name: [isString, minLength(3), maxLength(70)],
+            name: [isString, maxLength(70)],
             limit: [isNumericString],
         });
     }
