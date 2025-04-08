@@ -28,7 +28,7 @@ const personsRepository = new PersonsRepositoryImpl();
 const usersRepository = new UsersRepositoryImpl();
 
 const personManagement = new PersonManagement(personsRepository);
-const userManagement = new UserManagement(usersRepository, encryptionService);
+const userManagement = new UserManagement(usersRepository, personsRepository, encryptionService);
 
 // dependencies
 export const tokenManager = TokenManager.getInstance(redisConfig);

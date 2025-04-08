@@ -2,6 +2,7 @@ import { config } from "dotenv";
 
 import { EncryptionUtil } from "../../../../../lib-core/utils/encryption.util";
 import { HttpError } from "../../../../../lib-core/utils/error.util";
+import { PersonsRepository } from "../../../person/domain/repositories/persons.repository";
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { UserEntity } from "../../../../../lib-entities/users/user.entity";
 import { UserModel } from "../../../../../lib-models/user/user.model";
@@ -13,6 +14,7 @@ export class UserManagement {
 
     constructor(
         private readonly _userRepository: UsersRepository,
+        private readonly _personRepository: PersonsRepository,
         private readonly _encryptedUtils: EncryptionUtil,
     ) { }
 
@@ -34,6 +36,15 @@ export class UserManagement {
 
     async add(user: UserEntity): Promise<UserEntity | null> {
         try {
+            if (user.nickname) {
+                const ex = await this.getByNickname(user.nickname);
+                if (ex) {
+                    await this._userRepository.edit(ex.id, user);
+                    const person = await this._personRepository.getPersonByNickname(user.nickname);
+                    if (person) throw new HttpError('010003');
+                }
+                return ex;
+            }
             user.password = this._encryptedUtils.encrypt(user.password!);
             return await this._userRepository.add(user);
         } catch (e) {

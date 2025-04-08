@@ -8,5 +8,10 @@
         "serverStatusCode": 401,
         "messageClient": "Invalid password",
         "messageLog": "Invalid password"
+    },
+    "010003": {
+        "serverStatusCode": 409,
+        "messageClient": "User already exists",
+        "messageLog": "User already exists"
     }
 }
