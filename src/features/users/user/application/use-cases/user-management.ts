@@ -42,8 +42,8 @@ export class UserManagement {
                     await this._userRepository.edit(ex.id, user);
                     const person = await this._personRepository.getPersonByNickname(user.nickname);
                     if (person) throw new HttpError('010003');
+                    return ex;
                 }
-                return ex;
             }
             user.password = this._encryptedUtils.encrypt(user.password!);
             return await this._userRepository.add(user);
