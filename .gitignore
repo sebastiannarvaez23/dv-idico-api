@@ -1,5 +1,7 @@
 src2/
 minio/
+redis/
+postgres/
 
 # Logs
 logs
