@@ -73,7 +73,6 @@ Para obtener ayuda, puedes utilizar las siguientes vías:
 
 ### Próximas Funcionalidades
 - **Test Unitarios**: Implementación de pruebas unitarias.
-- **Roles de Usuario**: Sistema de administración de roles.
 
 ## Contribuyendo
 
