@@ -1,6 +1,6 @@
 import { QueryParams } from "../../../../../lib-entities/core/query-params.entity";
 import { KindEntity } from "../../../../../lib-entities/products/kind/kind.entity";
-import { KindModel } from "../models/kind.model";
+import { KindModel } from "../../../../../lib-models/product/kind.model";
 
 export interface KindsRepository {
     getList(queryParams: QueryParams): Promise<{ rows: KindModel[]; count: number; }>;

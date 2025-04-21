@@ -3,13 +3,12 @@ version: '3'
 services:
   db:
     container_name: postgresql
-    image: postgres
+    image: postgres:17
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - /c/projects/dv-idico-api/postgres/data
     ports:
       - 7894:5432
     environment:
-      - DATABASE_HOST=127.0.0.1
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=dbdv
@@ -26,7 +25,7 @@ services:
 
   minio:
     container_name: minio
-    image: minio/minio
+    image: minio/minio:RELEASE.2024-10-29T16-01-48Z
     volumes:
       - ./minio/data:/data
     environment:
@@ -37,15 +36,8 @@ services:
       - 9001:9001
     command: server /data --console-address ":9001"
     restart: always
-  minio-init:
-    image: minio/mc
-    depends_on:
-      - minio
-    entrypoint: [ "/bin/sh", "-c", "sleep 5; /mnt/init-minio.sh" ]
-    volumes:
-      - ./init-minio.sh:/mnt/init-minio.sh
-    restart: "no"
-  app:
+
+  dv-idico-api:
     build: .
     environment:
       - MINIO_ENDPOINT=minio
@@ -56,3 +48,5 @@ services:
       - db
       - redis
       - minio
+volumes:
+  postgres-data:
